@@ -30,19 +30,24 @@ export default function ReviewPage() {
     try {
       const usr = auth.currentUser;
       if (!usr) throw new Error('Not authenticated');
-      // Always fetch fresh data from Firestore
       const freshData = await fetchUserProfile(usr.uid);
       const row = [
         freshData.firstName,
         freshData.lastName,
         freshData.preferredName,
         freshData.email,
-        freshData.pronounsOther ? `${freshData.pronouns} (${freshData.pronounsOther})` : freshData.pronouns,
+        freshData.pronounsOther
+          ? `${freshData.pronouns} (${freshData.pronounsOther})`
+          : freshData.pronouns,
         freshData.phone,
         freshData.country,
         freshData.dietaryRestrictions,
-        freshData.schoolOther ? `${freshData.school} (${freshData.schoolOther})` : freshData.school,
-        freshData.graduationYearOther ? `${freshData.graduationYear} (${freshData.graduationYearOther})` : freshData.graduationYear,
+        freshData.schoolOther
+          ? `${freshData.school} (${freshData.schoolOther})`
+          : freshData.school,
+        freshData.graduationYearOther
+          ? `${freshData.graduationYear} (${freshData.graduationYearOther})`
+          : freshData.graduationYear,
         freshData.levelOfStudy,
         freshData.fieldOfStudy,
         freshData.firstTimeHacker,
@@ -53,7 +58,7 @@ export default function ReviewPage() {
         freshData.question3
       ];
       await appendToSheet(row);
-      // Redirect or show success message after submit
+      router.push('/application/thank-you');
     } catch (error) {
       console.error('Error submitting to Google Sheets', error);
     } finally {
