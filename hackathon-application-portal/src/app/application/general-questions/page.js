@@ -2,6 +2,7 @@
 
 import useProfileForm from '../../../hooks/useProfileForm';
 import TextAreaField from '../../../components/TextAreaField';
+import './general-questions.css';
 
 export default function ApplicationQuestionsPage() {
   const initialState = {

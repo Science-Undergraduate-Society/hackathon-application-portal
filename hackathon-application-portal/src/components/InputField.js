@@ -1,3 +1,7 @@
+'use client';
+
+import './InputField.css';
+
 export default function InputField({ label, type = 'text', value, required = false, readOnly = false, onChange }) {
   return (
     <div className="field">

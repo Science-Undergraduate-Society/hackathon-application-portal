@@ -1,0 +1,252 @@
+/* Dropdown Component Styles */
+
+/* Field Container (shared with other components) */
+.field {
+  margin-bottom: 2rem;
+  position: relative;
+  animation: slideInUp 0.6s ease forwards;
+  opacity: 0;
+}
+
+/* Stagger animation for multiple fields */
+.field:nth-child(2) { animation-delay: 0.1s; }
+.field:nth-child(3) { animation-delay: 0.2s; }
+.field:nth-child(4) { animation-delay: 0.3s; }
+.field:nth-child(5) { animation-delay: 0.4s; }
+.field:nth-child(6) { animation-delay: 0.5s; }
+.field:nth-child(7) { animation-delay: 0.6s; }
+.field:nth-child(8) { animation-delay: 0.7s; }
+.field:nth-child(9) { animation-delay: 0.8s; }
+.field:nth-child(10) { animation-delay: 0.9s; }
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Label Styling (shared with other components) */
+.field label {
+  display: block;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  letter-spacing: 0.3px;
+  position: relative;
+}
+
+/* Required indicator styling */
+.field label::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 6px;
+  height: 6px;
+  background: var(--accent-blue);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.field label:has([required])::after {
+  opacity: 1;
+  box-shadow: 0 0 8px rgba(0, 212, 255, 0.6);
+}
+
+/* Select Dropdown Styling */
+.field select {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  background: var(--secondary-bg);
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-family: inherit;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
+  appearance: none;
+  
+  /* Custom dropdown arrow */
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2300d4ff' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 1rem center;
+  background-repeat: no-repeat;
+  background-size: 1rem;
+  padding-right: 3rem;
+}
+
+/* Select Focus State */
+.field select:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+  box-shadow: 
+    0 0 0 4px rgba(0, 212, 255, 0.1),
+    0 0 20px rgba(0, 212, 255, 0.2);
+  background: var(--card-bg);
+  transform: translateY(-1px);
+  
+  /* Brighter arrow on focus */
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2333e0ff' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+}
+
+/* Select Hover State */
+.field select:hover {
+  border-color: var(--accent-blue-dark);
+  background: var(--card-bg);
+}
+
+/* Select Options Styling */
+.field select option {
+  background: var(--secondary-bg);
+  color: var(--text-primary);
+  padding: 0.5rem;
+  border: none;
+}
+
+.field select option:checked {
+  background: var(--accent-blue);
+  color: var(--text-primary);
+}
+
+.field select option:hover {
+  background: var(--card-bg);
+}
+
+/* "Other" Input Field Styling */
+.field input[placeholder="Please specify"] {
+  margin-top: 0.75rem;
+  border-color: var(--accent-blue);
+  background: var(--card-bg);
+  animation: slideInDown 0.3s ease;
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Other input specific styling */
+.field input[placeholder="Please specify"]:focus {
+  border-color: var(--accent-blue-light);
+  box-shadow: 
+    0 0 0 4px rgba(0, 212, 255, 0.15),
+    0 0 25px rgba(0, 212, 255, 0.3);
+}
+
+.field input[placeholder="Please specify"]::placeholder {
+  color: var(--accent-blue);
+  opacity: 0.7;
+  font-style: italic;
+}
+
+/* Form Validation Styling */
+.field select:invalid {
+  border-color: #ff6b8a;
+  box-shadow: 0 0 0 4px rgba(255, 107, 138, 0.1);
+}
+
+.field select:valid:not([value=""]) {
+  border-color: var(--accent-blue);
+}
+
+/* Disabled State */
+.field select:disabled {
+  background: var(--primary-bg);
+  border-color: var(--text-muted);
+  color: var(--text-secondary);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.field select:disabled:hover,
+.field select:disabled:focus {
+  border-color: var(--text-muted);
+  background: var(--primary-bg);
+  box-shadow: none;
+  transform: none;
+}
+
+/* Multi-select styling (if needed) */
+.field select[multiple] {
+  min-height: 120px;
+  padding: 0.5rem;
+  background-image: none;
+  padding-right: 1.25rem;
+}
+
+.field select[multiple] option {
+  padding: 0.5rem;
+  margin: 0.25rem 0;
+  border-radius: 4px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .field {
+    margin-bottom: 1.5rem;
+  }
+  
+  .field select {
+    padding: 0.875rem 1rem;
+    padding-right: 2.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .field label {
+    font-size: 0.9rem;
+  }
+  
+  .field select {
+    padding: 0.75rem;
+    padding-right: 2.25rem;
+    font-size: 0.95rem;
+  }
+}
+
+/* Accessibility Improvements */
+@media (prefers-reduced-motion: reduce) {
+  .field {
+    animation: none;
+    opacity: 1;
+  }
+  
+  .field select:focus {
+    transform: none;
+  }
+  
+  .field input[placeholder="Please specify"] {
+    animation: none;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .field select {
+    border-width: 3px;
+  }
+  
+  .field select:focus {
+    border-color: var(--accent-blue-light);
+    box-shadow: none;
+  }
+  
+  .field select option {
+    border: 1px solid var(--border-color);
+  }
+}

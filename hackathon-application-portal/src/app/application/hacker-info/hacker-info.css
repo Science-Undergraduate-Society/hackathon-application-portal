@@ -1,0 +1,197 @@
+/* Hacker Info Page Specific Styles */
+
+/* Page Container */
+main {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+  position: relative;
+}
+
+/* Add subtle background pattern */
+main::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(0, 212, 255, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(0, 212, 255, 0.03) 0%, transparent 50%);
+  z-index: -1;
+}
+
+/* Page Title */
+main h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 3rem;
+  background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-blue) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: relative;
+}
+
+main h1::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: var(--gradient-accent);
+  border-radius: 2px;
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+}
+
+/* Next Button Styling */
+main > button {
+  width: 100%;
+  background: var(--gradient-accent);
+  color: var(--text-primary);
+  border: none;
+  padding: 1.25rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-glow);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 2rem;
+  animation: slideInUp 1s ease forwards;
+  animation-delay: 1s;
+  opacity: 0;
+}
+
+/* Button Hover Effects */
+main > button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+main > button:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-glow-strong);
+  background: linear-gradient(135deg, var(--accent-blue-light) 0%, var(--accent-blue) 100%);
+}
+
+main > button:hover::before {
+  left: 100%;
+}
+
+main > button:active {
+  transform: translateY(-1px);
+}
+
+/* Button Loading State */
+main > button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+main > button:disabled:hover {
+  transform: none;
+  box-shadow: var(--shadow-glow);
+}
+
+/* Loading Spinner for Page */
+main > div:first-child {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  font-size: 1.2rem;
+  color: var(--accent-blue);
+}
+
+/* Progress Indicator */
+.progress-indicator {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.progress-step {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--border-color);
+  margin: 0 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.progress-step.active {
+  background: var(--accent-blue);
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+}
+
+.progress-step.completed {
+  background: var(--accent-blue-dark);
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  main {
+    padding: 2rem 1rem;
+  }
+  
+  main h1 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+  
+  main > button {
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  main {
+    padding: 1.5rem 0.75rem;
+  }
+  
+  main h1 {
+    font-size: 1.75rem;
+  }
+}
+
+/* Accessibility Improvements */
+@media (prefers-reduced-motion: reduce) {
+  main > button {
+    animation: none;
+    opacity: 1;
+  }
+  
+  main > button:hover {
+    transform: none;
+  }
+}

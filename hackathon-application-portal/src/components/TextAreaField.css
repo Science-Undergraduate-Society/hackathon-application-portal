@@ -1,0 +1,197 @@
+/* InputField Component Styles */
+
+/* Field Container */
+.field {
+  margin-bottom: 2rem;
+  position: relative;
+  animation: slideInUp 0.6s ease forwards;
+  opacity: 0;
+}
+
+/* Stagger animation for multiple fields */
+.field:nth-child(2) { animation-delay: 0.1s; }
+.field:nth-child(3) { animation-delay: 0.2s; }
+.field:nth-child(4) { animation-delay: 0.3s; }
+.field:nth-child(5) { animation-delay: 0.4s; }
+.field:nth-child(6) { animation-delay: 0.5s; }
+.field:nth-child(7) { animation-delay: 0.6s; }
+.field:nth-child(8) { animation-delay: 0.7s; }
+.field:nth-child(9) { animation-delay: 0.8s; }
+.field:nth-child(10) { animation-delay: 0.9s; }
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Label Styling */
+.field label {
+  display: block;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  letter-spacing: 0.3px;
+  position: relative;
+}
+
+/* Required indicator styling */
+.field label::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 6px;
+  height: 6px;
+  background: var(--accent-blue);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.field label:has([required])::after {
+  opacity: 1;
+  box-shadow: 0 0 8px rgba(0, 212, 255, 0.6);
+}
+
+/* Input Styling */
+.field input {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  background: var(--secondary-bg);
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-family: inherit;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+/* Input Focus State */
+.field input:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+  box-shadow: 
+    0 0 0 4px rgba(0, 212, 255, 0.1),
+    0 0 20px rgba(0, 212, 255, 0.2);
+  background: var(--card-bg);
+  transform: translateY(-1px);
+}
+
+/* Input Hover State */
+.field input:hover {
+  border-color: var(--accent-blue-dark);
+  background: var(--card-bg);
+}
+
+/* Placeholder Styling */
+.field input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.8;
+}
+
+/* Read-only Input Styling */
+.field input[readonly] {
+  background: var(--primary-bg);
+  border-color: var(--text-muted);
+  color: var(--text-secondary);
+  cursor: not-allowed;
+}
+
+.field input[readonly]:hover,
+.field input[readonly]:focus {
+  border-color: var(--text-muted);
+  background: var(--primary-bg);
+  box-shadow: none;
+  transform: none;
+}
+
+/* Input Type Specific Styling */
+.field input[type="email"] {
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+}
+
+.field input[type="tel"] {
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+}
+
+.field input[type="number"] {
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+}
+
+/* Form Validation Styling */
+.field input:invalid:not(:placeholder-shown) {
+  border-color: #ff6b8a;
+  box-shadow: 0 0 0 4px rgba(255, 107, 138, 0.1);
+}
+
+.field input:valid:not(:placeholder-shown) {
+  border-color: var(--accent-blue);
+}
+
+/* Field Groups for side-by-side inputs */
+.field-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .field {
+    margin-bottom: 1.5rem;
+  }
+  
+  .field input {
+    padding: 0.875rem 1rem;
+  }
+  
+  .field-group {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .field label {
+    font-size: 0.9rem;
+  }
+  
+  .field input {
+    padding: 0.75rem;
+    font-size: 0.95rem;
+  }
+}
+
+/* Accessibility Improvements */
+@media (prefers-reduced-motion: reduce) {
+  .field {
+    animation: none;
+    opacity: 1;
+  }
+  
+  .field input:focus {
+    transform: none;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .field input {
+    border-width: 3px;
+  }
+  
+  .field input:focus {
+    border-color: var(--accent-blue-light);
+    box-shadow: none;
+  }
+}

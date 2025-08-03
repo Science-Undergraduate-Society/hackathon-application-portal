@@ -5,6 +5,7 @@ import { auth } from '../../../lib/firebase';
 import { useRouter } from 'next/navigation';
 import { fetchUserProfile } from '../../../services/userService';
 import { appendToSheet } from '../../../lib/sheets';
+import './review.css';
 
 export default function ReviewPage() {
   const [data, setData] = useState(null);

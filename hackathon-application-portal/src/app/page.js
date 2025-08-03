@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import firebase from 'firebase/compat/app';
 import { auth } from '../lib/firebase';
 import { useRouter } from 'next/navigation';
+// Styles are in globals.css
 
 export default function LandingPage() {
   const router = useRouter();
@@ -38,6 +39,13 @@ export default function LandingPage() {
 
   return (
     <>
+      {/* Dark blue floating orbs */}
+      <div className="orb orb-1"></div>
+      <div className="orb orb-2"></div>
+      <div className="orb orb-3"></div>
+      <div className="orb orb-4"></div>
+      <div className="orb orb-5"></div>
+
       <main>
         <h1>Welcome to the Hackathon Application Portal</h1>
         <button onClick={() => setShowAuth(true)}>
@@ -46,9 +54,13 @@ export default function LandingPage() {
       </main>
 
       {showAuth && (
-        <div className="modal-overlay" style={{position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(0,0,0,0.5)'}}>
-          <div className="modal" style={{background: '#fff', margin: '10% auto', padding: '2rem', maxWidth: '400px', position: 'relative'}}>
-            <button onClick={() => setShowAuth(false)} style={{position: 'absolute', top: '1rem', right: '1rem'}}>
+        <div className="modal-overlay">
+          <div className="modal">
+            <button 
+              className="close-btn" 
+              onClick={() => setShowAuth(false)}
+              aria-label="Close modal"
+            >
               ×
             </button>
             <div id="firebaseui-auth-container"></div>

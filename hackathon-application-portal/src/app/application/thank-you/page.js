@@ -1,3 +1,5 @@
+import './thank-you.css';
+
 export default function ThankYouPage() {
   return (
     <main style={{ textAlign: 'center', padding: '4rem 2rem' }}>
