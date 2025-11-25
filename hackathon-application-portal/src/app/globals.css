@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;700&display=swap');
+
 /* CSS Reset and Base Styles */
 * {
   margin: 0;
@@ -32,10 +34,12 @@ html {
 
 body {
   background: var(--primary-bg);
+  background-image: url("/sunset_background.png");
   color: var(--text-primary);
   min-height: 100vh;
   overflow-x: hidden;
   position: relative;
+  font-family: 'Figtree', sans-serif;
 }
 
 /* Landing Page Styles */
@@ -51,7 +55,7 @@ main {
   z-index: 2;
 }
 
-h1 {
+/* h1 {
   font-size: clamp(2.5rem, 5vw, 4rem);
   font-weight: 700;
   margin-bottom: 3rem;
@@ -62,10 +66,10 @@ h1 {
   text-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
   letter-spacing: -0.02em;
   line-height: 1.2;
-}
+} */
 
 /* Button Styles */
-button {
+/* button {
   background: var(--gradient-accent);
   color: var(--text-primary);
   border: none;
@@ -105,7 +109,7 @@ button:hover::before {
 
 button:active {
   transform: translateY(0);
-}
+} */
 
 /* Floating Orbs */
 .orb {
@@ -353,19 +357,19 @@ nav {
 }
 
 /* Typography */
-h2 {
+/* h2 {
   font-size: 2rem;
   font-weight: 600;
   margin-bottom: 1.5rem;
   color: var(--text-primary);
-}
+} */
 
-h3 {
+/* h3 {
   font-size: 1.5rem;
   font-weight: 600;
   margin-bottom: 1rem;
   color: var(--accent-blue);
-}
+} */
 
 p {
   color: var(--text-secondary);
