@@ -10,6 +10,7 @@
 /* CSS Custom Properties for Theme */
 :root {
   --primary-bg: #0a0a0a;
+  --button-color:  #FFDEB1;
   --secondary-bg: #111111;
   --card-bg: #1a1a1a;
   --accent-blue: #00d4ff;
@@ -23,6 +24,11 @@
   --shadow-glow-strong: 0 0 30px rgba(0, 212, 255, 0.5);
   --gradient-primary: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
   --gradient-accent: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-blue-dark) 100%);
+    --icon-forward: url('/btn-icons/forward-arrow.svg');
+  --icon-backward: url('/btn-icons/star_shine_24dp_000000_FILL0_wght400_GRAD0_opsz24.png');
+  --icon-confirm: url('/btn-icons/check.svg');
+  --icon-upload: url('/btn-icons/upload.svg');
+  --icon-checkbox: url('/btn-icons/check-small.svg');
 }
 
 /* Global Styles */
@@ -111,56 +117,6 @@ button:active {
   transform: translateY(0);
 } */
 
-/* Floating Orbs */
-.orb {
-  position: fixed;
-  border-radius: 50%;
-  background: radial-gradient(circle, var(--accent-blue) 0%, transparent 70%);
-  filter: blur(1px);
-  opacity: 0.6;
-  animation: float 6s ease-in-out infinite;
-  z-index: 1;
-}
-
-.orb-1 {
-  width: 100px;
-  height: 100px;
-  top: 10%;
-  left: 10%;
-  animation-delay: 0s;
-}
-
-.orb-2 {
-  width: 150px;
-  height: 150px;
-  top: 60%;
-  right: 15%;
-  animation-delay: -2s;
-}
-
-.orb-3 {
-  width: 80px;
-  height: 80px;
-  bottom: 20%;
-  left: 20%;
-  animation-delay: -4s;
-}
-
-.orb-4 {
-  width: 120px;
-  height: 120px;
-  top: 30%;
-  right: 30%;
-  animation-delay: -1s;
-}
-
-.orb-5 {
-  width: 60px;
-  height: 60px;
-  bottom: 10%;
-  right: 10%;
-  animation-delay: -3s;
-}
 
 @keyframes float {
   0%, 100% {
