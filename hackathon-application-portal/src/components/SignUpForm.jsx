@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -7,7 +7,7 @@ import { BackwardBtn, ForwardBtn, UploadBtn } from "./CommonUI";
 import WarningDialog from "./warningDialog";
 import useAutoClearError from "@/hooks/useAutoClearError";
 import useSignupForm from "@/hooks/useSignUpForm";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import Select from "react-select";
 import Creatable from "react-select/creatable";
 import { ages } from "@/data/ages";
@@ -48,46 +48,57 @@ export function SignUpForm({ onSuccess }) {
     saveForm,
   } = useSignupForm(initialFormState);
 
-  const handleFileUpload = (e) => {
-    const file = e.target.files[0];
-    handleInputChange("resume", file);
+  // ---------------- Google Signup ----------------
+  const handleGoogleSignup = async () => {
+    const auth = getAuth();
+    const provider = new GoogleAuthProvider();
+
+    try {
+      setLoading(true);
+      await signInWithPopup(auth, provider);
+      setSignUpPage(1); // skip email/password and go to Name/Age/Pronouns
+    } catch (err) {
+      setError(err.message || "Google sign-in failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // ---------------- Email/Password Signup ----------------
+  // Helper function to clean react-select objects for Firebase
+  const cleanSelectValue = (value) => {
+    if (!value) return null;
+    // Remove __isNew__ and other internal properties
+    const { __isNew__, ...cleanValue } = value;
+    return cleanValue;
   };
 
   const handleNextPage = async () => {
     if (signUpPage === 0) {
-      if (
-        formData.firstName &&
-        formData.lastName &&
-        email &&
-        password &&
-        formData.age &&
-        formData.pronoun
-      ) {
+      if (email && password) {
         try {
           setLoading(true);
           const auth = getAuth();
-          const userCredential = await createUserWithEmailAndPassword(
-            auth,
-            email,
-            password,
-          );
+          await createUserWithEmailAndPassword(auth, email, password);
           setSignUpPage(1);
-        } catch (error) {
-          setError(error.message || "Failed to create account");
+        } catch (err) {
+          setError(err.message || "Email sign-up failed");
         } finally {
           setLoading(false);
         }
       } else {
-        setError("Please fill in all required fields");
+        setError("Please enter email and password");
       }
     } else if (signUpPage === 1) {
-      if (
-        formData.year &&
-        formData.phoneNumber &&
-        formData.levelOfStudy &&
-        formData.school
-      ) {
+      // Check if all fields have values (including custom created options)
+      if (formData.firstName && formData.lastName && formData.age && formData.pronoun) {
         setSignUpPage(2);
+      } else {
+        setError("Please fill in all required fields");
+      }
+    } else if (signUpPage === 2) {
+      if (formData.year && formData.phoneNumber && formData.levelOfStudy && formData.school) {
+        setSignUpPage(3);
       } else {
         setError("Please fill in all required fields");
       }
@@ -95,7 +106,7 @@ export function SignUpForm({ onSuccess }) {
   };
 
   const handlePreviousPage = () => {
-    if (signUpPage > 0) setSignUpPage(prev => prev - 1);
+    if (signUpPage > 0) setSignUpPage((prev) => prev - 1);
   };
 
   const handleSubmit = async () => {
@@ -103,9 +114,15 @@ export function SignUpForm({ onSuccess }) {
       setError("Please fill in all required fields");
       return;
     }
-    console.log(formData);
+    
+    // saveForm now handles cleaning internally
     await saveForm();
     router.push("/application/general-questions");
+  };
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    handleInputChange("resume", file);
   };
 
   const handleResumeUpload = () => {
@@ -116,34 +133,28 @@ export function SignUpForm({ onSuccess }) {
     <div className="signup-container">
       {error && <WarningDialog warningMsg={error} duration={4000} />}
 
+      {/* ---------------- Page 0: Signup Method ---------------- */}
       {signUpPage === 0 && (
         <div className="formfields-container">
           <h2>Create Account</h2>
-          <div className="form-field">
-            <h3>First Name*</h3>
-            <input
-              className="input-field"
-              value={formData.firstName}
-              onChange={(e) => handleInputChange("firstName", e.target.value)}
-            />
-          </div>
-          <div className="form-field">
-            <h3>Last Name*</h3>
-            <input
-              className="input-field"
-              value={formData.lastName}
-              onChange={(e) => handleInputChange("lastName", e.target.value)}
-            />
-          </div>
+
+          <button className="google-btn" onClick={handleGoogleSignup}>
+            <img src="/google.png" alt="Google" />
+            Continue with Google
+          </button>
+
+          <div className="divider"></div>
+
           <div className="form-field">
             <h3>Email*</h3>
             <input
-              className="input-field"
               type="email"
+              className="input-field"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
+
           <div className="form-field">
             <h3>Password*</h3>
             <input
@@ -154,51 +165,82 @@ export function SignUpForm({ onSuccess }) {
             />
           </div>
 
-          <div className="field-group">
-            <div className="form-field-half">
-              <h3>Age*</h3>
-              <Select
-                options={ages}
-                styles={customSelectStyles}
-                value={formData.age}
-                onChange={(selectedOption) =>
-                  handleInputChange("age", selectedOption)
-                }
-              />
-            </div>
-            <div className="form-field-half">
-              <h3>Pronoun*</h3>
-              <Creatable
-                options={pronouns}
-                styles={customSelectStyles}
-                formatCreateLabel={(inputValue) => `Other: ${inputValue}`}
-                value={formData.pronoun}
-                onChange={(selectedOption) =>
-                  handleInputChange("pronoun", selectedOption)
-                }
-              />
-            </div>
-          </div>
-
           <div className="button-group">
-            <ForwardBtn onClickFn={handleNextPage} dimension={"sm"} />
+            <ForwardBtn onClickFn={handleNextPage} dimension="sm" />
           </div>
         </div>
       )}
 
+      {/* ---------------- Page 1: Name, Age, Pronouns ---------------- */}
       {signUpPage === 1 && (
         <div className="formfields-container">
-          <h2>Create Account</h2>
+          <h2>Personal Info</h2>
+
+          <div className="form-field">
+            <h3>First Name*</h3>
+            <input
+              className="input-field"
+              value={formData.firstName}
+              onChange={(e) => handleInputChange("firstName", e.target.value)}
+            />
+          </div>
+
+          <div className="form-field">
+            <h3>Last Name*</h3>
+            <input
+              className="input-field"
+              value={formData.lastName}
+              onChange={(e) => handleInputChange("lastName", e.target.value)}
+            />
+          </div>
+
+          <div className="form-field">
+            <h3>Age*</h3>
+            <Select
+              options={ages}
+              styles={customSelectStyles}
+              value={formData.age}
+              onChange={(selectedOption) =>
+                handleInputChange("age", selectedOption)
+              }
+            />
+          </div>
+
+          <div className="form-field">
+            <h3>Pronouns*</h3>
+            <Creatable
+              options={pronouns}
+              styles={customSelectStyles}
+              formatCreateLabel={(inputValue) => `Other: ${inputValue}`}
+              value={formData.pronoun}
+              onChange={(selectedOption) =>
+                handleInputChange("pronoun", selectedOption)
+              }
+              isClearable
+            />
+          </div>
+
+          <div className="button-group">
+            <ForwardBtn onClickFn={handleNextPage} dimension="sm" />
+            <BackwardBtn onClickFn={handlePreviousPage} dimension="sm" />
+          </div>
+        </div>
+      )}
+
+      {/* ---------------- Page 2: Phone, Year, Level, School ---------------- */}
+      {signUpPage === 2 && (
+        <div className="formfields-container">
+          <h2>Profile Details</h2>
+
           <div className="form-field">
             <h3>Phone Number*</h3>
             <input
               className="input-field"
               value={formData.phoneNumber}
-              onChange={(e) =>
-                handleInputChange("phoneNumber", e.target.value)
-              }
+              onChange={(e) => handleInputChange("phoneNumber", e.target.value)}
             />
           </div>
+
           <div className="form-field">
             <h3>Year*</h3>
             <input
@@ -207,6 +249,7 @@ export function SignUpForm({ onSuccess }) {
               onChange={(e) => handleInputChange("year", e.target.value)}
             />
           </div>
+
           <div className="form-field">
             <h3>Level Of Study*</h3>
             <Select
@@ -218,6 +261,7 @@ export function SignUpForm({ onSuccess }) {
               }
             />
           </div>
+
           <div className="form-field">
             <h3>School*</h3>
             <Select
@@ -231,15 +275,17 @@ export function SignUpForm({ onSuccess }) {
           </div>
 
           <div className="button-group">
-            <ForwardBtn onClickFn={handleNextPage} dimension={"sm"} />
-            <BackwardBtn onClickFn={handlePreviousPage} dimension={"sm"} />
+            <ForwardBtn onClickFn={handleNextPage} dimension="sm" />
+            <BackwardBtn onClickFn={handlePreviousPage} dimension="sm" />
           </div>
         </div>
       )}
 
-      {signUpPage === 2 && (
+      {/* ---------------- Page 3: Hackathons, Dietary, Resume ---------------- */}
+      {signUpPage === 3 && (
         <div className="formfields-container">
-          <h2>Create Account</h2>
+          <h2>Additional Info</h2>
+
           <div className="form-field">
             <h3>How many hackathons have you attended in the past?*</h3>
             <input
@@ -248,8 +294,9 @@ export function SignUpForm({ onSuccess }) {
               onChange={(e) => handleInputChange("hackathons", e.target.value)}
             />
           </div>
+
           <div className="form-field">
-            <h3>Do you have any dietary restrictions?*</h3>
+            <h3>Do you have any dietary restrictions?</h3>
             <input
               className="input-field"
               value={formData.dietaryRestrictions}
@@ -270,8 +317,9 @@ export function SignUpForm({ onSuccess }) {
               }
             />
           </div>
+
           <div className="form-field">
-            <h3>Upload your resume (can be sent to recruiters)</h3>
+            <h3>Upload your resume</h3>
             <input
               id="resume-upload"
               type="file"
@@ -279,14 +327,13 @@ export function SignUpForm({ onSuccess }) {
               onChange={handleFileUpload}
               accept=".pdf,.doc,.docx"
             />
-            <UploadBtn onClickFn={handleResumeUpload} dimension={"sm"} />
-            {formData.resume && (
-              <span className="file-name">{formData.resume.name}</span>
-            )}
+            <UploadBtn onClickFn={handleResumeUpload} dimension="sm" />
+            {formData.resume && <span className="file-name">{formData.resume.name}</span>}
           </div>
+
           <div className="button-group">
-            <ForwardBtn onClickFn={handleSubmit} dimension={"sm"} />
-            <BackwardBtn onClickFn={handlePreviousPage} dimension={"sm"} />
+            <ForwardBtn onClickFn={handleSubmit} dimension="sm" />
+            <BackwardBtn onClickFn={handlePreviousPage} dimension="sm" />
           </div>
         </div>
       )}

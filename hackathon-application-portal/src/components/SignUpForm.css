@@ -57,3 +57,18 @@
   gap: 6px;
   width: 50%;
 }
+
+.google-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--text-input-border);
+  cursor: pointer;
+  font-size: 1.5rem;
+  gap: 1rem;
+  background: #333333;
+  color: rgba(255 ,255, 255, 0.9);
+  margin-bottom: 2rem;
+}
