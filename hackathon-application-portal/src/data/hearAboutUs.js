@@ -7,5 +7,5 @@ export const howDidYouHear = [
   { value: "coding-club", label: "Coding Club / Student Group" },
   { value: "previous-event", label: "Previous Event" },
   { value: "website", label: "Hackathon Website" },
-  { value: "other", label: "Other: Please enter custom input." }
+  { value: "other", label: "Other" }
 ];
