@@ -1,0 +1,85 @@
+.signup-container {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  height: 100%;
+  h2 {
+    font-size: 48px;
+    margin: 16px 0;
+  }
+}
+
+.formfields-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+}
+
+.button-group {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 20px; 
+  margin-bottom: 2rem;
+  width: 100%;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.FormField input,
+.FormField select {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid var(--text-input-border);
+}
+
+.PronounRow {
+  display: flex;
+  gap: 10px;
+}
+
+.field-group {
+    display: flex;
+    gap: 16px;
+}
+
+.form-field-half{
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 50%;
+}
+
+.google-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--text-input-border);
+  cursor: pointer;
+  font-size: 1.5rem;
+  gap: 1rem;
+  background: #333333;
+  color: rgba(255 ,255, 255, 0.9);
+  margin-bottom: 2rem;
+}
+
+.minor-notice {
+  color: #ff9800;
+  font-size: 14px;
+  margin: -4px 0 4px 0;
+  font-style: italic;
+}
+
+.file-name {
+  font-size: 14px;
+  color: #4CAF50;
+  margin-top: 4px;
+}

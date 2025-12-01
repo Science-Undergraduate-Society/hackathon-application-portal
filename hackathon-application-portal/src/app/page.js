@@ -1,72 +1,30 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import firebase from 'firebase/compat/app';
-import { auth } from '../lib/firebase';
-import { useRouter } from 'next/navigation';
-// Styles are in globals.css
+import SignInModal from '@/components/SignInModal';
+import './LandingPage.css';
 
 export default function LandingPage() {
-  const router = useRouter();
-  const [showAuth, setShowAuth] = useState(false);
-
-  useEffect(() => {
-    let ui;
-    if (!showAuth) return; // only init when modal opens
-
-    import('firebaseui').then((firebaseui) => {
-      const uiConfig = {
-        signInFlow: 'popup',
-        signInOptions: [
-          firebase.auth.EmailAuthProvider.PROVIDER_ID,
-          firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-        ],
-        callbacks: {
-          signInSuccessWithAuthResult: () => {
-            router.push('/application/hacker-info');
-            return false;
-          },
-        },
-      };
-      ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(auth);
-      ui.start('#firebaseui-auth-container', uiConfig);
-    });
-
-    return () => {
-      if (ui) ui.delete();
-    };
-  }, [showAuth, router]);
+  // Remove the router push - useAuth handles routing now
+  const handleSuccess = () => {
+    // Optional: you can add any additional logic here
+    console.log('Sign in successful');
+  };
 
   return (
-    <>
-      {/* Dark blue floating orbs */}
-      <div className="orb orb-1"></div>
-      <div className="orb orb-2"></div>
-      <div className="orb orb-3"></div>
-      <div className="orb orb-4"></div>
-      <div className="orb orb-5"></div>
+    <div className="landing-container">
+      <SignInModal onSuccess={handleSuccess} />
 
-      <main>
-        <h1>Welcome to the Hackathon Application Portal</h1>
-        <button onClick={() => setShowAuth(true)}>
-          Continue to Sign In
-        </button>
-      </main>
+      <div className="landing-content">
+        <img src="/logo.png" className="landing-logo" />
 
-      {showAuth && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <button 
-              className="close-btn" 
-              onClick={() => setShowAuth(false)}
-              aria-label="Close modal"
-            >
-              ×
-            </button>
-            <div id="firebaseui-auth-container"></div>
-          </div>
-        </div>
-      )}
-    </>
+        <h1 className="landing-title">
+          {`HACK\nTHE\nCOAST`}
+        </h1>
+
+        <h2 className="landing-subtitle">
+          {` Presented by the\nScience\nUndergraduate Society`}
+        </h2>
+      </div>
+    </div>
   );
 }
