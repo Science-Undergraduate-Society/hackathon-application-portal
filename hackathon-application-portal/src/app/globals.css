@@ -29,6 +29,7 @@
   --icon-confirm: url('/btn-icons/check.svg');
   --icon-upload: url('/btn-icons/upload.svg');
   --icon-checkbox: url('/btn-icons/check-small.svg');
+  --text-input-border: rgba(255, 255, 255, 0.5);
 }
 
 /* Global Styles */
