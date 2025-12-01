@@ -2,61 +2,25 @@
 
 import { useRouter } from 'next/navigation';
 import SignInModal from '@/components/SignInModal';
+import './LandingPage.css'; // regular CSS file
 
 export default function LandingPage() {
   const router = useRouter();
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        gap: '60px',
-        marginTop: '80px',
-      }}
-    >
+    <div className="landing-container">
       <SignInModal onSuccess={() => router.push('/application/hacker-info')} />
 
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          textAlign: 'left',
-          alignItems: 'flex-start',
-        }}
-      >
-        <img
-          src="/logo.png"
-          style={{ width: '140px', marginBottom: '20px' }}
-        />
+      <div className="landing-content">
+        <img src="/logo.png" className="landing-logo" />
 
-        <h1
-          style={{
-            fontSize: '96px',
-            fontWeight: 800,
-            margin: 0,
-            lineHeight: 1.1,
-            whiteSpace: 'pre-line',
-            color:'var(--title-color)'
-          }}
-        >
+        <h1 className="landing-title">
           {`HACK\nTHE\nCOAST`}
         </h1>
 
-        <h2
-          style={{
-            fontSize: '40px',
-            fontWeight: 400,
-            marginTop: '20px',
-            maxWidth: '400px',
-             color:'var(--title-color)',
-            letterSpacing:0.5,
-            fontFamily:'Figtree'
-          }}
-        >
-          Presented by the Science Undergraduate Society
+        <h2 className="landing-subtitle">
+          {` Presented by the\nScience\nUndergraduate Society`}
+          
         </h2>
       </div>
     </div>

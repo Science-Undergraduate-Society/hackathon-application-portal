@@ -1,0 +1,43 @@
+.landing-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 60px;
+  margin-top: 80px;
+  margin-left: 80px
+}
+
+.landing-content {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  align-items: flex-start;
+  width: 512px;
+}
+
+.landing-logo {
+  width: 140px;
+  margin-bottom: 20px;
+}
+
+.landing-title {
+  font-size: 96px;
+  font-weight: 800;
+  margin: 0;
+  line-height: 1.1;
+  white-space: pre-line;
+  color: var(--title-color);
+}
+
+.landing-subtitle {
+  font-size: 40px;
+  font-weight: 400;
+  margin-top: 20px;
+  max-width: 100%;
+  color: var(--title-color);
+  letter-spacing: 0.5px;
+    white-space: pre-line;
+
+  font-family: Figtree, sans-serif;
+}
