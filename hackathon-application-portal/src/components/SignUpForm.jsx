@@ -32,7 +32,7 @@ const initialFormState = {
   resume: null,
 };
 
-export function SignUpForm({ onSuccess }) {
+export function SignUpForm({ onSuccess, initialPage = 0 }) {
   const router = useRouter();
   const [error, setError] = useAutoClearError();
   const [email, setEmail] = useState("");
@@ -47,6 +47,13 @@ export function SignUpForm({ onSuccess }) {
     setSignUpPage,
     saveForm,
   } = useSignupForm(initialFormState);
+
+  // Set initial page if user has incomplete profile
+  React.useEffect(() => {
+    if (initialPage !== null && initialPage > 0) {
+      setSignUpPage(initialPage);
+    }
+  }, [initialPage]);
 
   // ---------------- Google Signup ----------------
   const handleGoogleSignup = async () => {

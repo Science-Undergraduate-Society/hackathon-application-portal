@@ -1,15 +1,18 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import SignInModal from '@/components/SignInModal';
-import './LandingPage.css'; // regular CSS file
+import './LandingPage.css';
 
 export default function LandingPage() {
-  const router = useRouter();
+  // Remove the router push - useAuth handles routing now
+  const handleSuccess = () => {
+    // Optional: you can add any additional logic here
+    console.log('Sign in successful');
+  };
 
   return (
     <div className="landing-container">
-      <SignInModal onSuccess={() => router.push('/application/hacker-info')} />
+      <SignInModal onSuccess={handleSuccess} />
 
       <div className="landing-content">
         <img src="/logo.png" className="landing-logo" />
@@ -20,7 +23,6 @@ export default function LandingPage() {
 
         <h2 className="landing-subtitle">
           {` Presented by the\nScience\nUndergraduate Society`}
-          
         </h2>
       </div>
     </div>

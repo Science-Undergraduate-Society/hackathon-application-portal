@@ -1,63 +1,69 @@
 'use client';
 
-import React, { useState } from "react";
-import firebase from "firebase/compat/app";
-import "firebase/compat/auth";
-import { auth } from "../lib/firebase";
+import React from "react";
 import EmailAndPassword from "./EmailAndPassword";
 import { BackwardBtn, ConfirmBtn } from "./CommonUI";
 import WarningDialog from "./warningDialog";
+import useAuth from "@/hooks/useAuth";
 import "./SignInForm.css";
 
-export function SignInForm({ onSuccess }) {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [showEmailForm, setShowEmailForm] = useState(false);
+const initialFormState = {
+  firstName: "",
+  lastName: "",
+  age: null,
+  pronoun: null,
+  phoneNumber: "",
+  year: "",
+  levelOfStudy: null,
+  school: null,
+  hackathons: "",
+  dietaryRestrictions: "",
+  hearAbout: null,
+  resume: null,
+};
 
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
+export function SignInForm({ onSuccess, onIncompleteProfile }) {
+  const [showEmailForm, setShowEmailForm] = React.useState(false);
+
+  const {
+    modalOpen,
+    signUpPage,
+    email,
+    setEmail,
+    password,
+    setPassword,
+    emailSignIn,
+    googleSignIn,
+    loading,
+    error
+  } = useAuth(initialFormState);
+
+  // When profile is incomplete, notify parent
+  React.useEffect(() => {
+    if (modalOpen && signUpPage > 0 && onIncompleteProfile) {
+      onIncompleteProfile(signUpPage);
+    }
+  }, [modalOpen, signUpPage, onIncompleteProfile]);
 
   const handleInputChange = (field, value) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    if (field === 'email') setEmail(value);
+    if (field === 'password') setPassword(value);
   };
 
   const handleGoogleSignIn = async () => {
-    setLoading(true);
-    setError("");
-    try {
-      const provider = new firebase.auth.GoogleAuthProvider();
-      await auth.signInWithPopup(provider);
-      onSuccess();
-    } catch (err) {
-      setError(err.message); // set the error to show WarningDialog
-    } finally {
-      setLoading(false);
-    }
+    await googleSignIn();
   };
 
   const submitEmailLogin = async () => {
-    setLoading(true);
-    setError("");
-    try {
-      await auth.signInWithEmailAndPassword(formData.email, formData.password);
-      onSuccess();
-    } catch (err) {
-      setError(err.message); // show error in toast
-    } finally {
-      setLoading(false);
-    }
+    await emailSignIn();
   };
 
   return (
     <div className="login-container">
       <h1>Log In to Your Hacker Account!</h1>
 
-      {/* Warning dialog appears whenever there is an error */}
       {error && <WarningDialog warningMsg={error} duration={4000} />}
 
-      {/* Google / Email buttons if email form is not shown */}
       {!showEmailForm && (
         <>
           <button
@@ -82,11 +88,10 @@ export function SignInForm({ onSuccess }) {
         </>
       )}
 
-      {/* Show Email + Password Form */}
       {showEmailForm && (
         <div style={{ width: "100%", maxWidth: 509 }}>
           <EmailAndPassword
-            formData={formData}
+            formData={{ email, password }}
             handleInputChange={handleInputChange}
           />
 
