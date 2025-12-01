@@ -1,0 +1,74 @@
+.footer {
+    position: relative;
+    width: 100%;
+    height: 470px;
+    overflow: hidden;
+    background-color: var(--color-ui-80);
+}
+
+.footer::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(-121deg, rgba(1, 115, 190, 0.70) 0%, rgba(1, 115, 190, 0.00) 500px),
+        linear-gradient(59deg, rgba(1, 115, 190, 0.70) 0%, rgba(1, 115, 190, 0.00) 500px);
+    background-repeat: no-repeat;
+    background-position: bottom left, top right;
+    z-index: 0;
+}
+
+.footer > * {
+    position: relative;
+    z-index: 1;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.logo {
+    width: 10vw; 
+    max-width: 165px; 
+    min-width: 100px;  
+    height: auto;
+    margin-top: 39px;
+}
+
+.social-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 5vw;
+    width: 100%;
+    margin: 20px auto;
+}
+
+.icon {
+    width: 6vw;
+    max-width: 68px;
+    min-width: 40px;
+    height: auto;
+    object-fit: cover;
+}
+
+.iconEmail   { margin-left:  -0.7vw; } 
+.iconYoutube { margin-right: -0.7vw; }
+
+.copyright {
+    margin-bottom: 39px;
+    text-align: center;
+    font-family: 'Figtree', Helvetica, sans-serif;
+    font-weight: 500;
+    color: #ffffff;
+    font-size: 1.25rem;
+    line-height: 30px;
+    letter-spacing: 0;
+}
