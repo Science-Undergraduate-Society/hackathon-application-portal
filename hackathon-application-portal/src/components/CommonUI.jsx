@@ -7,7 +7,7 @@ const getSize = (dimension) => {
     switch (dimension) {
       case "sm": return { width: 80, height: 40 };
       case "md": return { width: 60, height: 60 };
-      case "lg": return { width: 80, height: 80 };
+      case "lg": return { width: 230, height: 80 };
       default: return {};
     }
   }

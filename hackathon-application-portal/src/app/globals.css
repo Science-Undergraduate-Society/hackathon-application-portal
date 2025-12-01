@@ -11,6 +11,7 @@
 :root {
   --primary-bg: #0a0a0a;
   --button-color:  #FFDEB1;
+  --title-color:  #FFDEB1;
   --secondary-bg: #111111;
   --card-bg: #1a1a1a;
   --accent-blue: #00d4ff;
@@ -30,6 +31,8 @@
   --icon-upload: url('/btn-icons/upload.svg');
   --icon-checkbox: url('/btn-icons/check-small.svg');
   --text-input-border: rgba(255, 255, 255, 0.5);
+  --text-input-bg: #333333;
+  --question-card-bg: rgba(40,40,40, 0.9);
 }
 
 /* Global Styles */
@@ -203,19 +206,20 @@ button:active {
 
 /* Form Styles */
 input, textarea, select {
-  background: var(--secondary-bg);
-  border: 2px solid var(--border-color);
+  background: var(--question-card-bg);
+  border: 2px solid var(--text-input-border);
   border-radius: 8px;
   padding: 0.75rem 1rem;
   color: var(--text-primary);
-  font-size: 1rem;
+  font-size: 1.5rem;
   transition: all 0.3s ease;
   width: 100%;
+  height: 100%;
 }
 
 input:focus, textarea:focus, select:focus {
   outline: none;
-  border-color: var(--accent-blue);
+  border-color: white;
   box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
 }
 

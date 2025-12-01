@@ -6,6 +6,31 @@
   position: relative;
   animation: slideInUp 0.6s ease forwards;
   opacity: 0;
+  background-color: var(--question-card-bg);
+  min-height: 600px;
+  width: 1200px;
+  padding: 2rem;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+/* Base Sprite Styles - Define common properties */
+.field::before,
+.field::after {
+    content: ''; 
+    position: absolute;
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: 10;
+    opacity: 0; /* Start hidden */
+    transition: opacity 0.5s ease; 
+}
+
+/* Visibility (Assuming the animation makes the .field opaque) */
+.field:not([style*="opacity: 0"])::before,
+.field:not([style*="opacity: 0"])::after {
+    opacity: 1;
 }
 
 /* Stagger animation for multiple fields */
@@ -30,42 +55,48 @@
   }
 }
 
+/* TextAreaField.css */
+
+/* Keep the general styles for inputs/textareas */
+input, textarea, select {
+  background: var(--question-card-bg);
+  border: 2px solid var(--text-input-border);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  color: var(--text-primary);
+  font-size: 1.5rem;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+/* Add a specific rule for the textarea within a field */
+.field textarea {
+    margin-top: 1rem;
+    height: 400px; /* Match the height set for .field input */
+    resize: none; /* Recommended for fixed-height fields */
+}
+
 /* Label Styling */
 .field label {
   display: block;
   font-weight: 600;
-  color: var(--text-primary);
+  font-size: 2rem;
+  color: white;
   margin-bottom: 0.5rem;
-  font-size: 0.95rem;
   letter-spacing: 0.3px;
   position: relative;
+  text-align: left;
 }
 
-/* Required indicator styling */
-.field label::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 6px;
-  height: 6px;
-  background: var(--accent-blue);
-  border-radius: 50%;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
 
-.field label:has([required])::after {
-  opacity: 1;
-  box-shadow: 0 0 8px rgba(0, 212, 255, 0.6);
-}
 
 /* Input Styling */
 .field input {
   width: 100%;
+  height: 550px;
   padding: 1rem 1.25rem;
-  background: var(--secondary-bg);
-  border: 2px solid var(--border-color);
+  background: var(--text-input-bg);
+  border: 2px solid var(--text-input-border);
   border-radius: 12px;
   color: var(--text-primary);
   font-size: 1rem;
@@ -77,19 +108,19 @@
 
 /* Input Focus State */
 .field input:focus {
-  outline: none;
-  border-color: var(--accent-blue);
+    border: 2px solid white;
+
+  border-color: white;
   box-shadow: 
-    0 0 0 4px rgba(0, 212, 255, 0.1),
-    0 0 20px rgba(0, 212, 255, 0.2);
+    0 0 0 4px rgba(255, 255, 255, 0.1),
+    0 0 20px rgba(255, 255, 255, 0.2);
   background: var(--card-bg);
   transform: translateY(-1px);
 }
 
 /* Input Hover State */
 .field input:hover {
-  border-color: var(--accent-blue-dark);
-  background: var(--card-bg);
+  border-color: white;
 }
 
 /* Placeholder Styling */
@@ -191,7 +222,7 @@
   }
   
   .field input:focus {
-    border-color: var(--accent-blue-light);
+    border-color: white;
     box-shadow: none;
   }
 }
