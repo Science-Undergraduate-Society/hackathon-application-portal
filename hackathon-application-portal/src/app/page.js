@@ -39,6 +39,7 @@ export default function LandingPage() {
             margin: 0,
             lineHeight: 1.1,
             whiteSpace: 'pre-line',
+            color:'var(--title-color)'
           }}
         >
           {`HACK\nTHE\nCOAST`}
@@ -46,11 +47,13 @@ export default function LandingPage() {
 
         <h2
           style={{
-            fontSize: '20px',
+            fontSize: '40px',
             fontWeight: 400,
             marginTop: '20px',
             maxWidth: '400px',
-            color: '#ddd',
+             color:'var(--title-color)',
+            letterSpacing:0.5,
+            fontFamily:'Figtree'
           }}
         >
           Presented by the Science Undergraduate Society
