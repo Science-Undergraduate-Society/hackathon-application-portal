@@ -14,10 +14,11 @@
   max-width: 90%;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   font-family: 'Figtree', sans-serif;
-  gap: 12px; /* space between icon and text */
+  gap: 12px;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 10;
 }
 
 /* Show class to trigger visibility */
@@ -25,17 +26,18 @@
   opacity: 1;
   pointer-events: auto;
   transform: translateX(-50%) translateY(0);
+  
 }
 
 /* X icon on the left */
 .warning-dialog .close-icon {
   cursor: pointer;
   font-weight: bold;
-  font-size: 18px;
+  font-size: 2.5rem;
 }
 
 /* Warning text */
 .warning-dialog .text {
   flex: 1;
-  font-size: 16px;
+  font-size: 2rem;
 }
