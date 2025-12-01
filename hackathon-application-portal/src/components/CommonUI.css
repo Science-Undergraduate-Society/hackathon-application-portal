@@ -1,0 +1,17 @@
+.common-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  background-color: var(--button-color); /* fallback red */
+  height: 60px;
+  padding: 0;
+  transition: 0.2s ease;
+}
+
+.common-btn:hover {
+  opacity: 0.85;
+}
+

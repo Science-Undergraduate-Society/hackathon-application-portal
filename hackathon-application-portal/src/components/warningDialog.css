@@ -1,0 +1,41 @@
+/* Container for bottom-center toast */
+.warning-dialog {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #ff4d4f; /* Red warning */
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 16px 24px;
+  border-radius: 12px;
+  min-width: 300px;
+  max-width: 90%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  font-family: 'Figtree', sans-serif;
+  gap: 12px; /* space between icon and text */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Show class to trigger visibility */
+.warning-dialog.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* X icon on the left */
+.warning-dialog .close-icon {
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+/* Warning text */
+.warning-dialog .text {
+  flex: 1;
+  font-size: 16px;
+}
