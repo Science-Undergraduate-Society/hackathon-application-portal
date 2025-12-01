@@ -73,13 +73,14 @@ export const DropDown = ({ list = [], onChangeFn, dimension, value }) => (
 );
 
 export const CheckBox = ({ label, checked, onChangeFn }) => (
-  <label className="common-btn checkbox">
+  <label className="custom-checkbox">
     <input
       type="checkbox"
       checked={checked}
-      onChange={(e) => onChangeFn(e.target.checked)}
+      onChange={(e) => onChangeFn(e.target.checked)} 
     />
     <span className="checkbox-icon" />
     {label}
   </label>
 );
+
