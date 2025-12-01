@@ -40,7 +40,7 @@ export const ConfirmBtn = ({ onClickFn, dimension }) => (
     style={getSize(dimension)}
     className="common-btn"
   >
-    <img src="/btn-icons/check.svg" alt="Confirm" />
+    <img src="/btn-icons/check.svg" alt="Confir" className="big-icon"/>
   </button>
 );
 

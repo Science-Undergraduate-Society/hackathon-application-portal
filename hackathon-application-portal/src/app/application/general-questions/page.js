@@ -3,9 +3,12 @@
 import useProfileForm from "../../../hooks/useProfileForm";
 import TextAreaField from "../../../components/TextAreaField";
 import "./general-questions.css";
-import { ConfirmBtn, ForwardBtn } from "@/components/CommonUI";
+import { ConfirmBtn } from "@/components/CommonUI";
+import useAutoClearError from "@/hooks/useAutoClearError";
+import WarningDialog from "@/components/warningDialog";
 
 export default function ApplicationQuestionsPage() {
+  const [error, setError] = useAutoClearError();
   const initialState = {
     question1: "",
     question2: "",
@@ -21,11 +24,23 @@ export default function ApplicationQuestionsPage() {
       "/application/hacker-extra",
     );
 
+  const handleSubmit= () => {
+    if(!form.question1 || !form.question2 || !form.question3  || !form.question4) {
+      setError("Please answer all required questions to proceed.")
+    } else {
+      handleNext()
+    }
+    
+  }
+
   if (loading) return <div>Loading...</div>;
 
   return (
     <main>
       <h1>Application Questions</h1>
+
+        {error && <WarningDialog warningMsg={error} duration={4000} />}
+      
 
       <div>
         <TextAreaField
@@ -55,7 +70,7 @@ export default function ApplicationQuestionsPage() {
         />
 
         <TextAreaField
-          label="What is your favourite body of water? Why? (e.g. pond/ocean/bathtub)"
+          label="What is your favourite body of water? Why? (e.g. pond/ocean/bathtub)*"
           value={form.question4}
           maxLength={300}
           onChange={handleChange("question4")}
@@ -70,7 +85,7 @@ export default function ApplicationQuestionsPage() {
         />
 
         <div className="buttons">
-          <ConfirmBtn onClickFn={handleNext} dimension={"lg"}></ConfirmBtn>{" "}
+          <ConfirmBtn onClickFn={handleSubmit} dimension={"lg"}></ConfirmBtn>{" "}
         </div>
 
       </div>
