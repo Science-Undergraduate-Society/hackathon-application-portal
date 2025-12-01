@@ -9,12 +9,11 @@ main {
   min-height: 100vh;
   padding: 4rem 2rem;
   text-align: center;
-  background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
   position: relative;
   overflow: hidden;
 }
 
-/* Animated background elements */
+/* Animated background elements
 main::before {
   content: '';
   position: absolute;
@@ -28,14 +27,14 @@ main::before {
     radial-gradient(circle at 50% 20%, rgba(0, 255, 136, 0.05) 0%, transparent 50%);
   animation: backgroundPulse 6s ease-in-out infinite;
   z-index: -1;
-}
+} */
 
 @keyframes backgroundPulse {
   0%, 100% { opacity: 0.8; }
   50% { opacity: 1; }
 }
 
-/* Success Icon Container */
+/* Success Icon Container
 .success-icon {
   width: 120px;
   height: 120px;
@@ -112,14 +111,14 @@ main::before {
     transform: scale(1.5);
     opacity: 0;
   }
-}
+} */
 
 /* Main Title */
 main h1 {
   font-size: clamp(2.5rem, 5vw, 4rem);
   font-weight: 700;
   margin-bottom: 1.5rem;
-  background: linear-gradient(135deg, #00ff88 0%, var(--accent-blue) 100%);
+  background: var(--title-color);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -144,8 +143,8 @@ main h1 {
 
 /* Subtitle */
 main p {
-  font-size: 1.25rem;
-  color: var(--text-secondary);
+  font-size: 2.25rem;
+  color: var(--title-color);
   margin-bottom: 3rem;
   max-width: 600px;
   line-height: 1.6;
@@ -472,4 +471,16 @@ main p {
   .confirmation-card h2 {
     color: black;
   }
+}
+
+.message-container {
+  background-color: var(--question-card-bg);
+  width: 1255px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  font-size: 2rem;
+  padding: 1rem 2rem;
+  margin-top: 3rem;
 }
