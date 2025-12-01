@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   padding: 0;
+  height: 100%;
   h2 {
     font-size: 48px;
     margin: 16px 0;
@@ -12,12 +13,17 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+    flex: 1;
 }
 
-.SignUpTitle {
-  font-size: 20px;
-  font-weight: 700;
-  margin-bottom: 8px;
+.button-group {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 20px; 
+  margin-bottom: 2rem;
+  width: 100%;
 }
 
 .form-field {
@@ -38,17 +44,9 @@
   gap: 10px;
 }
 
-.button-group {
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: space-between;
-  margin-top: 10px;
-  width: 100%;
-}
-
 .field-group {
     display: flex;
-    gap: 16px
+    gap: 16px;
 }
 
 .form-field-half{
@@ -71,4 +69,17 @@
   background: #333333;
   color: rgba(255 ,255, 255, 0.9);
   margin-bottom: 2rem;
+}
+
+.minor-notice {
+  color: #ff9800;
+  font-size: 14px;
+  margin: -4px 0 4px 0;
+  font-style: italic;
+}
+
+.file-name {
+  font-size: 14px;
+  color: #4CAF50;
+  margin-top: 4px;
 }

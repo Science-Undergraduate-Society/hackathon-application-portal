@@ -1,58 +1,61 @@
-// hooks/useSignupForm.js
+// hooks/useSignUpForm.js
 import { useState } from 'react';
-import { saveUserProfile } from '../services/userService';
-import { auth } from '../lib/firebase';
-import useAutoSave from './useAutoSave';
+import { getAuth } from 'firebase/auth';
+import { saveUserProfile } from '@/services/userService';
+import { uploadFile } from '@/services/fileUploadService';
 
-export default function useSignupForm(initialState) {
-  const [form, setForm] = useState(initialState);
+export default function useSignupForm(initialFormState) {
+  const [form, setForm] = useState(initialFormState);
   const [loading, setLoading] = useState(false);
   const [signUpPage, setSignUpPage] = useState(0);
-
-  // Auto-save only after user is authenticated
-  useAutoSave(form, () => {
-    const user = auth.currentUser;
-    if (user) {
-      // Clean react-select values before auto-saving
-      const cleanedForm = cleanSelectValues(form);
-      return saveUserProfile(user.uid, cleanedForm);
-    }
-  });
 
   const handleChange = (field, value) => {
     setForm(prev => ({ ...prev, [field]: value }));
   };
 
-  // Helper to clean react-select objects
-  const cleanSelectValues = (data) => {
-    return {
-      ...data,
-      age: data.age ? { label: data.age.label, value: data.age.value } : null,
-      pronoun: data.pronoun ? { label: data.pronoun.label, value: data.pronoun.value } : null,
-      levelOfStudy: data.levelOfStudy ? { label: data.levelOfStudy.label, value: data.levelOfStudy.value } : null,
-      school: data.school ? { label: data.school.label, value: data.school.value } : null,
-      hearAbout: data.hearAbout ? { label: data.hearAbout.label, value: data.hearAbout.value } : null,
-    };
+  const cleanSelectValue = (value) => {
+    if (!value) return null;
+    const { __isNew__, ...cleanValue } = value;
+    return cleanValue;
   };
 
-  const saveForm = async (dataToSave) => {
+  const saveForm = async () => {
+  try {
+    setLoading(true);
+    const auth = getAuth();
     const user = auth.currentUser;
-    if (user) {
-      // Use provided data or fall back to current form state
-      const dataToClean = dataToSave || form;
-      const cleanedData = cleanSelectValues(dataToClean);
-      await saveUserProfile(user.uid, cleanedData);
+    
+    if (!user) {
+      throw new Error('No authenticated user');
     }
-  };
 
-  return { 
-    form, 
-    setForm,
-    handleChange, 
-    loading, 
+    // Clean the form data
+    const cleanedForm = {
+      ...form,
+      age: cleanSelectValue(form.age),
+      pronoun: cleanSelectValue(form.pronoun),
+      levelOfStudy: cleanSelectValue(form.levelOfStudy),
+      school: cleanSelectValue(form.school),
+      hearAbout: cleanSelectValue(form.hearAbout),
+      // waiverLink and resumeLink are already strings, no need to process
+    };
+
+    await saveUserProfile(user.uid, cleanedForm);
+  } catch (error) {
+    console.error('Error saving form:', error);
+    throw error;
+  } finally {
+    setLoading(false);
+  }
+};
+
+  return {
+    form,
+    handleChange,
+    loading,
     setLoading,
     signUpPage,
     setSignUpPage,
-    saveForm
+    saveForm,
   };
 }
