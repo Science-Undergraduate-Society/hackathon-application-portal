@@ -6,9 +6,12 @@ import "./general-questions.css";
 import { ConfirmBtn } from "@/components/CommonUI";
 import useAutoClearError from "@/hooks/useAutoClearError";
 import WarningDialog from "@/components/warningDialog";
+import useIsMobile from "@/hooks/useIsMobile";
 
 export default function ApplicationQuestionsPage() {
   const [error, setError] = useAutoClearError();
+  const isMobile = useIsMobile();
+  
   const initialState = {
     question1: "",
     question2: "",
@@ -24,14 +27,13 @@ export default function ApplicationQuestionsPage() {
       "/application/hacker-extra",
     );
 
-  const handleSubmit= () => {
-    if(!form.question1 || !form.question2 || !form.question3  || !form.question4) {
-      setError("Please answer all required questions to proceed.")
+  const handleSubmit = () => {
+    if(!form.question1 || !form.question2 || !form.question3 || !form.question4) {
+      setError("Please answer all required questions to proceed.");
     } else {
-      handleNext()
+      handleNext();
     }
-    
-  }
+  };
 
   if (loading) return <div>Loading...</div>;
 
@@ -39,8 +41,7 @@ export default function ApplicationQuestionsPage() {
     <main>
       <h1>Application Questions</h1>
 
-        {error && <WarningDialog warningMsg={error} duration={4000} />}
-      
+      {error && <WarningDialog warningMsg={error} duration={4000} />}
 
       <div>
         <TextAreaField
@@ -72,6 +73,7 @@ export default function ApplicationQuestionsPage() {
         <TextAreaField
           label="What is your favourite body of water? Why? (e.g. pond/ocean/bathtub)*"
           value={form.question4}
+          required
           maxLength={300}
           onChange={handleChange("question4")}
         />
@@ -85,12 +87,12 @@ export default function ApplicationQuestionsPage() {
         />
 
         <div className="buttons">
-          <ConfirmBtn onClickFn={handleSubmit} dimension={"lg"}></ConfirmBtn>{" "}
+          <ConfirmBtn 
+            onClickFn={handleSubmit} 
+            dimension={isMobile ? "sm" : "lg"} 
+          />
         </div>
-
       </div>
-
-      
     </main>
   );
 }
