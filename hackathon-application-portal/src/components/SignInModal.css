@@ -3,12 +3,15 @@
     border-radius: 20px;
     height: 816px;
     width: 764px;
+    max-width: 90vw;
+    max-height: 90vh;
     color: #FFFFFF;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 10px 40px;
     box-sizing: border-box;
+    overflow-y: auto;
 }
 
 .tab-buttons {
@@ -19,6 +22,7 @@
     font-size: 36px;
     font-weight: 500;
     margin-bottom: 10px;
+    flex-shrink: 0;
 }
 
 .tab-button {
@@ -44,6 +48,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow-y: auto;
 }
 
 .login-container {
@@ -60,14 +65,16 @@
     text-align: left;
     margin: 20px 0;
     line-height: 1.1;
-    max-width:509px;
+    max-width: 509px;
+    width: 100%;
     margin-bottom: 150px;
 }
 
 .log-buttons {
     border: 1px solid #AAAAAA;
     border-radius: 15px;
-    width: 509px;
+    width: 100%;
+    max-width: 509px;
     height: 70px;
     background-color: #333333;
     color: #A6A6A6;
@@ -93,7 +100,8 @@
 
 .divider {
     border-bottom: 3px solid #656464;
-    width: 510px;
+    width: 100%;
+    max-width: 510px;
 }
 
 .signup-container {
@@ -263,4 +271,108 @@ select.input-field {
     flex: 1;
     display: flex;
     flex-direction: column;
+}
+
+/* Small Devices - Phones landscape (576px - 767px) */
+@media (max-width: 767px) {
+    .modal-box {
+        width: 95vw;
+        padding: 10px 20px;
+        border-radius: 15px;
+    }
+
+    .tab-buttons {
+        font-size: 24px;
+        gap: 10px;
+    }
+
+    .tab-button {
+        padding: 12px 8px;
+    }
+
+    .login-container h1 {
+        font-size: 48px;
+        margin-bottom: 60px;
+    }
+
+    .signup-container h2 {
+        font-size: 36px;
+    }
+
+    .signup-container h3 {
+        font-size: 16px;
+    }
+
+    .log-buttons {
+        height: 60px;
+        font-size: 16px;
+    }
+
+    .log-buttons img {
+        width: 36px;
+        height: 28px;
+    }
+}
+
+/* Extra Small Devices - Phones portrait (up to 575px) */
+@media (max-width: 575px) {
+    .modal-box {
+        width: 90vw;
+        height: auto;
+        max-height: 85vh;
+        min-height: 500px;
+        padding: 10px 15px;
+        border-radius: 15px;
+    }
+
+    .tab-buttons {
+        font-size: 20px;
+        gap: 8px;
+        margin-bottom: 15px;
+    }
+
+    .tab-button {
+        padding: 10px 6px;
+        font-size: 18px;
+    }
+
+    .login-container h1 {
+        font-size: 36px;
+        margin-bottom: 40px;
+    }
+
+    .signup-container h2 {
+        font-size: 28px;
+    }
+
+    .signup-container h3 {
+        font-size: 15px;
+    }
+
+    .input-field {
+        padding: 10px 12px;
+        font-size: 15px;
+    }
+
+    .log-buttons {
+        height: 55px;
+        font-size: 15px;
+        gap: 10px;
+    }
+
+    .log-buttons img {
+        width: 32px;
+        height: 24px;
+    }
+
+    .next-btn,
+    .back-btn {
+        padding: 12px;
+        font-size: 16px;
+    }
+
+    .button-group {
+        gap: 10px;
+        margin-top: 15px;
+    }
 }
