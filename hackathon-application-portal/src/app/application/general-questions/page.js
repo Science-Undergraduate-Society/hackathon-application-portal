@@ -39,7 +39,11 @@ export default function ApplicationQuestionsPage() {
 
   return (
     <main>
+       <div className="container">
+        <div className="title-container">
       <h1>Application Questions</h1>
+      </div>
+      
 
       {error && <WarningDialog warningMsg={error} duration={4000} />}
 
@@ -93,6 +97,7 @@ export default function ApplicationQuestionsPage() {
           />
         </div>
       </div>
+       </div>
     </main>
   );
 }
