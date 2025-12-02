@@ -20,6 +20,7 @@ import { howDidYouHear } from "@/data/hearAboutUs";
 const initialFormState = {
   firstName: "",
   lastName: "",
+  email: "",
   age: null,
   pronoun: null,
   phoneNumber: "",
@@ -64,7 +65,9 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
 
     try {
       setLoading(true);
-      await signInWithPopup(auth, provider);
+      const result = await signInWithPopup(auth, provider);
+      // Save Google email to form
+      handleInputChange("email", result.user.email);
       setSignUpPage(1); // skip email/password and go to Name/Age/Pronouns
     } catch (err) {
       setError(err.message || "Google sign-in failed");
@@ -80,6 +83,8 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
           setLoading(true);
           const auth = getAuth();
           await createUserWithEmailAndPassword(auth, email, password);
+          // Save email to form after successful signup
+          handleInputChange("email", email);
           setSignUpPage(1);
         } catch (err) {
           setError(err.message || "Email sign-up failed");
