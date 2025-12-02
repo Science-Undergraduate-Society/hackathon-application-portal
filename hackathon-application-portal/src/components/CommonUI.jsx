@@ -14,13 +14,29 @@ const getSize = (dimension) => {
   return dimension;
 };
 
+const getIconClass = (dimension) => {
+  if (typeof dimension === "string") {
+    switch (dimension) {
+      case "sm": return "small-icon";
+      case "md": return "medium-icon";
+      case "lg": return "big-icon";
+      default: return "";
+    }
+  }
+  return "";
+};
+
 export const ForwardBtn = ({ onClickFn, dimension }) => (
   <button
     onClick={onClickFn}
     style={getSize(dimension)}
     className="common-btn"
   >
-    <img src="/btn-icons/forward-arrow.svg" alt="Forward" />
+    <img 
+      src="/btn-icons/forward-arrow.svg" 
+      alt="Forward"
+      className={getIconClass(dimension)}
+    />
   </button>
 );
 
@@ -30,17 +46,26 @@ export const BackwardBtn = ({ onClickFn, dimension }) => (
     style={getSize(dimension)}
     className="common-btn"
   >
-    <img src="/btn-icons/arrow-back.svg" alt="Back" />
+    <img 
+      src="/btn-icons/arrow-back.svg" 
+      alt="Back"
+      className={getIconClass(dimension)}
+    />
   </button>
 );
 
-export const ConfirmBtn = ({ onClickFn, dimension }) => (
+export const ConfirmBtn = ({ onClickFn, dimension, disabled }) => (
   <button
     onClick={onClickFn}
     style={getSize(dimension)}
     className="common-btn"
+    disabled={disabled}
   >
-    <img src="/btn-icons/check.svg" alt="Confir" className="big-icon"/>
+    <img 
+      src="/btn-icons/check.svg" 
+      alt="Confirm"
+      className={getIconClass(dimension)}
+    />
   </button>
 );
 
@@ -50,12 +75,13 @@ export const UploadBtn = ({ onClickFn, dimension }) => (
     style={getSize(dimension)}
     className="common-btn"
   >
-    <img src="/btn-icons/upload.svg" alt="Upload" />
+    <img 
+      src="/btn-icons/upload.svg" 
+      alt="Upload"
+      className={getIconClass(dimension)}
+    />
   </button>
 );
-
-
-
 
 export const DropDown = ({ list = [], onChangeFn, dimension, value }) => (
   <select
@@ -83,4 +109,3 @@ export const CheckBox = ({ label, checked, onChangeFn }) => (
     {label}
   </label>
 );
-

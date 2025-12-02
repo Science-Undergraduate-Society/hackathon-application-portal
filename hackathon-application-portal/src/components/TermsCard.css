@@ -1,19 +1,22 @@
 .terms-container {
     background-color: var(--question-card-bg);
     min-height: 550px;
-    width: 1200px;
+    width: 100%;
+    max-width: 1200px;
     border-radius: 20px;
     padding: 2rem;
     gap: 1rem;
     display: flex;
     flex-direction: column;
     margin-bottom: 3rem;
+    box-sizing: border-box;
 }
 
 .terms-container h3 {
     text-align: left;
     font-size: 2rem;
     color: var(--text-primary);
+    margin: 0;
 }
 
 /* Make the terms box scrollable */
@@ -21,4 +24,115 @@
     max-height: 500px;           
     overflow-y: auto;
     padding: 1rem;
+    border-radius: 12px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
+/* Custom scrollbar styling */
+.terms::-webkit-scrollbar {
+    width: 8px;
+}
+
+.terms::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+.terms::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+}
+
+.terms::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+/* Tablet (1024px and below) */
+@media (max-width: 1024px) {
+    .terms-container {
+        max-width: 900px;
+        min-height: 450px;
+        padding: 1.75rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .terms-container h3 {
+        font-size: 1.75rem;
+    }
+
+    .terms {
+        max-height: 400px;
+        padding: 0.875rem;
+    }
+}
+
+/* Mobile Landscape and Small Tablets (768px and below) */
+@media (max-width: 768px) {
+    .terms-container {
+        min-height: 400px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        border-radius: 16px;
+    }
+
+    .terms-container h3 {
+        font-size: 1.5rem;
+    }
+
+    .terms {
+        max-height: 350px;
+        padding: 0.75rem;
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+}
+
+/* Mobile Portrait (480px and below) */
+@media (max-width: 480px) {
+    .terms-container {
+        min-height: 350px;
+        padding: 1.25rem;
+        margin-bottom: 1.5rem;
+        border-radius: 12px;
+    }
+
+    .terms-container h3 {
+        font-size: 1.25rem;
+    }
+
+    .terms {
+        max-height: 300px;
+        padding: 0.625rem;
+        font-size: 0.875rem;
+        line-height: 1.4;
+        border-radius: 8px;
+    }
+
+    .terms::-webkit-scrollbar {
+        width: 6px;
+    }
+}
+
+/* Extra Small Mobile (360px and below) */
+@media (max-width: 360px) {
+    .terms-container {
+        min-height: 300px;
+        padding: 1rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .terms-container h3 {
+        font-size: 1.1rem;
+    }
+
+    .terms {
+        max-height: 250px;
+        padding: 0.5rem;
+        font-size: 0.8rem;
+    }
+
+    .terms::-webkit-scrollbar {
+        width: 4px;
+    }
 }

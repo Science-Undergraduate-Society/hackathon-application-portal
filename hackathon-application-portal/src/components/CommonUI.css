@@ -94,3 +94,98 @@
 .custom-checkbox a:hover {
   opacity: 0.8;
 }
+
+.small-icon {
+  width: 32px;
+  height: 32px;
+}
+
+.medium-icon {
+  width: 48px;
+  height: 48px;
+}
+
+/* ============================================
+   RESPONSIVE CHECKBOX TEXT + ICON
+   ============================================ */
+
+/* Tablet (1024px and below) */
+@media (max-width: 1024px) {
+  .custom-checkbox {
+    font-size: 24px;
+  }
+
+  .custom-checkbox .checkbox-icon {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+  }
+
+  .custom-checkbox .checkbox-icon::after {
+    width: 9px;
+    height: 18px;
+    border-width: 0 3px 3px 0;
+  }
+}
+
+/* Small Tablets / Mobile Landscape (768px and below) */
+@media (max-width: 768px) {
+  .custom-checkbox {
+    font-size: 20px;
+    gap: 0.75rem;
+  }
+
+  .custom-checkbox .checkbox-icon {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+  }
+
+  .custom-checkbox .checkbox-icon::after {
+    width: 8px;
+    height: 16px;
+    border-width: 0 2.7px 2.7px 0;
+  }
+}
+
+/* Mobile Portrait (480px and below) */
+@media (max-width: 480px) {
+  .custom-checkbox {
+    font-size: 16px;
+    gap: 0.6rem;
+  }
+
+  .custom-checkbox .checkbox-icon {
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    border-width: 1.75px;
+  }
+
+  .custom-checkbox .checkbox-icon::after {
+    width: 7px;
+    height: 14px;
+    border-width: 0 2.5px 2.5px 0;
+  }
+}
+
+/* Extra Small (360px and below) */
+@media (max-width: 360px) {
+  .custom-checkbox {
+    font-size: 14px;
+    gap: 0.5rem;
+  }
+
+  .custom-checkbox .checkbox-icon {
+    width: 26px;
+    height: 26px;
+    min-width: 26px;
+    border-width: 1.5px;
+  }
+
+  .custom-checkbox .checkbox-icon::after {
+    width: 6px;
+    height: 12px;
+    border-width: 0 2px 2px 0;
+  }
+}

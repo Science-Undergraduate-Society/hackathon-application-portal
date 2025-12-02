@@ -1,18 +1,15 @@
-
 .login-container {
   display: flex;
   flex-direction: column;
   gap: 14px;
-
-
-  h1 {
-    font-size: 72px;
-    font-weight: bold;
-    color: white;
-    margin-top: 50px;
-  }
 }
 
+.login-container h1 {
+  font-size: 72px;
+  font-weight: bold;
+  color: white;
+  margin-top: 50px;
+}
 
 .log-buttons {
   display: flex;
@@ -23,15 +20,80 @@
   border: 1px solid rgba(255, 255, 255, 0.5);
   cursor: pointer;
   background: #333333;
-
-
 }
 
-
 .btn-row {
-  display:flex;
+  display: flex;
   flex-direction: row;
   justify-content: space-between;
   margin-top: 16px;
 }
 
+/* Tablets (768px - 991px) */
+@media (max-width: 991px) {
+  .login-container h1 {
+    font-size: 56px;
+    margin-top: 40px;
+  }
+}
+
+/* Small Devices - Phones landscape (576px - 767px) */
+@media (max-width: 767px) {
+  .login-container {
+    gap: 12px;
+  }
+
+  .login-container h1 {
+    font-size: 48px;
+    margin-top: 30px;
+  }
+
+  .log-buttons {
+    padding: 8px;
+    font-size: 16px;
+  }
+
+  .btn-row {
+    margin-top: 12px;
+  }
+}
+
+/* Extra Small Devices - Phones portrait (up to 575px) */
+@media (max-width: 575px) {
+  .login-container {
+    gap: 10px;
+  }
+
+  .login-container h1 {
+    font-size: 36px;
+    margin-top: 20px;
+  }
+
+  .log-buttons {
+    padding: 8px;
+    font-size: 15px;
+  }
+
+  .log-buttons img {
+    width: 32px;
+    height: 24px;
+  }
+
+  .btn-row {
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+  }
+}
+
+/* Very small phones (up to 375px) */
+@media (max-width: 375px) {
+  .login-container h1 {
+    font-size: 32px;
+    margin-top: 15px;
+  }
+
+  .log-buttons {
+    font-size: 14px;
+  }
+}
