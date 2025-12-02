@@ -11,11 +11,13 @@ import { useRouter } from "next/navigation";
 import "./terms-and-conditions.css";
 import useAutoClearError from "@/hooks/useAutoClearError";
 import WarningDialog from "@/components/warningDialog";
+import useIsMobile from "@/hooks/useIsMobile";
 
 export default function TermsAndConditionsPage() {
   const [error, setError] = useAutoClearError();
   const [submitting, setSubmitting] = useState(false);
   const router = useRouter();
+  const isMobile = useIsMobile();
 
   const initialState = {
     emailUpdate: false,
@@ -136,8 +138,8 @@ export default function TermsAndConditionsPage() {
           with MLH, your information will not be shared.
           <CheckBox
             label={
-              <>
-                I have read and agree to the
+              <p>
+                I have read and agree to the {" "}
                 <a
                   href="https://github.com/MLH/mlh-policies/blob/main/code-of-conduct.md"
                   target="_blank"
@@ -145,7 +147,7 @@ export default function TermsAndConditionsPage() {
                 >
                   MLH Code of Conduct.
                 </a>
-              </>
+              </p>
             }
             checked={form.codeOfConductMLH}
             onChangeFn={(value) =>
@@ -200,7 +202,7 @@ export default function TermsAndConditionsPage() {
         <div className="buttons">
           <ConfirmBtn
             onClickFn={nextPage}
-            dimension="lg"
+            dimension={isMobile ? "sm" : "lg"}
             disabled={submitting}
           />
         </div>
