@@ -94,3 +94,13 @@
 .custom-checkbox a:hover {
   opacity: 0.8;
 }
+
+.small-icon {
+  width: 32px;
+  height: 32px;
+}
+
+.medium-icon {
+  width: 48px;
+  height: 48px;
+}
