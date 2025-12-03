@@ -8,29 +8,32 @@
   opacity: 0;
   background-color: var(--question-card-bg);
   min-height: 600px;
-  width: 1200px;
+  width: 100%;
+  max-width: 1200px;
   padding: 2rem;
   border-radius: 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  box-sizing: border-box;
 }
+
 /* Base Sprite Styles - Define common properties */
 .field::before,
 .field::after {
-    content: ''; 
-    position: absolute;
-    background-size: contain;
-    background-repeat: no-repeat;
-    z-index: 10;
-    opacity: 0; /* Start hidden */
-    transition: opacity 0.5s ease; 
+  content: ''; 
+  position: absolute;
+  background-size: contain;
+  background-repeat: no-repeat;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.5s ease; 
 }
 
-/* Visibility (Assuming the animation makes the .field opaque) */
+/* Visibility */
 .field:not([style*="opacity: 0"])::before,
 .field:not([style*="opacity: 0"])::after {
-    opacity: 1;
+  opacity: 1;
 }
 
 /* Stagger animation for multiple fields */
@@ -55,9 +58,7 @@
   }
 }
 
-/* TextAreaField.css */
-
-/* Keep the general styles for inputs/textareas */
+/* General input/textarea/select styles */
 input, textarea, select {
   background: var(--question-card-bg);
   border: 2px solid var(--text-input-border);
@@ -67,13 +68,17 @@ input, textarea, select {
   font-size: 1.5rem;
   transition: all 0.3s ease;
   width: 100%;
+  box-sizing: border-box;
 }
 
-/* Add a specific rule for the textarea within a field */
+/* Textarea specific styling */
 .field textarea {
-    margin-top: 1rem;
-    height: 400px; /* Match the height set for .field input */
-    resize: none; /* Recommended for fixed-height fields */
+  margin-top: 1rem;
+  height: 400px;
+  resize: vertical;
+  min-height: 150px;
+  font-family: inherit;
+  line-height: 1.6;
 }
 
 /* Label Styling */
@@ -88,7 +93,14 @@ input, textarea, select {
   text-align: left;
 }
 
-
+/* Character Count Styling */
+.char-count {
+  text-align: right;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-top: 0.5rem;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+}
 
 /* Input Styling */
 .field input {
@@ -104,33 +116,38 @@ input, textarea, select {
   transition: all 0.3s ease;
   position: relative;
   z-index: 1;
+  box-sizing: border-box;
 }
 
 /* Input Focus State */
-.field input:focus {
-    border: 2px solid white;
-
+.field input:focus,
+.field textarea:focus {
+  border: 2px solid white;
   border-color: white;
   box-shadow: 
     0 0 0 4px rgba(255, 255, 255, 0.1),
     0 0 20px rgba(255, 255, 255, 0.2);
   background: var(--card-bg);
   transform: translateY(-1px);
+  outline: none;
 }
 
 /* Input Hover State */
-.field input:hover {
+.field input:hover,
+.field textarea:hover {
   border-color: white;
 }
 
 /* Placeholder Styling */
-.field input::placeholder {
+.field input::placeholder,
+.field textarea::placeholder {
   color: var(--text-muted);
   opacity: 0.8;
 }
 
 /* Read-only Input Styling */
-.field input[readonly] {
+.field input[readonly],
+.field textarea[readonly] {
   background: var(--primary-bg);
   border-color: var(--text-muted);
   color: var(--text-secondary);
@@ -138,7 +155,9 @@ input, textarea, select {
 }
 
 .field input[readonly]:hover,
-.field input[readonly]:focus {
+.field input[readonly]:focus,
+.field textarea[readonly]:hover,
+.field textarea[readonly]:focus {
   border-color: var(--text-muted);
   background: var(--primary-bg);
   box-shadow: none;
@@ -146,26 +165,10 @@ input, textarea, select {
 }
 
 /* Input Type Specific Styling */
-.field input[type="email"] {
-  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-}
-
-.field input[type="tel"] {
-  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-}
-
+.field input[type="email"],
+.field input[type="tel"],
 .field input[type="number"] {
   font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-}
-
-/* Form Validation Styling */
-.field input:invalid:not(:placeholder-shown) {
-  border-color: #ff6b8a;
-  box-shadow: 0 0 0 4px rgba(255, 107, 138, 0.1);
-}
-
-.field input:valid:not(:placeholder-shown) {
-  border-color: var(--accent-blue);
 }
 
 /* Field Groups for side-by-side inputs */
@@ -176,14 +179,56 @@ input, textarea, select {
   margin-bottom: 2rem;
 }
 
-/* Responsive Design */
+/* Tablet Responsive (1024px and below) */
+@media (max-width: 1024px) {
+  .field {
+    max-width: 900px;
+    min-height: 500px;
+    padding: 1.5rem;
+  }
+
+  .field label {
+    font-size: 1.75rem;
+  }
+
+  .field textarea {
+    height: 350px;
+  }
+
+  .field input {
+    height: 450px;
+  }
+}
+
+/* Mobile Landscape and Small Tablets (768px and below) */
 @media (max-width: 768px) {
   .field {
     margin-bottom: 1.5rem;
+    min-height: 400px;
+    padding: 1.25rem;
+    border-radius: 16px;
+  }
+
+  .field label {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
   }
   
   .field input {
     padding: 0.875rem 1rem;
+    height: 300px;
+    font-size: 1rem;
+  }
+
+  .field textarea {
+    height: 250px;
+    padding: 0.875rem 1rem;
+    font-size: 1rem;
+  }
+
+  .char-count {
+    font-size: 0.85rem;
+    margin-top: 0.4rem;
   }
   
   .field-group {
@@ -192,14 +237,59 @@ input, textarea, select {
   }
 }
 
+/* Mobile Portrait (480px and below) */
 @media (max-width: 480px) {
+  .field {
+    padding: 1rem;
+    min-height: 350px;
+    border-radius: 12px;
+  }
+
   .field label {
-    font-size: 0.9rem;
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
   }
   
   .field input {
     padding: 0.75rem;
     font-size: 0.95rem;
+    height: 200px;
+  }
+
+  .field textarea {
+    height: 180px;
+    padding: 0.75rem;
+    font-size: 0.95rem;
+    min-height: 120px;
+  }
+
+  .char-count {
+    font-size: 0.8rem;
+  }
+
+  input, textarea, select {
+    font-size: 1rem;
+  }
+}
+
+/* Extra Small Mobile (360px and below) */
+@media (max-width: 360px) {
+  .field {
+    padding: 0.875rem;
+    min-height: 300px;
+  }
+
+  .field label {
+    font-size: 1.1rem;
+  }
+
+  .field input {
+    height: 150px;
+  }
+
+  .field textarea {
+    height: 150px;
+    min-height: 100px;
   }
 }
 
@@ -210,18 +300,21 @@ input, textarea, select {
     opacity: 1;
   }
   
-  .field input:focus {
+  .field input:focus,
+  .field textarea:focus {
     transform: none;
   }
 }
 
 /* High Contrast Mode */
 @media (prefers-contrast: high) {
-  .field input {
+  .field input,
+  .field textarea {
     border-width: 3px;
   }
   
-  .field input:focus {
+  .field input:focus,
+  .field textarea:focus {
     border-color: white;
     box-shadow: none;
   }

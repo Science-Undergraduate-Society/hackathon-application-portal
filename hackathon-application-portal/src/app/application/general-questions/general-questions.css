@@ -1,6 +1,4 @@
-/* General Questions Page Specific Styles */
 
-/* Page Container */
 main {
   margin: 0 auto;
   padding: 3rem 2rem;
@@ -223,11 +221,7 @@ main h1 {
   .field textarea {
     border-width: 3px;
   }
-  
-  .field textarea:focus {
-    border-color: var(--accent-blue-light);
-    box-shadow: none;
-  }
+
   
   .field label > div:last-child {
     color: var(--text-primary);
