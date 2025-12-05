@@ -1,7 +1,6 @@
 .modal-box {
     background-color: rgba(40, 40, 40, 0.9); 
     border-radius: 20px;
-    height: 600px;
     width: 550px;
     max-width: 90vw;
     max-height: 85vh;
@@ -123,7 +122,6 @@
 
 .signup-container h3 {
     font-size: 14px;
-    margin-bottom: 5px;
     font-weight: 500;
     text-align: left;
 }
