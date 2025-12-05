@@ -1,16 +1,18 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import { auth } from '../../../lib/firebase';
-import { useRouter } from 'next/navigation';
-import { fetchUserProfile, saveUserProfile } from '../../../services/userService';
-import { appendToSheet } from '../../../lib/sheets';
-import useAutoClearError from '@/hooks/useAutoClearError';
-import useIsMobile from '@/hooks/useIsMobile';
-import WarningDialog from '@/components/warningDialog';
-import LoadingSpinner from '@/components/LoadingSpinner';
-import { ConfirmBtn } from '@/components/CommonUI';
-import './review.css';
+import { useState, useEffect } from "react";
+import { auth } from "../../../lib/firebase";
+import { useRouter } from "next/navigation";
+import {
+  fetchUserProfile,
+  saveUserProfile,
+} from "../../../services/userService";
+import { appendToSheet } from "../../../lib/sheets";
+import useAutoClearError from "@/hooks/useAutoClearError";
+import useIsMobile from "@/hooks/useIsMobile";
+import WarningDialog from "@/components/warningDialog";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import "./review.css";
 
 export default function ReviewPage() {
   const [data, setData] = useState(null);
@@ -24,17 +26,17 @@ export default function ReviewPage() {
     const checkSubmissionStatus = async () => {
       const usr = auth.currentUser;
       if (!usr) {
-        router.push('/');
+        router.push("/");
         return;
       }
 
       const profile = await fetchUserProfile(usr.uid);
-      
+
       if (profile.hasSubmitted) {
-        router.push('/application/thank-you?duplicate=true');
+        router.push("/application/thank-you?duplicate=true");
         return;
       }
-      
+
       setData(profile);
     };
 
@@ -46,12 +48,12 @@ export default function ReviewPage() {
       unsub = onAuthStateChanged(auth, async (usr) => {
         if (!usr) return router.push("/");
         const profile = await fetchUserProfile(usr.uid);
-        
+
         if (profile.hasSubmitted) {
-          router.push('/application/thank-you?duplicate=true');
+          router.push("/application/thank-you?duplicate=true");
           return;
         }
-        
+
         setData(profile);
 
         // Get consents from profile (saved in TC page)
@@ -81,21 +83,21 @@ export default function ReviewPage() {
   if (!data || !consents) return <LoadingSpinner />;
 
   const handleBack = () => {
-    router.push('/application/terms-and-conditions');
+    router.push("/application/terms-and-conditions");
   };
 
   const handleSubmit = async () => {
     setSubmitting(true);
-    console.log("submitting...")
+    console.log("submitting...");
     try {
       const usr = auth.currentUser;
 
-      if (!usr) throw new Error('Not authenticated');
-      
+      if (!usr) throw new Error("Not authenticated");
+
       const freshData = await fetchUserProfile(usr.uid);
 
       if (freshData.hasSubmitted) {
-        router.push('/application/thank-you?duplicate=true');
+        router.push("/application/thank-you?duplicate=true");
         return;
       }
 
@@ -131,14 +133,14 @@ export default function ReviewPage() {
         consents.emailMLH ? "Yes" : "No",
         freshData.hearAbout?.label || freshData.hearAbout,
       ];
-      
+
       await appendToSheet(row);
       await saveUserProfile(usr.uid, { ...freshData, hasSubmitted: true });
 
-      router.push('/application/thank-you');
+      router.push("/application/thank-you");
     } catch (error) {
-      console.error('Error submitting to Google Sheets', error);
-      setError('Failed to submit application. Please try again.');
+      console.error("Error submitting to Google Sheets", error);
+      setError("Failed to submit application. Please try again.");
     } finally {
       setSubmitting(false);
     }
@@ -154,7 +156,7 @@ export default function ReviewPage() {
   return (
     <main>
       {error && <WarningDialog warningMsg={error} duration={4000} />}
-      
+
       <h1>Review Your Application</h1>
 
       <div className="review-container">
@@ -188,17 +190,29 @@ export default function ReviewPage() {
               <h3>Phone</h3>
               <p>{data.phoneNumber}</p>
             </div>
-          </div>
 
-          <div className="review-container-row">
             <div className="review-item-sm">
               <h3>Level of Study</h3>
               <p>{displayValue(data.levelOfStudy)}</p>
             </div>
+          </div>
 
+          <div className="review-container-row">
             <div className="review-item-sm">
               <h3>School</h3>
               <p>{displayValue(data.school)}</p>
+            </div>
+
+            <div className="review-item-sm">
+              <h3>Year</h3>
+              <p>{displayValue(data.year)}</p>
+            </div>
+          </div>
+
+          <div className="review-container-row">
+            <div className="review-item">
+              <h3>Major</h3>
+              <p>{displayValue(data.major)}</p>
             </div>
           </div>
         </section>
@@ -227,36 +241,36 @@ export default function ReviewPage() {
             </div>
           </div>
 
-          <div className="review-container-row">
-            <div className="review-item">
-              <h3>Resume Link</h3>
-              <p>
+          {true && (
+            <div className="review-container-row">
+              <div className="review-item">
                 <a
                   href={data.resumeLink}
                   target="_blank"
                   rel="noopener noreferrer"
+                  className="resume-link"
                 >
-                  Link to your resume
+                  <h3 className="resume-heading">
+                    Resume{" "}
+                    <svg
+                      className="external-icon"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    >
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                      <polyline points="15 3 21 3 21 9" />
+                      <line x1="10" y1="14" x2="21" y2="3" />
+                    </svg>
+                  </h3>
                 </a>
-              </p>
+              </div>
             </div>
-          </div>
-
-          <div className="review-container-row">
-            <div className="review-item">
-              <h3>Waiver Link</h3>
-              <p>
-                <a
-                  href={data.waiverLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Link to your wavier
-                </a>
-              </p>
-            </div>
-
-          </div>
+          )}
+          <span className="divider" />
         </section>
 
         <span className="divider" />
@@ -309,8 +323,14 @@ export default function ReviewPage() {
         <button className="back-button" onClick={handleBack}>
           <span className="arrow-icon">←</span>
         </button>
-        <button className="submit-button" onClick={handleSubmit} dimension={isMobile ? "sm" : "lg"}>
-          <span className="button-text">{submitting ? "Submitting..." : "Submit Application"}</span>
+        <button
+          className="submit-button"
+          onClick={handleSubmit}
+          dimension={isMobile ? "sm" : "lg"}
+        >
+          <span className="button-text">
+            {submitting ? "Submitting..." : "Submit Application"}
+          </span>
         </button>
       </div>
     </main>
