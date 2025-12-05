@@ -157,7 +157,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
         <div className="formfields-container">
           <h2>Create Account</h2>
 
-          <button className="google-btn" onClick={handleGoogleSignup}>
+          <button className="log-buttons" onClick={handleGoogleSignup}>
             <img src="/google.png" alt="Google" />
             Continue with Google
           </button>
@@ -359,7 +359,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
         value={formData.resumeLink || ""}
         onChange={(e) => handleInputChange("resumeLink", e.target.value)}
       />
-      <small style={{ fontSize: '12px', color: '#888', marginTop: '4px' }}>
+      <small style={{ fontSize: '1rem', color: '#888', marginTop: '4px' }}>
         Upload your resume to Google Drive and paste the sharing link here. Make sure the link is set to "Anyone with the link can view".
       </small>
     </div>
