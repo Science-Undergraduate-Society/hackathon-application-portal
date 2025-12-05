@@ -158,10 +158,6 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
       }
     } else if (signUpPage === 2) {
       if (formData.school && formData.levelOfStudy && formData.year && formData.major) {
-        if (formData.resumeLink && !isValidGoogleDriveLink(formData.resumeLink)) {
-          setError("Please provide a valid Google Drive link for the resume");
-          return;
-        }
         setSignUpPage(3);
       } else {
         setError("Please fill in all required fields");
