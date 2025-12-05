@@ -61,6 +61,7 @@ main h1 {
   align-items: start;
   width: 32%;
   margin-bottom: clamp(1rem, 2vw, 2rem);
+  text-align: start;
 }
 
 .review-item {
