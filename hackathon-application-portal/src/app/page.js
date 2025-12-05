@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import Navbar from '@/components/Navbar';
 import SignInModal from '@/components/SignInModal';
 import './LandingPage.css';
 import '../components/Navbar.css';
@@ -12,38 +12,12 @@ export default function LandingPage() {
 
   return (
     <>
-      <nav className="navbar">
-        <div className="navbar-container">
-          <Link href="/" className="navbar-logo">
-            <img src="/logo.png" alt="Hack the Coast Logo" />
-          </Link>
-          
-          <div className="navbar-links">
-            <a 
-              href="https://hackathon.susubc.ca" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="navbar-link"
-            >
-              Hackathon Info
-            </a>
-            <a 
-              href="https://susubc.ca" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="navbar-link"
-            >
-              susubc.ca
-            </a>
-          </div>
-        </div>
-      </nav>
-      
+      <Navbar />
       <div className="landing-container">
         <SignInModal onSuccess={handleSuccess} />
 
-      <div className="landing-content">
-        <img src="/logo.svg" alt="Hack the Coast Logo" className="landing-logo" />
+        <div className="landing-content">
+          <img src="/logo.svg" alt="Hack the Coast Logo" className="landing-logo" />
 
           <h1 className="landing-title">
             {`HACK\nTHE\nCOAST`}
