@@ -25,13 +25,11 @@ const initialFormState = {
   age: null,
   pronoun: null,
   phoneNumber: "",
-  year: "",
   levelOfStudy: null,
   school: null,
   hackathons: "",
   dietaryRestrictions: "",
   hearAbout: null,
-  waiverLink: "",  
   resumeLink: "",  
 };
 
@@ -97,18 +95,13 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
       }
     } else if (signUpPage === 1) {
       // Check if all fields have values (including custom created options)
-      if (formData.firstName && formData.lastName && formData.age && formData.pronoun && formData.waiverLink) {
-        if (formData.waiverLink && !isValidGoogleDriveLink(formData.waiverLink)) {
-        setError("Please provide a valid Google Drive link for the waiver");
-        return;
-      }
-
+      if (formData.firstName && formData.lastName && formData.age && formData.pronoun) {
         setSignUpPage(2);
       } else {
         setError("Please fill in all required fields");
       }
     } else if (signUpPage === 2) {
-      if (formData.year && formData.phoneNumber && formData.levelOfStudy && formData.school) {
+      if (formData.levelOfStudy && formData.phoneNumber && formData.levelOfStudy && formData.school) {
         if (formData.resumeLink && !isValidGoogleDriveLink(formData.resumeLink)) {
         setError("Please provide a valid Google Drive link for the resume");
         return;
@@ -167,7 +160,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
           <div className="divider"></div>
 
           <div className="form-field">
-            <h3>Email*</h3>
+            <h3 className="required">Email</h3>
             <input
               type="email"
               className="input-field"
@@ -177,7 +170,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
           </div>
 
           <div className="form-field">
-            <h3>Password*</h3>
+            <h3 className="required">Password</h3>
             <input
               type="password"
               className="input-field"
@@ -198,7 +191,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
     <h2>Personal Info</h2>
 
     <div className="form-field">
-      <h3>First Name*</h3>
+      <h3 className="required">First Name</h3>
       <input
         className="input-field"
         value={formData.firstName}
@@ -207,7 +200,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
     </div>
 
     <div className="form-field">
-      <h3>Last Name*</h3>
+      <h3 className="required">Last Name</h3>
       <input
         className="input-field"
         value={formData.lastName}
@@ -218,7 +211,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
     {/* Age and Pronouns side by side */}
     <div className="field-group">
       <div className="form-field-half">
-        <h3>Age*</h3>
+        <h3 className="required">Age (as of February 2026)</h3>
         <Select
           options={ages}
           styles={customSelectStyles}
@@ -228,7 +221,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
       </div>
 
       <div className="form-field-half">
-        <h3>Pronouns*</h3>
+        <h3 className="required">Pronouns</h3>
         <Creatable
           options={pronouns}
           styles={customSelectStyles}
@@ -242,41 +235,19 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
       </div>
     </div>
 
-    {/* Waiver Google Drive Link */}
-    <div className="form-field">
-      <h3>Waiver Google Drive Link{isMinor ? ' (with guardian signature)*' : '*'}</h3>
-      <input
-        className="input-field"
-        type="url"
-        placeholder="https://drive.google.com/file/d/..."
-        value={formData.waiverLink || ""}
-        onChange={(e) => handleInputChange("waiverLink", e.target.value)}
-      />
-      <small style={{ fontSize: '1rem', color: '#888', marginTop: '4px' }}>
-        Upload your waiver to Google Drive and paste the sharing link here. Make sure the link is set to "Anyone with the link can view".
-      </small>
-    </div>
-
-    {isMinor && (
-      <p className="minor-notice">
-        ⚠️ As you are under 18, please ensure your guardian has signed the waiver.
-      </p>
-    )}
-
     <div className="button-group">
       <ForwardBtn onClickFn={handleNextPage} dimension="sm" />
-      <BackwardBtn onClickFn={handlePreviousPage} dimension="sm" />
     </div>
   </div>
 )}
 
-      {/* ---------------- Page 2: Phone, Year, Level, School ---------------- */}
+      {/* ---------------- Page 2: Phone, Level, School ---------------- */}
       {signUpPage === 2 && (
         <div className="formfields-container">
           <h2>Profile Details</h2>
 
           <div className="form-field">
-            <h3>Phone Number*</h3>
+            <h3 className="required">Phone Number</h3>
             <input
               className="input-field"
               value={formData.phoneNumber}
@@ -285,16 +256,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
           </div>
 
           <div className="form-field">
-            <h3>Year*</h3>
-            <input
-              className="input-field"
-              value={formData.year}
-              onChange={(e) => handleInputChange("year", e.target.value)}
-            />
-          </div>
-
-          <div className="form-field">
-            <h3>Level Of Study*</h3>
+            <h3 className="required">Level Of Study</h3>
             <Select
               options={levelsOfStudy}
               styles={customSelectStyles}
@@ -306,7 +268,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
           </div>
 
           <div className="form-field">
-            <h3>School*</h3>
+            <h3 className="required">School</h3>
             <Select
               options={schools}
               styles={customSelectStyles}
@@ -330,7 +292,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
     <h2>Additional Info</h2>
 
     <div className="form-field">
-      <h3>How many hackathons have you attended in the past?*</h3>
+      <h3 className="required">How many hackathons have you attended in the past?</h3>
       <input
         className="input-field"
         value={formData.hackathons}
@@ -339,7 +301,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
     </div>
 
     <div className="form-field">
-      <h3>Do you have any dietary restrictions?*</h3>
+      <h3 className="required">Do you have any dietary restrictions? (If none write N/A)</h3>
       <input
         className="input-field"
         value={formData.dietaryRestrictions}
@@ -370,7 +332,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
         value={formData.resumeLink || ""}
         onChange={(e) => handleInputChange("resumeLink", e.target.value)}
       />
-      <small style={{ fontSize: '12px', color: '#888', marginTop: '4px' }}>
+      <small style={{ fontSize: '1rem', color: '#888', marginTop: '4px' }}>
         Upload your resume to Google Drive and paste the sharing link here. Make sure the link is set to "Anyone with the link can view".
       </small>
     </div>

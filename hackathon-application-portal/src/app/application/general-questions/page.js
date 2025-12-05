@@ -7,6 +7,7 @@ import { ConfirmBtn } from "@/components/CommonUI";
 import useAutoClearError from "@/hooks/useAutoClearError";
 import WarningDialog from "@/components/warningDialog";
 import useIsMobile from "@/hooks/useIsMobile";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 export default function ApplicationQuestionsPage() {
   const [error, setError] = useAutoClearError();
@@ -35,7 +36,7 @@ export default function ApplicationQuestionsPage() {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <LoadingSpinner />;
 
   return (
     <main>
@@ -75,7 +76,7 @@ export default function ApplicationQuestionsPage() {
         />
 
         <TextAreaField
-          label="What is your favourite body of water? Why? (e.g. pond/ocean/bathtub)*"
+          label="What is your favourite body of water? Why? (e.g. pond/ocean/bathtub)"
           value={form.question4}
           required
           maxLength={300}

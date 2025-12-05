@@ -12,7 +12,8 @@ export default function ThankYouPage() {
 
       <h1>Thank you for applying!</h1>
       <p>We have received your application.</p>
-      <img className='logo' src="/logo.png" alt="Hack the Coast Logo"/>
+
+      <img src="/logo.svg" alt="Hack the Coast Logo" className='logo' />
 
       <div className='message-container'>
         {isDuplicate ? (
