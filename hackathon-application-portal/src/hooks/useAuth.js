@@ -40,9 +40,9 @@ export default function useAuth(initialFormState) {
   const getFirstIncompletePage = (profile) => {
     if (!profile) return 1;
     const requiredFieldsByPage = {
-      1: ['firstName', 'lastName', 'age', 'pronoun'],
-      2: ['phoneNumber', 'levelOfStudy', 'school'],
-      3: ['hackathons']
+      1: ['firstName', 'lastName', 'age', 'pronoun', 'phoneNumber'],
+      2: ['year', 'levelOfStudy', 'school', 'major'],
+      3: ['hackathons', 'dietaryRestrictions']
     };
     for (const [page, fields] of Object.entries(requiredFieldsByPage)) {
       const incomplete = fields.some(field => !profile[field] || (typeof profile[field] === 'string' && profile[field].trim() === ''));
@@ -86,7 +86,6 @@ export default function useAuth(initialFormState) {
   const handlePostSignIn = async (user) => {
     try {
       const profile = await fetchUserProfile(user.uid);
-      console.log('User profile:', profile);
       
       if (profile?.hasSubmitted) {
         router.push("/application/thank-you?duplicate=true");
