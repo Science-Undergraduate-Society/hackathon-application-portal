@@ -30,7 +30,7 @@ export default function TermsAndConditionsPage() {
 
   const { form, handleChange, loading, handleBack } = useProfileForm(
     initialState,
-    "/application/thank-you",
+    "/application/review",
     "/application/hacker-extra",
   );
 
@@ -89,7 +89,7 @@ export default function TermsAndConditionsPage() {
 
       await appendToSheet(row);
 
-      router.push("/application/thank-you");
+      router.push("/application/review");
     } catch (error) {
       console.error("Error submitting to Google Sheets", error);
       setError("Failed to submit application. Please try again.");
