@@ -5,8 +5,16 @@ main {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+  width: 100%;
   padding: 4rem 2rem;
   text-align: center;
+}
+
+.top{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Main Title */
@@ -80,18 +88,75 @@ main p {
 
 .message-container {
   background-color: var(--question-card-bg);
-  max-width: 1255px;
+  max-width: 1000px;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 20px;
-  font-size: 2rem;
+  font-size: 1.2rem;
   padding: 1rem 2rem;
   margin-top: 3rem;
   animation: cardSlideIn 0.8s ease-out forwards;
   animation-delay: 1s;
   opacity: 0;
+}
+
+/* Button Container */
+.button-container {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  animation: cardSlideIn 0.8s ease-out forwards;
+  animation-delay: 1.2s;
+  opacity: 0;
+}
+
+.nav-button {
+  width: 168px;
+  padding: 20px;
+  border: 2px solid;
+  border-radius: 17px;
+  font-size: clamp(0.85rem, 1.5vw, 1rem);
+  font-weight: normal;
+  line-height: 1;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  opacity: 1;
+}
+
+.nav-button a {
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  height: 100%;
+  color: inherit;
+}
+
+.primary-button {
+  background: #833872;
+  color: #FFDEB1;
+  border-color: #833872;
+  border: none;
+}
+
+.primary-button:hover {
+  background: #9A4587;
+  transform: scale(1.1);
+  box-shadow: 0 12px 40px rgba(131, 56, 114, 0.7);
+}
+
+.secondary-button {
+  background: #FFDEB1;
+  color: #9A4587;
+  border: none;
+}
+
+.secondary-button:hover {
+  background: #FFDEB1;
+  transform: scale(1.1);
+  box-shadow: 0 12px 40px rgba(100, 87, 69, 0.8);
 }
 
 /* Responsive Design */
@@ -111,7 +176,7 @@ main p {
   }
 
   .message-container {
-    font-size: 1.5rem;
+    font-size: 1rem;
     padding: 1rem 1.5rem;
   }
 }
@@ -133,6 +198,15 @@ main p {
     font-size: 1.2rem;
     padding: 0.75rem 1rem;
   }
+
+  .button-container {
+    gap: 1rem;
+  }
+
+  .nav-button {
+    width: 110px;
+    padding: 8px;
+  }
 }
 
 /* Accessibility */
@@ -140,9 +214,14 @@ main p {
   .logo,
   main h1,
   main p,
-  .message-container {
+  .message-container,
+  .button-container {
     animation: none;
     opacity: 1;
+    transform: none;
+  }
+
+  .nav-button:hover {
     transform: none;
   }
 }
