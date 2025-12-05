@@ -86,18 +86,27 @@ export default function useAuth(initialFormState) {
   const handlePostSignIn = async (user) => {
     try {
       const profile = await fetchUserProfile(user.uid);
-      console.log(profile)
-      const page = getFirstIncompletePage(profile);
-      console.log(" found first incomple page")
-      console.log(page)
-      if (page !== null) {
-        setSignUpPage(page);
+      console.log('User profile:', profile);
+      
+      if (profile?.hasSubmitted) {
+        router.push("/application/thank-you?duplicate=true");
+        closeModal();
+        return;
+      }
+      
+      const incompletePage = getFirstIncompletePage(profile);
+      
+      if (incompletePage !== null) {
+        setSignUpPage(incompletePage);
         openModal();
       } else {
-        router.push('/application/thank-you');
+        // let user restart from beginning
+        setSignUpPage(1);
+        openModal();
       }
+      
     } catch (err) {
-      console.error(err);
+      console.error('Error in handlePostSignIn:', err);
       setSignUpPage(1);
       openModal();
     }
