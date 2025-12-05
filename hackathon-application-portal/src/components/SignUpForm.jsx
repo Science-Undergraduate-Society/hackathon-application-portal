@@ -11,6 +11,7 @@ import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWith
 import Select from "react-select";
 import Creatable from "react-select/creatable";
 import { ages } from "@/data/ages";
+import { countries } from "@/data/countries";
 import { levelsOfStudy } from "@/data/levelOfStudy";
 import { majors } from "@/data/majors";
 import { years } from "@/data/years";
@@ -27,6 +28,7 @@ const initialFormState = {
   email: "",
   age: null,
   pronoun: null,
+  country: null,
   phoneNumber: "",
   school: null,
   levelOfStudy: null,
@@ -151,7 +153,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
       }
     } else if (signUpPage === 1) {
       // Check if all fields have values (including custom created options)
-      if (formData.firstName && formData.lastName && formData.age && formData.pronoun && formData.phoneNumber) {
+      if (formData.firstName && formData.lastName && formData.age && formData.pronoun && formData.country && formData.phoneNumber) {
         setSignUpPage(2);
       } else {
         setError("Please fill in all required fields");
@@ -296,27 +298,30 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
         </div>
       )}
 
-      {/* ---------------- Page 1: Name, Age, Pronouns, Phone ---------------- */}
+      {/* ---------------- Page 1: Name, Age, Pronouns, Country, Phone ---------------- */}
       {signUpPage === 1 && (
         <div className="formfields-container">
           <h2>Personal Info</h2>
 
-          <div className="form-field">
-            <h3 className="required">First Name</h3>
-            <input
-              className="input-field"
-              value={formData.firstName}
-              onChange={(e) => handleInputChange("firstName", e.target.value)}
-            />
-          </div>
+          {/* First Name and Last Name side by side */}
+          <div className="field-group">
+            <div className="form-field-half">
+              <h3 className="required">First Name</h3>
+              <input
+                className="input-field"
+                value={formData.firstName}
+                onChange={(e) => handleInputChange("firstName", e.target.value)}
+              />
+            </div>
 
-          <div className="form-field">
-            <h3 className="required">Last Name</h3>
-            <input
-              className="input-field"
-              value={formData.lastName}
-              onChange={(e) => handleInputChange("lastName", e.target.value)}
-            />
+            <div className="form-field-half">
+              <h3 className="required">Last Name</h3>
+              <input
+                className="input-field"
+                value={formData.lastName}
+                onChange={(e) => handleInputChange("lastName", e.target.value)}
+              />
+            </div>
           </div>
 
           {/* Age and Pronouns side by side */}
@@ -346,6 +351,19 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
                 isClearable
               />
             </div>
+          </div>
+
+          <div className="form-field">
+            <h3 className="required">Country of Residence</h3>
+            <Select
+              options={countries}
+              styles={customSelectStyles}
+              menuPortalTarget={document.body}
+              value={formData.country}
+              onChange={(selectedOption) =>
+                handleInputChange("country", selectedOption)
+              }
+            />
           </div>
 
           <div className="form-field">
@@ -445,7 +463,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
           </div>
 
           <div className="form-field">
-            <h3 className="required">Do you have any dietary restrictions? (If none write N/A)</h3>
+            <h3 className="required">What dietary restrictions do you have? (If none write N/A)</h3>
             <input
               className="input-field"
               value={formData.dietaryRestrictions}

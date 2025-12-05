@@ -114,6 +114,7 @@ export default function ReviewPage() {
         toStr(freshData.firstName),
         toStr(freshData.lastName),
         toStr(email),
+        toStr(freshData.country),
         toStr(freshData.phoneNumber),
         toStr(freshData.age),
         toStr(freshData.pronoun),
@@ -196,13 +197,13 @@ export default function ReviewPage() {
             </div>
 
             <div className="review-item-sm">
-              <h3>Phone</h3>
-              <p>{data.phoneNumber}</p>
+              <h3>Country of Residence</h3>
+              <p>{displayValue(data.country)}</p>
             </div>
 
             <div className="review-item-sm">
-              <h3>Level of Study</h3>
-              <p>{displayValue(data.levelOfStudy)}</p>
+              <h3>Phone</h3>
+              <p>{data.phoneNumber}</p>
             </div>
           </div>
 
@@ -210,6 +211,11 @@ export default function ReviewPage() {
             <div className="review-item-sm">
               <h3>School</h3>
               <p>{displayValue(data.school)}</p>
+            </div>
+
+            <div className="review-item-sm">
+              <h3>Level of Study</h3>
+              <p>{displayValue(data.levelOfStudy)}</p>
             </div>
 
             <div className="review-item-sm">

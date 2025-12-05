@@ -1,4 +1,5 @@
 export const schools = [
+  { value: "the-university-of-british-columbia", label: "The University of British Columbia" },
   { value: "acadia-university", label: "Acadia University" },
   { value: "algonquin-college", label: "Algonquin College" },
   { value: "ambrose-university", label: "Ambrose University" },
@@ -73,7 +74,6 @@ export const schools = [
   { value: "st-thomas-university", label: "St. Thomas University" },
   { value: "the-art-institute-of-vancouver", label: "The Art Institute of Vancouver" },
   { value: "the-king-s-university", label: "The King's University" },
-  { value: "the-university-of-british-columbia", label: "The University of British Columbia" },
   { value: "the-university-of-winnipeg", label: "The University of Winnipeg" },
   { value: "thompson-rivers-university", label: "Thompson Rivers University" },
   { value: "toronto-metropolitan-university", label: "Toronto Metropolitan University" },
