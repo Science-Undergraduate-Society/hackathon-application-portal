@@ -95,13 +95,13 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
       }
     } else if (signUpPage === 1) {
       // Check if all fields have values (including custom created options)
-      if (formData.firstName && formData.lastName && formData.age && formData.pronoun) {
+      if (formData.firstName && formData.lastName && formData.age && formData.pronoun && formData.phoneNumber) {
         setSignUpPage(2);
       } else {
         setError("Please fill in all required fields");
       }
     } else if (signUpPage === 2) {
-      if (formData.levelOfStudy && formData.phoneNumber && formData.levelOfStudy && formData.school) {
+      if (formData.levelOfStudy && formData.levelOfStudy && formData.school) {
         if (formData.resumeLink && !isValidGoogleDriveLink(formData.resumeLink)) {
           setError("Please provide a valid Google Drive link for the resume");
           return;
@@ -185,7 +185,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
         </div>
       )}
 
-      {/* ---------------- Page 1: Name, Age, Pronouns ---------------- */}
+      {/* ---------------- Page 1: Name, Age, Pronouns, Phone ---------------- */}
       {signUpPage === 1 && (
         <div className="formfields-container">
           <h2>Personal Info</h2>
@@ -235,25 +235,26 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
             </div>
           </div>
 
+          <div className="form-field">
+            <h3 className="required">Phone Number</h3>
+            <input
+              className="input-field"
+              value={formData.phoneNumber}
+              placeholder="000-000-0000"
+              onChange={(e) => handleInputChange("phoneNumber", e.target.value)}
+            />
+          </div>
+
           <div className="button-group">
             <ForwardBtn onClickFn={handleNextPage} dimension="sm" />
           </div>
         </div>
       )}
 
-      {/* ---------------- Page 2: Phone, Level, School ---------------- */}
+      {/* ---------------- Page 2: Level, School ---------------- */}
       {signUpPage === 2 && (
         <div className="formfields-container">
           <h2>Profile Details</h2>
-
-          <div className="form-field">
-            <h3 className="required">Phone Number</h3>
-            <input
-              className="input-field"
-              value={formData.phoneNumber}
-              onChange={(e) => handleInputChange("phoneNumber", e.target.value)}
-            />
-          </div>
 
           <div className="form-field">
             <h3 className="required">Level Of Study</h3>
