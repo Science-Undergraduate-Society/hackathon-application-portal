@@ -30,7 +30,7 @@ const initialFormState = {
   hackathons: "",
   dietaryRestrictions: "",
   hearAbout: null,
-  resumeLink: "",  
+  resumeLink: "",
 };
 
 export function SignUpForm({ onSuccess, initialPage = 0 }) {
@@ -103,9 +103,9 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
     } else if (signUpPage === 2) {
       if (formData.levelOfStudy && formData.phoneNumber && formData.levelOfStudy && formData.school) {
         if (formData.resumeLink && !isValidGoogleDriveLink(formData.resumeLink)) {
-        setError("Please provide a valid Google Drive link for the resume");
-        return;
-      }
+          setError("Please provide a valid Google Drive link for the resume");
+          return;
+        }
 
         setSignUpPage(3);
       } else {
@@ -126,8 +126,8 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
   };
 
   const isValidGoogleDriveLink = (url) => {
-  return url.includes('drive.google.com') || url.includes('docs.google.com');
-};
+    return url.includes('drive.google.com') || url.includes('docs.google.com');
+  };
 
   const handlePreviousPage = () => {
     if (signUpPage > 0) setSignUpPage((prev) => prev - 1);
@@ -138,7 +138,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
       setError("Please fill in all required fields");
       return;
     }
-    
+
     await saveForm();
     router.push("/application/general-questions");
   };
@@ -185,61 +185,61 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
         </div>
       )}
 
-     {/* ---------------- Page 1: Name, Age, Pronouns ---------------- */}
-{signUpPage === 1 && (
-  <div className="formfields-container">
-    <h2>Personal Info</h2>
+      {/* ---------------- Page 1: Name, Age, Pronouns ---------------- */}
+      {signUpPage === 1 && (
+        <div className="formfields-container">
+          <h2>Personal Info</h2>
 
-    <div className="form-field">
-      <h3 className="required">First Name</h3>
-      <input
-        className="input-field"
-        value={formData.firstName}
-        onChange={(e) => handleInputChange("firstName", e.target.value)}
-      />
-    </div>
+          <div className="form-field">
+            <h3 className="required">First Name</h3>
+            <input
+              className="input-field"
+              value={formData.firstName}
+              onChange={(e) => handleInputChange("firstName", e.target.value)}
+            />
+          </div>
 
-    <div className="form-field">
-      <h3 className="required">Last Name</h3>
-      <input
-        className="input-field"
-        value={formData.lastName}
-        onChange={(e) => handleInputChange("lastName", e.target.value)}
-      />
-    </div>
+          <div className="form-field">
+            <h3 className="required">Last Name</h3>
+            <input
+              className="input-field"
+              value={formData.lastName}
+              onChange={(e) => handleInputChange("lastName", e.target.value)}
+            />
+          </div>
 
-    {/* Age and Pronouns side by side */}
-    <div className="field-group">
-      <div className="form-field-half">
-        <h3 className="required">Age (as of February 2026)</h3>
-        <Select
-          options={ages}
-          styles={customSelectStyles}
-          value={formData.age}
-          onChange={handleAgeChange}
-        />
-      </div>
+          {/* Age and Pronouns side by side */}
+          <div className="field-group">
+            <div className="form-field-half">
+              <h3 className="required">Age (as of February 2026)</h3>
+              <Select
+                options={ages}
+                styles={customSelectStyles}
+                value={formData.age}
+                onChange={handleAgeChange}
+              />
+            </div>
 
-      <div className="form-field-half">
-        <h3 className="required">Pronouns</h3>
-        <Creatable
-          options={pronouns}
-          styles={customSelectStyles}
-          formatCreateLabel={(inputValue) => `Other: ${inputValue}`}
-          value={formData.pronoun}
-          onChange={(selectedOption) =>
-            handleInputChange("pronoun", selectedOption)
-          }
-          isClearable
-        />
-      </div>
-    </div>
+            <div className="form-field-half">
+              <h3 className="required">Pronouns</h3>
+              <Creatable
+                options={pronouns}
+                styles={customSelectStyles}
+                formatCreateLabel={(inputValue) => `Other: ${inputValue}`}
+                value={formData.pronoun}
+                onChange={(selectedOption) =>
+                  handleInputChange("pronoun", selectedOption)
+                }
+                isClearable
+              />
+            </div>
+          </div>
 
-    <div className="button-group">
-      <ForwardBtn onClickFn={handleNextPage} dimension="sm" />
-    </div>
-  </div>
-)}
+          <div className="button-group">
+            <ForwardBtn onClickFn={handleNextPage} dimension="sm" />
+          </div>
+        </div>
+      )}
 
       {/* ---------------- Page 2: Phone, Level, School ---------------- */}
       {signUpPage === 2 && (
@@ -286,63 +286,63 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
         </div>
       )}
 
-     {/* ---------------- Page 3: Hackathons, Dietary, Resume ---------------- */}
-{signUpPage === 3 && (
-  <div className="formfields-container">
-    <h2>Additional Info</h2>
+      {/* ---------------- Page 3: Hackathons, Dietary, Resume ---------------- */}
+      {signUpPage === 3 && (
+        <div className="formfields-container">
+          <h2>Additional Info</h2>
 
-    <div className="form-field">
-      <h3 className="required">How many hackathons have you attended in the past?</h3>
-      <input
-        className="input-field"
-        value={formData.hackathons}
-        onChange={(e) => handleInputChange("hackathons", e.target.value)}
-      />
-    </div>
+          <div className="form-field">
+            <h3 className="required">How many hackathons have you attended in the past?</h3>
+            <input
+              className="input-field"
+              value={formData.hackathons}
+              onChange={(e) => handleInputChange("hackathons", e.target.value)}
+            />
+          </div>
 
-    <div className="form-field">
-      <h3 className="required">Do you have any dietary restrictions? (If none write N/A)</h3>
-      <input
-        className="input-field"
-        value={formData.dietaryRestrictions}
-        onChange={(e) =>
-          handleInputChange("dietaryRestrictions", e.target.value)
-        }
-      />
-    </div>
+          <div className="form-field">
+            <h3 className="required">Do you have any dietary restrictions? (If none write N/A)</h3>
+            <input
+              className="input-field"
+              value={formData.dietaryRestrictions}
+              onChange={(e) =>
+                handleInputChange("dietaryRestrictions", e.target.value)
+              }
+            />
+          </div>
 
-    <div className="form-field">
-      <h3>Where did you hear about us?</h3>
-      <Select
-        options={howDidYouHear}
-        styles={customSelectStyles}
-        value={formData.hearAbout}
-        onChange={(selectedOption) =>
-          handleInputChange("hearAbout", selectedOption)
-        }
-      />
-    </div>
+          <div className="form-field">
+            <h3>Where did you hear about us?</h3>
+            <Select
+              options={howDidYouHear}
+              styles={customSelectStyles}
+              value={formData.hearAbout}
+              onChange={(selectedOption) =>
+                handleInputChange("hearAbout", selectedOption)
+              }
+            />
+          </div>
 
-    <div className="form-field">
-      <h3>Resume Google Drive Link</h3>
-      <input
-        className="input-field"
-        type="url"
-        placeholder="https://drive.google.com/file/d/..."
-        value={formData.resumeLink || ""}
-        onChange={(e) => handleInputChange("resumeLink", e.target.value)}
-      />
-      <small style={{ fontSize: '1rem', color: '#888', marginTop: '4px' }}>
-        Upload your resume to Google Drive and paste the sharing link here. Make sure the link is set to "Anyone with the link can view".
-      </small>
-    </div>
+          <div className="form-field">
+            <h3>Resume Google Drive Link</h3>
+            <input
+              className="input-field"
+              type="url"
+              placeholder="https://drive.google.com/file/d/..."
+              value={formData.resumeLink || ""}
+              onChange={(e) => handleInputChange("resumeLink", e.target.value)}
+            />
+            <small style={{ fontSize: '1rem', color: '#888', marginTop: '4px' }}>
+              Upload your resume to Google Drive and paste the sharing link here. Make sure the link is set to "Anyone with the link can view".
+            </small>
+          </div>
 
-    <div className="button-group">
-      <ForwardBtn onClickFn={handleSubmit} dimension="sm" />
-      <BackwardBtn onClickFn={handlePreviousPage} dimension="sm" />
-    </div>
-  </div>
-)}
+          <div className="button-group">
+            <ForwardBtn onClickFn={handleSubmit} dimension="sm" />
+            <BackwardBtn onClickFn={handlePreviousPage} dimension="sm" />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
