@@ -405,7 +405,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
               <UploadBtn 
                 onClickFn={() => document.getElementById('resume-upload').click()}
-                dimension="sm"
+                dimension="md"
               />
               {resumeFile && (
                 <span className="uploaded-file">

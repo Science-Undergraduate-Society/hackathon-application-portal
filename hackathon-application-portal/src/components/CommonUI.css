@@ -100,10 +100,19 @@
   height: 32px;
 }
 
-.medium-icon {
-  width: 48px;
-  height: 48px;
+.upload-icon {
+  width: 28px;
+  height: 28px;
 }
+
+.upload-text {
+  margin-left: 4px;
+  font-weight: 500;
+  font-size: 1rem;
+
+}
+
+
 
 /* ============================================
    RESPONSIVE CHECKBOX TEXT + ICON

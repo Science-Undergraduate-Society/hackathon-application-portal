@@ -6,7 +6,7 @@ const getSize = (dimension) => {
   if (typeof dimension === "string") {
     switch (dimension) {
       case "sm": return { width: 80, height: 40 };
-      case "md": return { width: 60, height: 60 };
+      case "md": return { width: 120, height: 40 };
       case "lg": return { width: 230, height: 80 };
       default: return {};
     }
@@ -80,6 +80,8 @@ export const UploadBtn = ({ onClickFn, dimension }) => (
       alt="Upload"
       className={getIconClass(dimension)}
     />
+    <div className="upload-text">Upload</div>
+    
   </button>
 );
 
