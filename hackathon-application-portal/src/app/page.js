@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import SignInModal from '@/components/SignInModal';
 import './LandingPage.css';
 import '../components/Navbar.css';
@@ -13,9 +14,9 @@ export default function LandingPage() {
     <>
       <nav className="navbar">
         <div className="navbar-container">
-          <a href="/" className="navbar-logo">
+          <Link href="/" className="navbar-logo">
             <img src="/logo.png" alt="Hack the Coast Logo" />
-          </a>
+          </Link>
           
           <div className="navbar-links">
             <a 
@@ -42,7 +43,7 @@ export default function LandingPage() {
         <SignInModal onSuccess={handleSuccess} />
 
         <div className="landing-content">
-          <img src="/logo.png" className="landing-logo" />
+          <img src="/logo.png" alt="Hack the Coast Logo" className="landing-logo" />
 
           <h1 className="landing-title">
             {`HACK\nTHE\nCOAST`}
