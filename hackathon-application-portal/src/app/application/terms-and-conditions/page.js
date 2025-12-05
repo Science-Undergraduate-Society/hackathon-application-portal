@@ -10,6 +10,7 @@ import "./terms-and-conditions.css";
 import useAutoClearError from "@/hooks/useAutoClearError";
 import WarningDialog from "@/components/warningDialog";
 import useIsMobile from "@/hooks/useIsMobile";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 export default function TermsAndConditionsPage() {
   const [error, setError] = useAutoClearError();
@@ -125,7 +126,7 @@ export default function TermsAndConditionsPage() {
 
   const ubcGuidelinesLink = "https://students.ubc.ca/campus-life/student-code-conduct"
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <LoadingSpinner />;
 
   const nextPage = async () => {
     if (!form.emailUpdate || !form.codeOfConductUBC || !form.codeOfConductMLH || !form.infoShareMLH) {
