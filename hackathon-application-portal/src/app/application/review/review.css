@@ -1,8 +1,7 @@
-
 main {
   max-width: 1000px;
   margin: 0 auto;
-  padding: 3rem 2rem;
+  padding: clamp(1.5rem, 4vw, 3rem) clamp(1rem, 3vw, 2rem);
   min-height: 100vh;
   box-sizing: border-box;
 }
@@ -21,16 +20,15 @@ main h1 {
   align-self: start;
 }
 
-
 .review-container {
   background-color: var(--question-card-bg);
   width: 100%;
-  border-radius: 20px;
-  padding: 2rem 3rem;
+  border-radius: clamp(12px, 2vw, 20px);
+  padding: clamp(1.5rem, 3vw, 3rem) clamp(1rem, 3vw, 3rem);
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  margin-bottom: 3rem;
+  gap: clamp(1rem, 2vw, 2rem);
+  margin-bottom: clamp(1.5rem, 3vw, 3rem);
   box-sizing: border-box;
 }
 
@@ -48,12 +46,12 @@ main h1 {
   line-height: 1.4;
 }
 
-
 .review-container-row {
   display: flex;
   flex-direction: row;
-  gap: 2%;
+  gap: clamp(1rem, 2%, 2%);
   width: 100%;
+  margin-bottom: clamp(1rem, 2vw, 2rem);
 }
 
 .review-item-sm {
@@ -62,19 +60,63 @@ main h1 {
   justify-content: start;
   align-items: start;
   width: 32%;
+  margin-bottom: clamp(1rem, 2vw, 2rem);
 }
 
 .review-item {
   display: flex;
   flex-direction: column;
   max-width: 100%;
-    align-items: start;
-
+  align-items: start;
   flex: 1;
 }
 
 .full-width {
   width: 100%;
+}
+
+.divider {
+  border-bottom: 1px solid var(--title-color);
+  width: 75%;
+  opacity: 0.4;
+  margin: 0 auto clamp(1rem, 2vw, 2rem) auto;
+}
+
+/* Resume Link Styling */
+.resume-link {
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+  display: inline-block;
+}
+
+.resume-link:hover {
+  opacity: 0.7;
+}
+
+.resume-heading {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  font-size: clamp(1.1rem, 1.2vw + 1rem, 1.5rem);
+  color: var(--title-color);
+  cursor: pointer;
+}
+
+.external-icon {
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.resume-link:hover .external-icon {
+  transform: translate(2px, -2px);
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+  .review-item-sm {
+    width: 48%;
+  }
 }
 
 @media (max-width: 768px) {
@@ -89,15 +131,28 @@ main h1 {
     justify-content: start;
     align-items: start;
   }
+
+  .review-container {
+    padding: 1.5rem 1rem;
+  }
 }
 
-.divider {
-  border-bottom: 1px solid var(--title-color);
-  width: 75%;
-  opacity: 0.4;
-  margin: 1.5rem auto;
+@media (max-width: 480px) {
+  .review-container {
+    padding: 1rem 0.75rem;
+    border-radius: 12px;
+  }
+  
+  main h1 {
+    margin-bottom: 1.5rem;
+  }
+
+  .divider {
+    width: 90%;
+  }
 }
 
+/* Button Container */
 .btn-container {
   width: 100%;
   display: flex;
