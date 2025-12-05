@@ -15,7 +15,7 @@ export default function LandingPage() {
       <SignInModal onSuccess={handleSuccess} />
 
       <div className="landing-content">
-        <img src="/logo.png" className="landing-logo" />
+        <img src="/logo.svg" className="landing-logo" />
 
         <h1 className="landing-title">
           {`HACK\nTHE\nCOAST`}
