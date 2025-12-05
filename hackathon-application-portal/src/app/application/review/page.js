@@ -80,6 +80,10 @@ export default function ReviewPage() {
 
   if (!data || !consents) return <LoadingSpinner />;
 
+  const handleBack = () => {
+    router.push('/application/terms-and-conditions');
+  };
+
   const handleSubmit = async () => {
     setSubmitting(true);
     console.log("submitting...")
@@ -302,8 +306,11 @@ export default function ReviewPage() {
       </div>
 
       <div className="btn-container">
+        <button className="back-button" onClick={handleBack}>
+          <span className="arrow-icon">←</span>
+        </button>
         <button className="submit-button" onClick={handleSubmit} dimension={isMobile ? "sm" : "lg"}>
-          {submitting ? "Submitting..." : "Submit Application"}
+          <span className="button-text">{submitting ? "Submitting..." : "Submit Application"}</span>
         </button>
       </div>
     </main>
