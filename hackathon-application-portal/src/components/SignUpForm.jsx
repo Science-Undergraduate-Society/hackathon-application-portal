@@ -165,7 +165,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
           <div className="divider"></div>
 
           <div className="form-field">
-            <h3>Email*</h3>
+            <h3 className="required">Email</h3>
             <input
               type="email"
               className="input-field"
@@ -175,7 +175,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
           </div>
 
           <div className="form-field">
-            <h3>Password*</h3>
+            <h3 className="required">Password</h3>
             <input
               type="password"
               className="input-field"
@@ -196,7 +196,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
     <h2>Personal Info</h2>
 
     <div className="form-field">
-      <h3>First Name*</h3>
+      <h3 className="required">First Name</h3>
       <input
         className="input-field"
         value={formData.firstName}
@@ -205,7 +205,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
     </div>
 
     <div className="form-field">
-      <h3>Last Name*</h3>
+      <h3 className="required">Last Name</h3>
       <input
         className="input-field"
         value={formData.lastName}
@@ -216,7 +216,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
     {/* Age and Pronouns side by side */}
     <div className="field-group">
       <div className="form-field-half">
-        <h3>Age*</h3>
+        <h3 className="required">Age</h3>
         <Select
           options={ages}
           styles={customSelectStyles}
@@ -226,7 +226,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
       </div>
 
       <div className="form-field-half">
-        <h3>Pronouns*</h3>
+        <h3 className="required">Pronouns</h3>
         <Creatable
           options={pronouns}
           styles={customSelectStyles}
@@ -242,7 +242,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
 
     {/* Waiver Google Drive Link */}
     <div className="form-field">
-      <h3>Waiver Google Drive Link{isMinor ? ' (with guardian signature)*' : '*'}</h3>
+      <h3 className="required">Waiver Google Drive Link{isMinor ? ' (with guardian signature)' : ''}</h3>
       <input
         className="input-field"
         type="url"
@@ -274,7 +274,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
           <h2>Profile Details</h2>
 
           <div className="form-field">
-            <h3>Phone Number*</h3>
+            <h3 className="required">Phone Number</h3>
             <input
               className="input-field"
               value={formData.phoneNumber}
@@ -283,7 +283,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
           </div>
 
           <div className="form-field">
-            <h3>Level Of Study*</h3>
+            <h3 className="required">Level Of Study</h3>
             <Select
               options={levelsOfStudy}
               styles={customSelectStyles}
@@ -295,7 +295,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
           </div>
 
           <div className="form-field">
-            <h3>School*</h3>
+            <h3 className="required">School</h3>
             <Select
               options={schools}
               styles={customSelectStyles}
@@ -319,7 +319,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
     <h2>Additional Info</h2>
 
     <div className="form-field">
-      <h3>How many hackathons have you attended in the past?*</h3>
+      <h3 className="required">How many hackathons have you attended in the past?</h3>
       <input
         className="input-field"
         value={formData.hackathons}
@@ -328,7 +328,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
     </div>
 
     <div className="form-field">
-      <h3>Do you have any dietary restrictions?*</h3>
+      <h3 className="required">Do you have any dietary restrictions?</h3>
       <input
         className="input-field"
         value={formData.dietaryRestrictions}

@@ -113,15 +113,17 @@ export default function TermsAndConditionsPage() {
 
         <div className="checkbox-container">
           <CheckBox
-            label="I agree to receiving email updates from the UBC Science Undergraduate Society.*"
+            label="I agree to receiving email updates from the UBC Science Undergraduate Society."
             checked={form.emailUpdate}
+            required
             onChangeFn={(value) =>
               handleChange("emailUpdate")({ target: { value } })
             }
           />
           <CheckBox
-            label="I agree to UBC code of conduct guidelines.*"
+            label="I agree to UBC code of conduct guidelines."
             checked={form.codeOfConductUBC}
+            required
             onChangeFn={(value) =>
               handleChange("codeOfConductUBC")({ target: { value } })
             }
