@@ -8,7 +8,7 @@
     gap: 1rem;
     display: flex;
     flex-direction: column;
-    margin-bottom: 3rem;
+    margin-bottom: 10rem;
     box-sizing: border-box;
 }
 
@@ -26,6 +26,19 @@
     padding: 1rem;
     border-radius: 12px;
     line-height: 1.6;
+    color: var(--text-secondary);
+    text-align: left;
+}
+
+/* Styling for lists inside terms */
+.terms ul {
+    margin: 0.5rem 0;
+    padding-left: 1.5rem;
+    list-style-type: disc;
+}
+
+.terms li {
+    margin: 0.25rem 0;
     color: var(--text-secondary);
 }
 
