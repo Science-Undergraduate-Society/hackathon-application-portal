@@ -467,7 +467,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
           </div>
 
           <div className="form-field">
-            <h3 className="required">Do you have any dietary restrictions? (If none write N/A)</h3>
+            <h3 className="required">What dietary restrictions do you have? (If none write N/A)</h3>
             <input
               className="input-field"
               value={formData.dietaryRestrictions}
