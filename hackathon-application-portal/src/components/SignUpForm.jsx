@@ -27,10 +27,10 @@ const initialFormState = {
   age: null,
   pronoun: null,
   phoneNumber: "",
+  school: null,
   levelOfStudy: null,
   major: null,
-  year: "",
-  school: null,
+  year: null,
   hackathons: "",
   dietaryRestrictions: "",
   hearAbout: null,
@@ -105,7 +105,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
         setError("Please fill in all required fields");
       }
     } else if (signUpPage === 2) {
-      if (formData.levelOfStudy && formData.year && formData.major && formData.school) {
+      if (formData.school && formData.levelOfStudy && formData.year && formData.major) {
         if (formData.resumeLink && !isValidGoogleDriveLink(formData.resumeLink)) {
           setError("Please provide a valid Google Drive link for the resume");
           return;
@@ -255,10 +255,22 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
         </div>
       )}
 
-      {/* ---------------- Page 2: Level, Major, Year, School ---------------- */}
+      {/* ---------------- Page 2: School, Level, Major, Year ---------------- */}
       {signUpPage === 2 && (
         <div className="formfields-container">
           <h2>Profile Details</h2>
+
+          <div className="form-field">
+            <h3 className="required">School</h3>
+            <Select
+              options={schools}
+              styles={customSelectStyles}
+              value={formData.school}
+              onChange={(selectedOption) =>
+                handleInputChange("school", selectedOption)
+              }
+            />
+          </div>
 
           <div className="form-field">
             <h3 className="required">Level Of Study</h3>
@@ -292,18 +304,6 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
               value={formData.year}
               onChange={(selectedOption) =>
                 handleInputChange("year", selectedOption)
-              }
-            />
-          </div>
-
-          <div className="form-field">
-            <h3 className="required">School</h3>
-            <Select
-              options={schools}
-              styles={customSelectStyles}
-              value={formData.school}
-              onChange={(selectedOption) =>
-                handleInputChange("school", selectedOption)
               }
             />
           </div>
