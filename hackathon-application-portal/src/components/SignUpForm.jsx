@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import "./SignUpForm.css";
-import { BackwardBtn, ForwardBtn } from "./CommonUI";
+import { BackwardBtn, ForwardBtn, UploadBtn } from "./CommonUI";
 import WarningDialog from "./warningDialog";
 import useAutoClearError from "@/hooks/useAutoClearError";
 import useSignupForm from "@/hooks/useSignUpForm";
@@ -17,6 +17,7 @@ import { schools } from "@/data/schools";
 import { customSelectStyles } from "@/styles/selectStyles";
 import { howDidYouHear } from "@/data/hearAboutUs";
 import { getFirebaseErrorMessage } from "@/util/firebaseErrorHandler";
+import { uploadFile } from "@/services/fileUploadService"; // Add this import
 
 const initialFormState = {
   firstName: "",
@@ -39,6 +40,8 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isMinor, setIsMinor] = useState(false);
+  const [resumeFile, setResumeFile] = useState(null);
+  const [uploadingResume, setUploadingResume] = useState(false);
 
   const {
     form: formData,
@@ -65,13 +68,47 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
     try {
       setLoading(true);
       const result = await signInWithPopup(auth, provider);
-      // Save Google email to form
       handleInputChange("email", result.user.email);
-      setSignUpPage(1); // skip email/password and go to Name/Age/Pronouns
+      setSignUpPage(1);
     } catch (err) {
       setError(getFirebaseErrorMessage(err));
     } finally {
       setLoading(false);
+    }
+  };
+
+  // ---------------- File Upload Handler ----------------
+  const formatFileSize = (bytes) => {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + ' ' + sizes[i];
+  };
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // Check file size (5MB limit)
+      if (file.size > 5 * 1024 * 1024) {
+        setError("File size exceeds 5MB limit");
+        return;
+      }
+      
+      // Check file type
+      const allowedTypes = [
+        'application/pdf', 
+        'application/msword', 
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+      ];
+      if (!allowedTypes.includes(file.type)) {
+        setError("Please upload a PDF or Word document");
+        return;
+      }
+      
+      setResumeFile(file);
+      // Clear the Google Drive link if a file is uploaded
+      handleInputChange("resumeLink", "");
     }
   };
 
@@ -82,7 +119,6 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
           setLoading(true);
           const auth = getAuth();
           await createUserWithEmailAndPassword(auth, email, password);
-          // Save email to form after successful signup
           handleInputChange("email", email);
           setSignUpPage(1);
         } catch (err) {
@@ -94,19 +130,17 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
         setError("Please enter email and password");
       }
     } else if (signUpPage === 1) {
-      // Check if all fields have values (including custom created options)
       if (formData.firstName && formData.lastName && formData.age && formData.pronoun) {
         setSignUpPage(2);
       } else {
         setError("Please fill in all required fields");
       }
     } else if (signUpPage === 2) {
-      if (formData.levelOfStudy && formData.phoneNumber && formData.levelOfStudy && formData.school) {
+      if (formData.phoneNumber && formData.levelOfStudy && formData.school) {
         if (formData.resumeLink && !isValidGoogleDriveLink(formData.resumeLink)) {
-        setError("Please provide a valid Google Drive link for the resume");
-        return;
-      }
-
+          setError("Please provide a valid Google Drive link for the resume");
+          return;
+        }
         setSignUpPage(3);
       } else {
         setError("Please fill in all required fields");
@@ -115,8 +149,6 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
   };
 
   const handleAgeChange = (selectedOption) => {
-    console.log(selectedOption);
-    // Check if age value indicates minor (adjust based on your ages data structure)
     if (selectedOption?.value === "lt-18") {
       setIsMinor(true);
     } else {
@@ -126,21 +158,52 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
   };
 
   const isValidGoogleDriveLink = (url) => {
-  return url.includes('drive.google.com') || url.includes('docs.google.com');
-};
+    return url.includes('drive.google.com') || url.includes('docs.google.com');
+  };
 
   const handlePreviousPage = () => {
     if (signUpPage > 0) setSignUpPage((prev) => prev - 1);
   };
 
   const handleSubmit = async () => {
-    if (!formData.hackathons) {
+    // Validate required fields
+    if (!formData.hackathons || !formData.dietaryRestrictions) {
       setError("Please fill in all required fields");
       return;
     }
-    
-    await saveForm();
-    router.push("/application/general-questions");
+
+    try {
+      setLoading(true);
+
+      // Upload resume file if one was selected
+      if (resumeFile) {
+        setUploadingResume(true);
+        const auth = getAuth();
+        const userId = auth.currentUser?.uid;
+        
+        if (!userId) {
+          setError("User not authenticated");
+          return;
+        }
+
+        const resumeUrl = await uploadFile(resumeFile, userId, 'resume');
+        handleInputChange("resumeLink", resumeUrl);
+        
+        // Save form with the uploaded resume URL
+        await saveForm();
+      } else {
+        // Save form with Google Drive link or no resume
+        await saveForm();
+      }
+
+      router.push("/application/general-questions");
+    } catch (err) {
+      setError("Failed to upload resume. Please try again.");
+      console.error("Resume upload error:", err);
+    } finally {
+      setLoading(false);
+      setUploadingResume(false);
+    }
   };
 
   return (
@@ -152,7 +215,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
         <div className="formfields-container">
           <h2>Create Account</h2>
 
-          <button className="log-buttons" onClick={handleGoogleSignup}>
+          <button className="log-buttons" onClick={handleGoogleSignup} disabled={loading}>
             <img src="/google.png" alt="Google" />
             Continue with Google
           </button>
@@ -166,6 +229,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
               className="input-field"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              disabled={loading}
             />
           </div>
 
@@ -176,6 +240,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
               className="input-field"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              disabled={loading}
             />
           </div>
 
@@ -185,61 +250,60 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
         </div>
       )}
 
-     {/* ---------------- Page 1: Name, Age, Pronouns ---------------- */}
-{signUpPage === 1 && (
-  <div className="formfields-container">
-    <h2>Personal Info</h2>
+      {/* ---------------- Page 1: Name, Age, Pronouns ---------------- */}
+      {signUpPage === 1 && (
+        <div className="formfields-container">
+          <h2>Personal Info</h2>
 
-    <div className="form-field">
-      <h3 className="required">First Name</h3>
-      <input
-        className="input-field"
-        value={formData.firstName}
-        onChange={(e) => handleInputChange("firstName", e.target.value)}
-      />
-    </div>
+          <div className="form-field">
+            <h3 className="required">First Name</h3>
+            <input
+              className="input-field"
+              value={formData.firstName}
+              onChange={(e) => handleInputChange("firstName", e.target.value)}
+            />
+          </div>
 
-    <div className="form-field">
-      <h3 className="required">Last Name</h3>
-      <input
-        className="input-field"
-        value={formData.lastName}
-        onChange={(e) => handleInputChange("lastName", e.target.value)}
-      />
-    </div>
+          <div className="form-field">
+            <h3 className="required">Last Name</h3>
+            <input
+              className="input-field"
+              value={formData.lastName}
+              onChange={(e) => handleInputChange("lastName", e.target.value)}
+            />
+          </div>
 
-    {/* Age and Pronouns side by side */}
-    <div className="field-group">
-      <div className="form-field-half">
-        <h3 className="required">Age (as of February 2026)</h3>
-        <Select
-          options={ages}
-          styles={customSelectStyles}
-          value={formData.age}
-          onChange={handleAgeChange}
-        />
-      </div>
+          <div className="field-group">
+            <div className="form-field-half">
+              <h3 className="required">Age (as of February 2026)</h3>
+              <Select
+                options={ages}
+                styles={customSelectStyles}
+                value={formData.age}
+                onChange={handleAgeChange}
+              />
+            </div>
 
-      <div className="form-field-half">
-        <h3 className="required">Pronouns</h3>
-        <Creatable
-          options={pronouns}
-          styles={customSelectStyles}
-          formatCreateLabel={(inputValue) => `Other: ${inputValue}`}
-          value={formData.pronoun}
-          onChange={(selectedOption) =>
-            handleInputChange("pronoun", selectedOption)
-          }
-          isClearable
-        />
-      </div>
-    </div>
+            <div className="form-field-half">
+              <h3 className="required">Pronouns</h3>
+              <Creatable
+                options={pronouns}
+                styles={customSelectStyles}
+                formatCreateLabel={(inputValue) => `Other: ${inputValue}`}
+                value={formData.pronoun}
+                onChange={(selectedOption) =>
+                  handleInputChange("pronoun", selectedOption)
+                }
+                isClearable
+              />
+            </div>
+          </div>
 
-    <div className="button-group">
-      <ForwardBtn onClickFn={handleNextPage} dimension="sm" />
-    </div>
-  </div>
-)}
+          <div className="button-group">
+            <ForwardBtn onClickFn={handleNextPage} dimension="sm" />
+          </div>
+        </div>
+      )}
 
       {/* ---------------- Page 2: Phone, Level, School ---------------- */}
       {signUpPage === 2 && (
@@ -286,63 +350,98 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
         </div>
       )}
 
-     {/* ---------------- Page 3: Hackathons, Dietary, Resume ---------------- */}
-{signUpPage === 3 && (
-  <div className="formfields-container">
-    <h2>Additional Info</h2>
+      {/* ---------------- Page 3: Hackathons, Dietary, Resume ---------------- */}
+      {signUpPage === 3 && (
+        <div className="formfields-container">
+          <h2>Additional Info</h2>
 
-    <div className="form-field">
-      <h3 className="required">How many hackathons have you attended in the past?</h3>
-      <input
-        className="input-field"
-        value={formData.hackathons}
-        onChange={(e) => handleInputChange("hackathons", e.target.value)}
-      />
-    </div>
+          <div className="form-field">
+            <h3 className="required">How many hackathons have you attended in the past?</h3>
+            <input
+              className="input-field"
+              type="number"
+              min="0"
+              value={formData.hackathons}
+              onChange={(e) => handleInputChange("hackathons", e.target.value)}
+            />
+          </div>
 
-    <div className="form-field">
-      <h3 className="required">Do you have any dietary restrictions? (If none write N/A)</h3>
-      <input
-        className="input-field"
-        value={formData.dietaryRestrictions}
-        onChange={(e) =>
-          handleInputChange("dietaryRestrictions", e.target.value)
-        }
-      />
-    </div>
+          <div className="form-field">
+            <h3 className="required">Do you have any dietary restrictions? (If none write N/A)</h3>
+            <input
+              className="input-field"
+              value={formData.dietaryRestrictions}
+              onChange={(e) =>
+                handleInputChange("dietaryRestrictions", e.target.value)
+              }
+            />
+          </div>
 
-    <div className="form-field">
-      <h3>Where did you hear about us?</h3>
-      <Select
-        options={howDidYouHear}
-        styles={customSelectStyles}
-        value={formData.hearAbout}
-        onChange={(selectedOption) =>
-          handleInputChange("hearAbout", selectedOption)
-        }
-      />
-    </div>
+          <div className="form-field">
+            <h3>Where did you hear about us?</h3>
+            <Select
+              options={howDidYouHear}
+              styles={customSelectStyles}
+              value={formData.hearAbout}
+              onChange={(selectedOption) =>
+                handleInputChange("hearAbout", selectedOption)
+              }
+            />
+          </div>
 
-    <div className="form-field">
-      <h3>Resume Google Drive Link</h3>
-      <input
-        className="input-field"
-        type="url"
-        placeholder="https://drive.google.com/file/d/..."
-        value={formData.resumeLink || ""}
-        onChange={(e) => handleInputChange("resumeLink", e.target.value)}
-      />
-      <small style={{ fontSize: '1rem', color: '#888', marginTop: '4px' }}>
-        Upload your resume to Google Drive and paste the sharing link here. Make sure the link is set to "Anyone with the link can view".
-      </small>
-    </div>
+          <div className="form-field">
+            <h3>Upload your resume </h3>
+            
+            <input
+              type="file"
+              id="resume-upload"
+              accept=".pdf,.doc,.docx"
+              style={{ display: 'none' }}
+              onChange={handleFileUpload}
+              disabled={uploadingResume}
+            />
+            
+            {/* Upload button triggers file input */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+              <UploadBtn 
+                onClickFn={() => document.getElementById('resume-upload').click()}
+                dimension="sm"
+              />
+              {resumeFile && (
+                <span className="uploaded-file">
+                   {resumeFile.name}
+                </span>
+              )}
+              {uploadingResume && (
+                <span style={{ fontSize: '0.9rem', color: '#2196F3' }}>
+                  Uploading...
+                </span>
+              )}
+            </div>
+            
+            <small style={{ fontSize: '0.85rem', color: '#888', display: 'block', marginBottom: '15px' }}>
+              File size limit of 5 MB. Accepted formats: PDF, DOC, DOCX
+            </small>
+          </div>
 
-    <div className="button-group">
-      <ForwardBtn onClickFn={handleSubmit} dimension="sm" />
-      <BackwardBtn onClickFn={handlePreviousPage} dimension="sm" />
-    </div>
-  </div>
-)}
+          <div className="button-group">
+            <ForwardBtn 
+              onClickFn={handleSubmit} 
+              dimension="sm"
+            />
+            <BackwardBtn 
+              onClickFn={handlePreviousPage} 
+              dimension="sm"
+            />
+          </div>
+          
+          {(loading || uploadingResume) && (
+            <p style={{ textAlign: 'center', color: '#2196F3', marginTop: '10px' }}>
+              {uploadingResume ? 'Uploading resume...' : 'Processing...'}
+            </p>
+          )}
+        </div>
+      )}
     </div>
   );
 }

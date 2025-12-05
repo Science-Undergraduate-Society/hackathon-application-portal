@@ -63,6 +63,13 @@
   margin-top: 4px;
 }
 
+.uploaded-file {
+  font-size: 0.9rem;
+  color: var(--title-color);
+  text-decoration-line: underline;
+
+}
+
 /* Tablets (768px - 991px) */
 @media (max-width: 991px) {
   .signup-container h2 {
