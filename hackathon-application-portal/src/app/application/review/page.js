@@ -118,7 +118,6 @@ export default function ReviewPage() {
         freshData.dietaryRestrictions,
 
         freshData.resumeLink,
-        freshData.waiverLink,
 
         freshData.question1,
         freshData.question2,
