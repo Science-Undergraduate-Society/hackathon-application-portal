@@ -15,7 +15,7 @@ export default function LandingPage() {
       <nav className="navbar">
         <div className="navbar-container">
           <Link href="/" className="navbar-logo">
-            <img src="/logo.png" alt="Hack the Coast Logo" />
+            <img src="/logo.svg" alt="Hack the Coast Logo" />
           </Link>
           
           <div className="navbar-links">
