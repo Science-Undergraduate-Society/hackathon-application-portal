@@ -40,7 +40,7 @@ export default function TermsAndConditionsPage() {
   if (loading) return <div>Loading...</div>;
 
   const nextPage = async () => {
-    if (!form.emailUpdate || !form.codeOfConductUBC) {
+    if (!form.emailUpdate || !form.codeOfConductUBC || !form.codeOfConductMLH || !form.infoShareMLH) {
       setError("Please check required boxes to proceed.");
       return;
     }
@@ -73,15 +73,17 @@ export default function TermsAndConditionsPage() {
 
         <div className="checkbox-container">
           <CheckBox
-            label="I agree to receiving email updates from the UBC Science Undergraduate Society.*"
+            label="I agree to receiving email updates from the UBC Science Undergraduate Society."
             checked={form.emailUpdate}
+            required
             onChangeFn={(value) =>
               handleChange("emailUpdate")({ target: { value } })
             }
           />
           <CheckBox
-            label="I agree to UBC code of conduct guidelines.*"
+            label="I agree to UBC code of conduct guidelines."
             checked={form.codeOfConductUBC}
+            required
             onChangeFn={(value) =>
               handleChange("codeOfConductUBC")({ target: { value } })
             }
@@ -98,25 +100,27 @@ export default function TermsAndConditionsPage() {
           with MLH, your information will not be shared.
           <CheckBox
             label={
-              <>
-                I have read and agree to the{" "}
+              <span>
+                I have read and agree to the {" "}
                 <a
                   href="https://github.com/MLH/mlh-policies/blob/main/code-of-conduct.md"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  MLH Code of Conduct.
+                  MLH Code of Conduct
                 </a>
-              </>
+                .
+              </span>
             }
             checked={form.codeOfConductMLH}
+            required
             onChangeFn={(value) =>
               handleChange("codeOfConductMLH")({ target: { value } })
             }
           />
           <CheckBox
             label={
-              <>
+              <span>
                 I authorize you to share my application/registration information
                 with Major League Hacking for event administration, ranking, and
                 MLH administration in-line with the{" "}
@@ -134,18 +138,20 @@ export default function TermsAndConditionsPage() {
                   rel="noopener noreferrer"
                 >
                   MLH Contest Terms and Conditions
-                </a>{" "}
-                and the{" "}
+                </a>
+                {" "}and the{" "}
                 <a
                   href="https://github.com/MLH/mlh-policies/blob/main/privacy-policy.md"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  MLH Privacy Policy.
+                  MLH Privacy Policy
                 </a>
-              </>
+                .
+              </span>
             }
             checked={form.infoShareMLH}
+            required
             onChangeFn={(value) =>
               handleChange("infoShareMLH")({ target: { value } })
             }

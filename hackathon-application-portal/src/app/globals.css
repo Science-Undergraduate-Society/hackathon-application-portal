@@ -228,6 +228,11 @@ input::placeholder, textarea::placeholder {
   color: var(--text-muted);
 }
 
+.required::after {
+  content: "*";
+  color: red;
+}
+
 /* Card Styles */
 .card {
   background: var(--card-bg);
