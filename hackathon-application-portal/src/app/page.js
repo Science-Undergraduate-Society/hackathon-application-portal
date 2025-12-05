@@ -50,7 +50,7 @@ export default function LandingPage() {
           </h1>
 
           <h2 className="landing-subtitle">
-            {` Presented by the\nScience\nUndergraduate Society`}
+            {` Presented by the\nScience Undergraduate Society`}
           </h2>
         </div>
       </div>

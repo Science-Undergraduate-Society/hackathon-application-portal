@@ -7,6 +7,7 @@ import { ConfirmBtn } from "@/components/CommonUI";
 import useAutoClearError from "@/hooks/useAutoClearError";
 import WarningDialog from "@/components/warningDialog";
 import useIsMobile from "@/hooks/useIsMobile";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 export default function ApplicationQuestionsPage() {
   const [error, setError] = useAutoClearError();
@@ -35,7 +36,7 @@ export default function ApplicationQuestionsPage() {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <LoadingSpinner />;
 
   return (
     <main>
