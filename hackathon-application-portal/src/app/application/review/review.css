@@ -17,7 +17,6 @@ main h1 {
   text-align: left;
   margin-bottom: clamp(1.5rem, 2vw + 1rem, 4rem);
   color: var(--title-color);
-  align-self: start;
 }
 
 .review-container {
