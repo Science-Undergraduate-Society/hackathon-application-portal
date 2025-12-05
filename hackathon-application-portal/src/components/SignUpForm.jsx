@@ -330,6 +330,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
               <Select
                 options={ages}
                 styles={customSelectStyles}
+                menuPortalTarget={document.body}
                 value={formData.age}
                 onChange={handleAgeChange}
               />
@@ -341,6 +342,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
                 options={pronouns}
                 styles={customSelectStyles}
                 formatCreateLabel={(inputValue) => `Other: ${inputValue}`}
+                menuPortalTarget={document.body}
                 value={formData.pronoun}
                 onChange={(selectedOption) =>
                   handleInputChange("pronoun", selectedOption)
@@ -376,6 +378,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
             <Select
               options={schools}
               styles={customSelectStyles}
+              menuPortalTarget={document.body}
               value={formData.school}
               onChange={(selectedOption) =>
                 handleInputChange("school", selectedOption)
@@ -388,6 +391,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
             <Select
               options={levelsOfStudy}
               styles={customSelectStyles}
+              menuPortalTarget={document.body}
               value={formData.levelOfStudy}
               onChange={(selectedOption) =>
                 handleInputChange("levelOfStudy", selectedOption)
@@ -400,6 +404,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
             <Select
               options={majors}
               styles={customSelectStyles}
+              menuPortalTarget={document.body}
               value={formData.major}
               onChange={(selectedOption) =>
                 handleInputChange("major", selectedOption)
@@ -412,6 +417,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
             <Select
               options={years}
               styles={customSelectStyles}
+              menuPortalTarget={document.body}
               value={formData.year}
               onChange={(selectedOption) =>
                 handleInputChange("year", selectedOption)
@@ -458,6 +464,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
             <Select
               options={howDidYouHear}
               styles={customSelectStyles}
+              menuPortalTarget={document.body}
               value={formData.hearAbout}
               onChange={(selectedOption) =>
                 handleInputChange("hearAbout", selectedOption)
