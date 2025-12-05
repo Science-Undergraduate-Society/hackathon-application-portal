@@ -112,7 +112,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
         return;
       }
 
-      const resumeUrl = await uploadFile(file, userId, 'resume'); // ✅ Fixed: use 'file' not 'resumeFile'
+      const resumeUrl = await uploadFile(file, userId, 'resume'); 
       console.log(resumeUrl);
       handleInputChange("resumeLink", resumeUrl);
       setResumeFile(file); // Now set the state for display purposes
@@ -182,17 +182,21 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
       return;
     }
 
+    if (uploadingResume) {
+      setError("Please wait for resume upload to complete");
+      return;
+    }
+
     try {
       setLoading(true);
 
       await saveForm();
       router.push("/application/general-questions");
     } catch (err) {
-      setError("Failed to upload resume. Please try again.");
-      console.error("Resume upload error:", err);
+      setError("Failed to save form. Please try again.");
+      console.error("Form submission error:", err);
     } finally {
       setLoading(false);
-      setUploadingResume(false);
     }
   };
 
