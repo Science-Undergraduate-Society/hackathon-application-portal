@@ -111,7 +111,8 @@ export default function ReviewPage() {
 
         freshData.school?.label || freshData.school,
         freshData.levelOfStudy?.label || freshData.levelOfStudy,
-        freshData.year,
+        freshData.major?.label || freshData.major,
+        freshData.year?.label || freshData.year,
 
         freshData.hackathons,
         freshData.dietaryRestrictions,
