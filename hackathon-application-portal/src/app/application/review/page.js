@@ -1,28 +1,57 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { auth } from "../../../lib/firebase";
-import { useRouter } from "next/navigation";
-import { fetchUserProfile } from "../../../services/userService";
-import { appendToSheet } from "../../../lib/sheets";
-import "./review.css";
-import { ConfirmBtn } from "@/components/CommonUI";
-import useIsMobile from "@/hooks/useIsMobile";
-import LoadingSpinner from "@/components/LoadingSpinner";
+import { useState, useEffect } from 'react';
+import { auth } from '../../../lib/firebase';
+import { useRouter } from 'next/navigation';
+import { fetchUserProfile, saveUserProfile } from '../../../services/userService';
+import { appendToSheet } from '../../../lib/sheets';
+import useAutoClearError from '@/hooks/useAutoClearError';
+import useIsMobile from '@/hooks/useIsMobile';
+import WarningDialog from '@/components/warningDialog';
+import LoadingSpinner from '@/components/LoadingSpinner';
+import { ConfirmBtn } from '@/components/CommonUI';
+import './review.css';
 
 export default function ReviewPage() {
   const [data, setData] = useState(null);
   const [consents, setConsents] = useState(null);
   const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useAutoClearError();
   const router = useRouter();
   const isMobile = useIsMobile();
 
   useEffect(() => {
+    const checkSubmissionStatus = async () => {
+      const usr = auth.currentUser;
+      if (!usr) {
+        router.push('/');
+        return;
+      }
+
+      const profile = await fetchUserProfile(usr.uid);
+      
+      if (profile.hasSubmitted) {
+        router.push('/application/thank-you?duplicate=true');
+        return;
+      }
+      
+      setData(profile);
+    };
+
+    checkSubmissionStatus();
+
+    // Also listen for auth changes
     let unsub;
     import("firebase/auth").then(({ onAuthStateChanged }) => {
       unsub = onAuthStateChanged(auth, async (usr) => {
         if (!usr) return router.push("/");
         const profile = await fetchUserProfile(usr.uid);
+        
+        if (profile.hasSubmitted) {
+          router.push('/application/thank-you?duplicate=true');
+          return;
+        }
+        
         setData(profile);
 
         // Get consents from profile (saved in TC page)
@@ -56,9 +85,15 @@ export default function ReviewPage() {
     console.log("submitting...")
     try {
       const usr = auth.currentUser;
-      if (!usr) throw new Error("Not authenticated");
 
+      if (!usr) throw new Error('Not authenticated');
+      
       const freshData = await fetchUserProfile(usr.uid);
+
+      if (freshData.hasSubmitted) {
+        router.push('/application/thank-you?duplicate=true');
+        return;
+      }
 
       const row = [
         freshData.firstName,
@@ -92,12 +127,14 @@ export default function ReviewPage() {
         consents.emailMLH ? "Yes" : "No",
         freshData.hearAbout?.label || freshData.hearAbout,
       ];
-
+      
       await appendToSheet(row);
-      router.push("/application/thank-you");
+      await saveUserProfile(usr.uid, { ...freshData, hasSubmitted: true });
+
+      router.push('/application/thank-you');
     } catch (error) {
-      console.error("Error submitting to Google Sheets", error);
-      alert("Failed to submit application. Please try again.");
+      console.error('Error submitting to Google Sheets', error);
+      setError('Failed to submit application. Please try again.');
     } finally {
       setSubmitting(false);
     }
@@ -112,6 +149,8 @@ export default function ReviewPage() {
 
   return (
     <main>
+      {error && <WarningDialog warningMsg={error} duration={4000} />}
+      
       <h1>Review Your Application</h1>
 
       <div className="review-container">
@@ -263,7 +302,7 @@ export default function ReviewPage() {
       </div>
 
       <div className="btn-container">
-        <button className="submit-button" onClickFn={handleSubmit} dimension={isMobile ? "sm" : "lg"}>
+        <button className="submit-button" onClick={handleSubmit} dimension={isMobile ? "sm" : "lg"}>
           {submitting ? "Submitting..." : "Submit Application"}
         </button>
       </div>
