@@ -107,11 +107,13 @@ export default function ReviewPage() {
         if (typeof val === "object" && val.value) return String(val.value);
         return String(val);
       };
+      
+      const email = freshData.email || usr.email;
 
       const row = [
         toStr(freshData.firstName),
         toStr(freshData.lastName),
-        toStr(freshData.email),
+        toStr(email),
         toStr(freshData.phoneNumber),
         toStr(freshData.age),
         toStr(freshData.pronoun),
