@@ -13,7 +13,6 @@ const initialFormState = {
   age: null,
   pronoun: null,
   phoneNumber: "",
-  year: "",
   levelOfStudy: null,
   school: null,
   hackathons: "",

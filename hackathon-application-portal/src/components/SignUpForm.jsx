@@ -24,7 +24,6 @@ const initialFormState = {
   age: null,
   pronoun: null,
   phoneNumber: "",
-  year: "",
   levelOfStudy: null,
   school: null,
   hackathons: "",
@@ -107,7 +106,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
         setError("Please fill in all required fields");
       }
     } else if (signUpPage === 2) {
-      if (formData.year && formData.phoneNumber && formData.levelOfStudy && formData.school) {
+      if (formData.levelOfStudy && formData.phoneNumber && formData.levelOfStudy && formData.school) {
         if (formData.resumeLink && !isValidGoogleDriveLink(formData.resumeLink)) {
         setError("Please provide a valid Google Drive link for the resume");
         return;
@@ -269,7 +268,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
   </div>
 )}
 
-      {/* ---------------- Page 2: Phone, Year, Level, School ---------------- */}
+      {/* ---------------- Page 2: Phone, Level, School ---------------- */}
       {signUpPage === 2 && (
         <div className="formfields-container">
           <h2>Profile Details</h2>
@@ -280,15 +279,6 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
               className="input-field"
               value={formData.phoneNumber}
               onChange={(e) => handleInputChange("phoneNumber", e.target.value)}
-            />
-          </div>
-
-          <div className="form-field">
-            <h3>Year*</h3>
-            <input
-              className="input-field"
-              value={formData.year}
-              onChange={(e) => handleInputChange("year", e.target.value)}
             />
           </div>
 
