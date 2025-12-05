@@ -69,6 +69,7 @@ export default function ReviewPage() {
 
         freshData.school?.label || freshData.school,
         freshData.levelOfStudy?.label || freshData.levelOfStudy,
+        freshData.year,
 
         freshData.hackathons,
         freshData.dietaryRestrictions,
@@ -156,7 +157,7 @@ export default function ReviewPage() {
             </div>
           </div>
         </section>
-
+        {/* NOTE: I dont think we have the year (not to be confsued with levle of study) here  */}
         <span className="divider" />
 
         <section>
