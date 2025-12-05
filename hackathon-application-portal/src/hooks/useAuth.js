@@ -83,25 +83,32 @@ export default function useAuth(initialFormState) {
   };
 
   // -------------------- After sign-in --------------------
-  const handlePostSignIn = async (user) => {
-    try {
-      const profile = await fetchUserProfile(user.uid);
-      console.log(profile)
-      const page = getFirstIncompletePage(profile);
-      console.log(" found first incomple page")
-      console.log(page)
-      if (page !== null) {
-        setSignUpPage(page);
-        openModal();
-      } else {
-        router.push('/application/thank-you');
+const handlePostSignIn = async (user) => {
+  try {
+    const profile = await fetchUserProfile(user.uid);
+
+    if (profile) {
+      if (profile?.hasSubmitted) {
+        return router.push('/application/thank-you?duplicate=true');
       }
-    } catch (err) {
-      console.error(err);
-      setSignUpPage(1);
+
+      const firstIncomplete = getFirstIncompletePage(profile);
+
+      setSignUpPage(firstIncomplete ?? 0); 
       openModal();
+      return;
     }
-  };
+
+    // CASE 2: No profile exists — new user
+    setSignUpPage(1); 
+    openModal();
+  } catch (err) {
+    console.error(err);
+    // Worst-case fallback
+    setSignUpPage(1);
+    openModal();
+  }
+};
 
   // -------------------- Page navigation --------------------
   const nextPage = () => setSignUpPage(prev => Math.min(prev + 1, 3));

@@ -74,8 +74,11 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
 
     try {
       setLoading(true);
+
       const result = await signInWithPopup(auth, provider);
-      handleInputChange("email", result.user.email);
+      const email = result.user.email;
+
+      handleInputChange("email", email);
       setSignUpPage(1);
     } catch (err) {
       setError(getFirebaseErrorMessage(err));
