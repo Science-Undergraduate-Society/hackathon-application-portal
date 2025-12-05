@@ -101,11 +101,39 @@ main h1 {
 .btn-container {
   width: 100%;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
+  align-items: center;
 }
 
 @media (max-width: 480px) {
   .btn-container {
     justify-content: center;
   }
+}
+
+.submit-button {
+  width: 250px;
+  padding: 20px 24px;
+  background-color: rgb(255, 222, 177);
+  color: #000;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.submit-button:hover {
+  background-color: rgb(255, 211, 149);
+  transform: translateY(-2px);
+}
+
+.submit-button:active {
+  transform: translateY(0);
+}
+
+.submit-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }

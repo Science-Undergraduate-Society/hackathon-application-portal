@@ -3,6 +3,7 @@
 import InputField from '../../../components/InputField';
 import Dropdown from '../../../components/Dropdown';
 import useProfileForm from '../../../hooks/useProfileForm';
+import LoadingSpinner from '../../../components/LoadingSpinner';
 
 export default function HackerProfilePage() {
   const initialState = {
@@ -15,7 +16,7 @@ export default function HackerProfilePage() {
     '/application/hacker-info'
   );
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <LoadingSpinner />;
 
   return (
     <main>

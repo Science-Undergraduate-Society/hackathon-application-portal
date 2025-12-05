@@ -8,6 +8,7 @@ import { appendToSheet } from "../../../lib/sheets";
 import "./review.css";
 import { ConfirmBtn } from "@/components/CommonUI";
 import useIsMobile from "@/hooks/useIsMobile";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 export default function ReviewPage() {
   const [data, setData] = useState(null);
@@ -48,7 +49,7 @@ export default function ReviewPage() {
     }
   }, [data]);
 
-  if (!data || !consents) return <div>Loading...</div>;
+  if (!data || !consents) return <LoadingSpinner />;
 
   const handleSubmit = async () => {
     setSubmitting(true);
@@ -262,9 +263,9 @@ export default function ReviewPage() {
       </div>
 
       <div className="btn-container">
-        <ConfirmBtn onClickFn={handleSubmit} dimension={isMobile ? "sm" : "lg"}>
-          {submitting ? "Submitting..." : "Submit"}
-        </ConfirmBtn>
+        <button className="submit-button" onClickFn={handleSubmit} dimension={isMobile ? "sm" : "lg"}>
+          {submitting ? "Submitting..." : "Submit Application"}
+        </button>
       </div>
     </main>
   );
