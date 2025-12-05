@@ -67,6 +67,7 @@
   font-size: 0.9rem;
   color: var(--title-color);
   text-decoration-line: underline;
+}
 
 .password-input-wrapper {
   position: relative;
