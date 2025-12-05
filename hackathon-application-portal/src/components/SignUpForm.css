@@ -57,21 +57,6 @@
   width: 50%;
 }
 
-.google-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid var(--text-input-border);
-  cursor: pointer;
-  font-size: 1.5rem;
-  gap: 1rem;
-  background: #333333;
-  color: rgba(255, 255, 255, 0.9);
-  margin-bottom: 2rem;
-}
-
 .minor-notice {
   color: #ff9800;
   font-size: 14px;
@@ -90,11 +75,6 @@
   .signup-container h2 {
     font-size: 40px;
   }
-
-  .google-btn {
-    font-size: 1.3rem;
-    padding: 8px;
-  }
 }
 
 /* Small Devices - Phones landscape (576px - 767px) */
@@ -111,11 +91,6 @@
 
   .form-field-half {
     width: 100%;
-  }
-
-  .google-btn {
-    font-size: 1.2rem;
-    gap: 0.8rem;
   }
 
   .button-group {
@@ -139,15 +114,7 @@
     gap: 4px;
   }
 
-  .google-btn {
-    font-size: 1rem;
-    padding: 8px;
-    gap: 0.6rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .google-btn img {
-    width: 32px;
+  .minor-notice {
     height: 24px;
   }
 
