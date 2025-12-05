@@ -75,7 +75,7 @@ export default function ApplicationQuestionsPage() {
         />
 
         <TextAreaField
-          label="What is your favourite body of water? Why? (e.g. pond/ocean/bathtub)*"
+          label="What is your favourite body of water? Why? (e.g. pond/ocean/bathtub)"
           value={form.question4}
           required
           maxLength={300}
