@@ -1,110 +1,271 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { auth } from '../../../lib/firebase';
-import { useRouter } from 'next/navigation';
-import { fetchUserProfile } from '../../../services/userService';
-import { appendToSheet } from '../../../lib/sheets';
-import './review.css';
+import { useState, useEffect } from "react";
+import { auth } from "../../../lib/firebase";
+import { useRouter } from "next/navigation";
+import { fetchUserProfile } from "../../../services/userService";
+import { appendToSheet } from "../../../lib/sheets";
+import "./review.css";
+import { ConfirmBtn } from "@/components/CommonUI";
+import useIsMobile from "@/hooks/useIsMobile";
 
 export default function ReviewPage() {
   const [data, setData] = useState(null);
+  const [consents, setConsents] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const router = useRouter();
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     let unsub;
-    import('firebase/auth').then(({ onAuthStateChanged }) => {
+    import("firebase/auth").then(({ onAuthStateChanged }) => {
       unsub = onAuthStateChanged(auth, async (usr) => {
-        if (!usr) return router.push('/');
+        if (!usr) return router.push("/");
         const profile = await fetchUserProfile(usr.uid);
         setData(profile);
+
+        // Get consents from profile (saved in TC page)
+        setConsents(
+          profile.consents || {
+            emailUpdate: false,
+            codeOfConductUBC: false,
+            photos: false,
+            codeOfConductMLH: false,
+            infoShareMLH: false,
+            emailMLH: false,
+          },
+        );
       });
     });
+
     return () => unsub && unsub();
   }, [router]);
 
-  if (!data) return <div>Loading...</div>;
+  // Separate useEffect to log data when it changes
+  useEffect(() => {
+    if (data) {
+      console.log("User data:", data);
+    }
+  }, [data]);
+
+  if (!data || !consents) return <div>Loading...</div>;
 
   const handleSubmit = async () => {
     setSubmitting(true);
+    console.log("submitting...")
     try {
       const usr = auth.currentUser;
-      if (!usr) throw new Error('Not authenticated');
+      if (!usr) throw new Error("Not authenticated");
+
       const freshData = await fetchUserProfile(usr.uid);
+
       const row = [
         freshData.firstName,
         freshData.lastName,
-        freshData.preferredName,
         freshData.email,
-        freshData.pronounsOther
-          ? `${freshData.pronouns} (${freshData.pronounsOther})`
-          : freshData.pronouns,
-        freshData.phone,
-        freshData.country,
+        freshData.phoneNumber,
+        freshData.age?.label || freshData.age,
+        freshData.pronoun?.label || freshData.pronoun,
+
+        freshData.school?.label || freshData.school,
+        freshData.levelOfStudy?.label || freshData.levelOfStudy,
+        freshData.year,
+
+        freshData.hackathons,
         freshData.dietaryRestrictions,
-        freshData.schoolOther
-          ? `${freshData.school} (${freshData.schoolOther})`
-          : freshData.school,
-        freshData.graduationYearOther
-          ? `${freshData.graduationYear} (${freshData.graduationYearOther})`
-          : freshData.graduationYear,
-        freshData.levelOfStudy,
-        freshData.fieldOfStudy,
-        freshData.firstTimeHacker,
+
         freshData.resumeLink,
-        freshData.githubLink,
+        freshData.waiverLink,
+
         freshData.question1,
         freshData.question2,
-        freshData.question3
+        freshData.question3,
+        freshData.question4,
+        freshData.question5,
+
+        consents.emailUpdate ? "Yes" : "No",
+        consents.codeOfConductUBC ? "Yes" : "No",
+        consents.photos ? "Yes" : "No",
+        consents.codeOfConductMLH ? "Yes" : "No",
+        consents.infoShareMLH ? "Yes" : "No",
+        consents.emailMLH ? "Yes" : "No",
+        freshData.hearAbout?.label || freshData.hearAbout,
       ];
+
       await appendToSheet(row);
-      router.push('/application/thank-you');
+      router.push("/application/thank-you");
     } catch (error) {
-      console.error('Error submitting to Google Sheets', error);
+      console.error("Error submitting to Google Sheets", error);
+      alert("Failed to submit application. Please try again.");
     } finally {
       setSubmitting(false);
     }
   };
 
+  function displayValue(val) {
+    if (!val) return "None";
+    if (typeof val === "object" && val.label) return val.label;
+
+    return String(val);
+  }
+
   return (
     <main>
       <h1>Review Your Application</h1>
 
-      <section>
-        <h2>General Information</h2>
-        <p><strong>First Name:</strong> {data.firstName}</p>
-        <p><strong>Last Name:</strong> {data.lastName}</p>
-        <p><strong>Preferred Name:</strong> {data.preferredName}</p>
-        <p><strong>Email:</strong> {data.email}</p>
-        <p><strong>Pronouns:</strong> {data.pronounsOther ? `${data.pronouns} (${data.pronounsOther})` : data.pronouns}</p>
-        <p><strong>Phone:</strong> {data.phone}</p>
-        <p><strong>Country:</strong> {data.country}</p>
-        <p><strong>Dietary Restrictions:</strong> {data.dietaryRestrictions}</p>
-      </section>
+      <div className="review-container">
+        <section>
+          <div className="review-container-row">
+            <div className="review-item-sm">
+              <h3>Full Name</h3>
+              <p>
+                {data.firstName} {data.lastName}
+              </p>
+            </div>
 
-      <section>
-        <h2>Hacker Profile</h2>
-        <p><strong>School / University:</strong> {data.schoolOther ? `${data.school} (${data.schoolOther})` : data.school}</p>
-        <p><strong>Graduation Year:</strong> {data.graduationYearOther ? `${data.graduationYear} (${data.graduationYearOther})` : data.graduationYear}</p>
-        <p><strong>Level of Study:</strong> {data.levelOfStudy}</p>
-        <p><strong>Field of Study / Major:</strong> {data.fieldOfStudy}</p>
-        <p><strong>First-Time Hacker:</strong> {data.firstTimeHacker === 'yes' ? 'Yes' : 'No'}</p>
-        <p><strong>Resume Link:</strong> <a href={data.resumeLink} target="_blank" rel="noopener noreferrer">{data.resumeLink}</a></p>
-        <p><strong>GitHub / Portfolio:</strong> <a href={data.githubLink} target="_blank" rel="noopener noreferrer">{data.githubLink}</a></p>
-      </section>
+            <div className="review-item-sm">
+              <h3>Pronouns</h3>
+              <p>{displayValue(data.pronoun)}</p>
+            </div>
 
-      <section>
-        <h2>Additional Questions</h2>
-        <p><strong>Why attend:</strong> {data.question1}</p>
-        <p><strong>Dream build:</strong> {data.question2}</p>
-        <p><strong>Other info:</strong> {data.question3}</p>
-      </section>
+            <div className="review-item-sm">
+              <h3>Age</h3>
+              <p>{displayValue(data.age)}</p>
+            </div>
+          </div>
 
-      <button onClick={() => router.push('/application/hacker-info')}>Edit</button>
-      <button onClick={handleSubmit} disabled={submitting}>
-        {submitting ? 'Submitting...' : 'Submit'}
-      </button>
+          <div className="review-container-row">
+            <div className="review-item-sm">
+              <h3>Email</h3>
+              <p>{data.email}</p>
+            </div>
+
+            <div className="review-item-sm">
+              <h3>Phone</h3>
+              <p>{data.phoneNumber}</p>
+            </div>
+          </div>
+
+          <div className="review-container-row">
+            <div className="review-item-sm">
+              <h3>Level of Study</h3>
+              <p>{displayValue(data.levelOfStudy)}</p>
+            </div>
+
+            <div className="review-item-sm">
+              <h3>School</h3>
+              <p>{displayValue(data.school)}</p>
+            </div>
+          </div>
+        </section>
+
+        <span className="divider" />
+
+        <section>
+          <div className="review-container-row">
+            <div className="review-item">
+              <h3>Hackathons Attended</h3>
+              <p>{data.hackathons}</p>
+            </div>
+          </div>
+
+          <div className="review-container-row">
+            <div className="review-item">
+              <h3>Dietary Restrictions</h3>
+              <p>{data.dietaryRestrictions || "None"}</p>
+            </div>
+          </div>
+
+          <div className="review-container-row">
+            <div className="review-item">
+              <h3>Where did you hear about us?</h3>
+              <p>{displayValue(data.hearAbout)}</p>
+            </div>
+          </div>
+
+          <div className="review-container-row">
+            <div className="review-item">
+              <h3>Resume Link</h3>
+              <p>
+                <a
+                  href={data.resumeLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Link to your resume
+                </a>
+              </p>
+            </div>
+          </div>
+
+          <div className="review-container-row">
+            <div className="review-item">
+              <h3>Waiver Link</h3>
+              <p>
+                <a
+                  href={data.waiverLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Link to your wavier
+                </a>
+              </p>
+            </div>
+
+          </div>
+        </section>
+
+        <span className="divider" />
+
+        {/* ------- SECTION 3 (QUESTIONS) ------- */}
+        <section>
+          <div className="review-container-row">
+            <div className="review-item full-width">
+              <h3>
+                What do you hope to learn from attending this hackathon? Why?
+              </h3>
+              <p>{data.question1}</p>
+            </div>
+          </div>
+
+          <div className="review-container-row">
+            <div className="review-item full-width">
+              <h3>
+                What is a recent challenge you faced, and how did you approach
+                it?
+              </h3>
+              <p>{data.question2}</p>
+            </div>
+          </div>
+
+          <div className="review-container-row">
+            <div className="review-item full-width">
+              <h3>Describe the kind of role you play on a team.</h3>
+              <p>{data.question3}</p>
+            </div>
+          </div>
+
+          <div className="review-container-row">
+            <div className="review-item full-width">
+              <h3>Your favourite body of water (and why)</h3>
+              <p>{data.question4}</p>
+            </div>
+          </div>
+
+          <div className="review-container-row">
+            <div className="review-item full-width">
+              <h3>Song Recommendation</h3>
+              <p>{data.question5}</p>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div className="btn-container">
+        <ConfirmBtn onClickFn={handleSubmit} dimension={isMobile ? "sm" : "lg"}>
+          {submitting ? "Submitting..." : "Submit"}
+        </ConfirmBtn>
+      </div>
     </main>
   );
 }
