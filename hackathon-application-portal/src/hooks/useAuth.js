@@ -41,7 +41,7 @@ export default function useAuth(initialFormState) {
     if (!profile) return 1;
     const requiredFieldsByPage = {
       1: ['firstName', 'lastName', 'age', 'pronoun'],
-      2: ['year', 'phoneNumber', 'levelOfStudy', 'school'],
+      2: ['phoneNumber', 'levelOfStudy', 'school'],
       3: ['hackathons']
     };
     for (const [page, fields] of Object.entries(requiredFieldsByPage)) {
