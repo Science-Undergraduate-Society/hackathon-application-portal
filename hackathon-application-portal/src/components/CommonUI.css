@@ -27,7 +27,7 @@
   margin-bottom: 0.75rem;
   gap: 1rem;
   cursor: pointer;
-  font-size: 28px;
+  font-size: 20px;
   color: var(--text-primary);
   user-select: none;
   position: relative;
@@ -121,7 +121,7 @@
 /* Tablet (1024px and below) */
 @media (max-width: 1024px) {
   .custom-checkbox {
-    font-size: 24px;
+    font-size: 16px;
   }
 
   .custom-checkbox .checkbox-icon {
@@ -140,7 +140,7 @@
 /* Small Tablets / Mobile Landscape (768px and below) */
 @media (max-width: 768px) {
   .custom-checkbox {
-    font-size: 20px;
+    font-size: 12px;
     gap: 0.75rem;
   }
 
