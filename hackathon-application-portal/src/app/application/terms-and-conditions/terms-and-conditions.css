@@ -126,6 +126,7 @@
     gap: 1rem;
     text-align: left;
     font-size: 28px;
+    margin-bottom: 2rem;
 }
 
 body {
@@ -175,6 +176,10 @@ body {
 
     .container {
         padding: 0 1rem;
+    }
+
+    .mlh-info {
+        font-size: 16px;
     }
 }
 
