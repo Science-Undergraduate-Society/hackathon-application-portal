@@ -12,6 +12,8 @@ import Select from "react-select";
 import Creatable from "react-select/creatable";
 import { ages } from "@/data/ages";
 import { levelsOfStudy } from "@/data/levelOfStudy";
+import { majors } from "@/data/majors";
+import { years } from "@/data/years";
 import { pronouns } from "@/data/pronouns";
 import { schools } from "@/data/schools";
 import { customSelectStyles } from "@/styles/selectStyles";
@@ -25,12 +27,14 @@ const initialFormState = {
   age: null,
   pronoun: null,
   phoneNumber: "",
-  levelOfStudy: null,
   school: null,
+  levelOfStudy: null,
+  major: null,
+  year: null,
   hackathons: "",
   dietaryRestrictions: "",
   hearAbout: null,
-  resumeLink: "",  
+  resumeLink: "",
 };
 
 export function SignUpForm({ onSuccess, initialPage = 0 }) {
@@ -95,17 +99,17 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
       }
     } else if (signUpPage === 1) {
       // Check if all fields have values (including custom created options)
-      if (formData.firstName && formData.lastName && formData.age && formData.pronoun) {
+      if (formData.firstName && formData.lastName && formData.age && formData.pronoun && formData.phoneNumber) {
         setSignUpPage(2);
       } else {
         setError("Please fill in all required fields");
       }
     } else if (signUpPage === 2) {
-      if (formData.levelOfStudy && formData.phoneNumber && formData.levelOfStudy && formData.school) {
+      if (formData.school && formData.levelOfStudy && formData.year && formData.major) {
         if (formData.resumeLink && !isValidGoogleDriveLink(formData.resumeLink)) {
-        setError("Please provide a valid Google Drive link for the resume");
-        return;
-      }
+          setError("Please provide a valid Google Drive link for the resume");
+          return;
+        }
 
         setSignUpPage(3);
       } else {
@@ -126,8 +130,8 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
   };
 
   const isValidGoogleDriveLink = (url) => {
-  return url.includes('drive.google.com') || url.includes('docs.google.com');
-};
+    return url.includes('drive.google.com') || url.includes('docs.google.com');
+  };
 
   const handlePreviousPage = () => {
     if (signUpPage > 0) setSignUpPage((prev) => prev - 1);
@@ -138,7 +142,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
       setError("Please fill in all required fields");
       return;
     }
-    
+
     await saveForm();
     router.push("/application/general-questions");
   };
@@ -185,73 +189,86 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
         </div>
       )}
 
-     {/* ---------------- Page 1: Name, Age, Pronouns ---------------- */}
-{signUpPage === 1 && (
-  <div className="formfields-container">
-    <h2>Personal Info</h2>
-
-    <div className="form-field">
-      <h3 className="required">First Name</h3>
-      <input
-        className="input-field"
-        value={formData.firstName}
-        onChange={(e) => handleInputChange("firstName", e.target.value)}
-      />
-    </div>
-
-    <div className="form-field">
-      <h3 className="required">Last Name</h3>
-      <input
-        className="input-field"
-        value={formData.lastName}
-        onChange={(e) => handleInputChange("lastName", e.target.value)}
-      />
-    </div>
-
-    {/* Age and Pronouns side by side */}
-    <div className="field-group">
-      <div className="form-field-half">
-        <h3 className="required">Age (as of February 2026)</h3>
-        <Select
-          options={ages}
-          styles={customSelectStyles}
-          value={formData.age}
-          onChange={handleAgeChange}
-        />
-      </div>
-
-      <div className="form-field-half">
-        <h3 className="required">Pronouns</h3>
-        <Creatable
-          options={pronouns}
-          styles={customSelectStyles}
-          formatCreateLabel={(inputValue) => `Other: ${inputValue}`}
-          value={formData.pronoun}
-          onChange={(selectedOption) =>
-            handleInputChange("pronoun", selectedOption)
-          }
-          isClearable
-        />
-      </div>
-    </div>
-
-    <div className="button-group">
-      <ForwardBtn onClickFn={handleNextPage} dimension="sm" />
-    </div>
-  </div>
-)}
-
-      {/* ---------------- Page 2: Phone, Level, School ---------------- */}
-      {signUpPage === 2 && (
+      {/* ---------------- Page 1: Name, Age, Pronouns, Phone ---------------- */}
+      {signUpPage === 1 && (
         <div className="formfields-container">
-          <h2>Profile Details</h2>
+          <h2>Personal Info</h2>
+
+          <div className="form-field">
+            <h3 className="required">First Name</h3>
+            <input
+              className="input-field"
+              value={formData.firstName}
+              onChange={(e) => handleInputChange("firstName", e.target.value)}
+            />
+          </div>
+
+          <div className="form-field">
+            <h3 className="required">Last Name</h3>
+            <input
+              className="input-field"
+              value={formData.lastName}
+              onChange={(e) => handleInputChange("lastName", e.target.value)}
+            />
+          </div>
+
+          {/* Age and Pronouns side by side */}
+          <div className="field-group">
+            <div className="form-field-half">
+              <h3 className="required">Age (as of February 2026)</h3>
+              <Select
+                options={ages}
+                styles={customSelectStyles}
+                value={formData.age}
+                onChange={handleAgeChange}
+              />
+            </div>
+
+            <div className="form-field-half">
+              <h3 className="required">Pronouns</h3>
+              <Creatable
+                options={pronouns}
+                styles={customSelectStyles}
+                formatCreateLabel={(inputValue) => `Other: ${inputValue}`}
+                value={formData.pronoun}
+                onChange={(selectedOption) =>
+                  handleInputChange("pronoun", selectedOption)
+                }
+                isClearable
+              />
+            </div>
+          </div>
 
           <div className="form-field">
             <h3 className="required">Phone Number</h3>
             <input
               className="input-field"
               value={formData.phoneNumber}
+              placeholder="000-000-0000"
               onChange={(e) => handleInputChange("phoneNumber", e.target.value)}
+            />
+          </div>
+
+          <div className="button-group">
+            <ForwardBtn onClickFn={handleNextPage} dimension="sm" />
+          </div>
+        </div>
+      )}
+
+      {/* ---------------- Page 2: School, Level, Major, Year ---------------- */}
+      {signUpPage === 2 && (
+        <div className="formfields-container">
+          <h2>Profile Details</h2>
+
+          <div className="form-field">
+            <h3 className="required">School</h3>
+            <Select
+              options={schools}
+              styles={customSelectStyles}
+              value={formData.school}
+              onChange={(selectedOption) =>
+                handleInputChange("school", selectedOption)
+              }
             />
           </div>
 
@@ -268,13 +285,25 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
           </div>
 
           <div className="form-field">
-            <h3 className="required">School</h3>
+            <h3 className="required">Major</h3>
             <Select
-              options={schools}
+              options={majors}
               styles={customSelectStyles}
-              value={formData.school}
+              value={formData.major}
               onChange={(selectedOption) =>
-                handleInputChange("school", selectedOption)
+                handleInputChange("major", selectedOption)
+              }
+            />
+          </div>
+
+          <div className="form-field">
+            <h3 className="required">Year Level</h3>
+            <Select
+              options={years}
+              styles={customSelectStyles}
+              value={formData.year}
+              onChange={(selectedOption) =>
+                handleInputChange("year", selectedOption)
               }
             />
           </div>
@@ -286,63 +315,63 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
         </div>
       )}
 
-     {/* ---------------- Page 3: Hackathons, Dietary, Resume ---------------- */}
-{signUpPage === 3 && (
-  <div className="formfields-container">
-    <h2>Additional Info</h2>
+      {/* ---------------- Page 3: Hackathons, Dietary, Resume ---------------- */}
+      {signUpPage === 3 && (
+        <div className="formfields-container">
+          <h2>Additional Info</h2>
 
-    <div className="form-field">
-      <h3 className="required">How many hackathons have you attended in the past?</h3>
-      <input
-        className="input-field"
-        value={formData.hackathons}
-        onChange={(e) => handleInputChange("hackathons", e.target.value)}
-      />
-    </div>
+          <div className="form-field">
+            <h3 className="required">How many hackathons have you attended in the past?</h3>
+            <input
+              className="input-field"
+              value={formData.hackathons}
+              onChange={(e) => handleInputChange("hackathons", e.target.value)}
+            />
+          </div>
 
-    <div className="form-field">
-      <h3 className="required">Do you have any dietary restrictions? (If none write N/A)</h3>
-      <input
-        className="input-field"
-        value={formData.dietaryRestrictions}
-        onChange={(e) =>
-          handleInputChange("dietaryRestrictions", e.target.value)
-        }
-      />
-    </div>
+          <div className="form-field">
+            <h3 className="required">Do you have any dietary restrictions? (If none write N/A)</h3>
+            <input
+              className="input-field"
+              value={formData.dietaryRestrictions}
+              onChange={(e) =>
+                handleInputChange("dietaryRestrictions", e.target.value)
+              }
+            />
+          </div>
 
-    <div className="form-field">
-      <h3>Where did you hear about us?</h3>
-      <Select
-        options={howDidYouHear}
-        styles={customSelectStyles}
-        value={formData.hearAbout}
-        onChange={(selectedOption) =>
-          handleInputChange("hearAbout", selectedOption)
-        }
-      />
-    </div>
+          <div className="form-field">
+            <h3>Where did you hear about us?</h3>
+            <Select
+              options={howDidYouHear}
+              styles={customSelectStyles}
+              value={formData.hearAbout}
+              onChange={(selectedOption) =>
+                handleInputChange("hearAbout", selectedOption)
+              }
+            />
+          </div>
 
-    <div className="form-field">
-      <h3>Resume Google Drive Link</h3>
-      <input
-        className="input-field"
-        type="url"
-        placeholder="https://drive.google.com/file/d/..."
-        value={formData.resumeLink || ""}
-        onChange={(e) => handleInputChange("resumeLink", e.target.value)}
-      />
-      <small style={{ fontSize: '1rem', color: '#888', marginTop: '4px' }}>
-        Upload your resume to Google Drive and paste the sharing link here. Make sure the link is set to "Anyone with the link can view".
-      </small>
-    </div>
+          <div className="form-field">
+            <h3>Resume Google Drive Link</h3>
+            <input
+              className="input-field"
+              type="url"
+              placeholder="https://drive.google.com/file/d/..."
+              value={formData.resumeLink || ""}
+              onChange={(e) => handleInputChange("resumeLink", e.target.value)}
+            />
+            <small style={{ fontSize: '1rem', color: '#888', marginTop: '4px' }}>
+              Upload your resume to Google Drive and paste the sharing link here. Make sure the link is set to "Anyone with the link can view".
+            </small>
+          </div>
 
-    <div className="button-group">
-      <ForwardBtn onClickFn={handleSubmit} dimension="sm" />
-      <BackwardBtn onClickFn={handlePreviousPage} dimension="sm" />
-    </div>
-  </div>
-)}
+          <div className="button-group">
+            <ForwardBtn onClickFn={handleSubmit} dimension="sm" />
+            <BackwardBtn onClickFn={handlePreviousPage} dimension="sm" />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

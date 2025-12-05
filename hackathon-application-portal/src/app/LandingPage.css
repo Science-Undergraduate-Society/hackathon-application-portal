@@ -60,6 +60,7 @@
 
   .landing-title {
     font-size: 72px;
+    white-space: initial;
   }
 
   .landing-subtitle {
