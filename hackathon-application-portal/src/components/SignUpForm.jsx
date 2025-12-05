@@ -469,7 +469,10 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
           </div>
 
           <div className="form-field">
-            <h3>Upload your resume </h3>
+            <h3>Upload your resume (optional)</h3>
+            <small style={{ fontSize: '0.85rem', color: '#888', display: 'block', marginBottom: '15px' }}>
+               Uploaded resumes may be shared with recruiters.
+            </small>
             
             <input
               type="file"
@@ -501,6 +504,8 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
             <small style={{ fontSize: '0.85rem', color: '#888', display: 'block', marginBottom: '15px' }}>
               File size limit of 5 MB. Accepted formats: PDF, DOC, DOCX
             </small>
+
+            
           </div>
 
           <div className="button-group">
@@ -513,12 +518,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
               dimension="sm"
             />
           </div>
-          
-          {(loading || uploadingResume) && (
-            <p style={{ textAlign: 'center', color: '#2196F3', marginTop: '10px' }}>
-              {uploadingResume ? 'Uploading resume...' : 'Processing...'}
-            </p>
-          )}
+
         </div>
       )}
     </div>
