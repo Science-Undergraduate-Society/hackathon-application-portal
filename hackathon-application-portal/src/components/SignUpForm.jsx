@@ -29,7 +29,6 @@ const initialFormState = {
   hackathons: "",
   dietaryRestrictions: "",
   hearAbout: null,
-  waiverLink: "",  
   resumeLink: "",  
 };
 
@@ -95,12 +94,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
       }
     } else if (signUpPage === 1) {
       // Check if all fields have values (including custom created options)
-      if (formData.firstName && formData.lastName && formData.age && formData.pronoun && formData.waiverLink) {
-        if (formData.waiverLink && !isValidGoogleDriveLink(formData.waiverLink)) {
-        setError("Please provide a valid Google Drive link for the waiver");
-        return;
-      }
-
+      if (formData.firstName && formData.lastName && formData.age && formData.pronoun) {
         setSignUpPage(2);
       } else {
         setError("Please fill in all required fields");
@@ -239,27 +233,6 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
         />
       </div>
     </div>
-
-    {/* Waiver Google Drive Link */}
-    <div className="form-field">
-      <h3 className="required">Waiver Google Drive Link{isMinor ? ' (with guardian signature)' : ''}</h3>
-      <input
-        className="input-field"
-        type="url"
-        placeholder="https://drive.google.com/file/d/..."
-        value={formData.waiverLink || ""}
-        onChange={(e) => handleInputChange("waiverLink", e.target.value)}
-      />
-      <small style={{ fontSize: '1rem', color: '#888', marginTop: '4px' }}>
-        Upload your waiver to Google Drive and paste the sharing link here. Make sure the link is set to "Anyone with the link can view".
-      </small>
-    </div>
-
-    {isMinor && (
-      <p className="minor-notice">
-        ⚠️ As you are under 18, please ensure your guardian has signed the waiver.
-      </p>
-    )}
 
     <div className="button-group">
       <ForwardBtn onClickFn={handleNextPage} dimension="sm" />
