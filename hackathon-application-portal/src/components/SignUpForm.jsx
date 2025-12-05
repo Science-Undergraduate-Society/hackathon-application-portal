@@ -82,39 +82,48 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
   };
 
   // ---------------- File Upload Handler ----------------
-  const formatFileSize = (bytes) => {
-    if (bytes === 0) return '0 Bytes';
-    const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + ' ' + sizes[i];
-  };
 
-  const handleFileUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      // Check file size (5MB limit)
-      if (file.size > 5 * 1024 * 1024) {
-        setError("File size exceeds 5MB limit");
-        return;
-      }
-      
-      // Check file type
-      const allowedTypes = [
-        'application/pdf', 
-        'application/msword', 
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-      ];
-      if (!allowedTypes.includes(file.type)) {
-        setError("Please upload a PDF or Word document");
-        return;
-      }
-      
-      setResumeFile(file);
-      // Clear the Google Drive link if a file is uploaded
-      handleInputChange("resumeLink", "");
+  const handleFileUpload = async (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    if (file.size > 5 * 1024 * 1024) {
+      setError("File size exceeds 5MB limit");
+      return;
     }
-  };
+    
+    const allowedTypes = [
+      'application/pdf', 
+      'application/msword', 
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+    ];
+    if (!allowedTypes.includes(file.type)) {
+      setError("Please upload a PDF or Word document");
+      return;
+    }
+    
+    try {
+      setUploadingResume(true);
+      const auth = getAuth();
+      const userId = auth.currentUser?.uid;
+        
+      if (!userId) {
+        setError("User not authenticated");
+        setUploadingResume(false);
+        return;
+      }
+
+      const resumeUrl = await uploadFile(file, userId, 'resume'); // ✅ Fixed: use 'file' not 'resumeFile'
+      console.log(resumeUrl);
+      handleInputChange("resumeLink", resumeUrl);
+      setResumeFile(file); // Now set the state for display purposes
+      setUploadingResume(false);
+    } catch (err) {
+      setError("Failed to upload resume. Please try again.");
+      console.error("Resume upload error:", err);
+      setUploadingResume(false);
+    }
+  }
+};
 
   const handleNextPage = async () => {
     if (signUpPage === 0) {
@@ -162,10 +171,6 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
     handleInputChange("age", selectedOption);
   };
 
-  const isValidGoogleDriveLink = (url) => {
-    return url.includes('drive.google.com') || url.includes('docs.google.com');
-  };
-
   const handlePreviousPage = () => {
     if (signUpPage > 0) setSignUpPage((prev) => prev - 1);
   };
@@ -180,27 +185,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
     try {
       setLoading(true);
 
-      // Upload resume file if one was selected
-      if (resumeFile) {
-        setUploadingResume(true);
-        const auth = getAuth();
-        const userId = auth.currentUser?.uid;
-        
-        if (!userId) {
-          setError("User not authenticated");
-          return;
-        }
-
-        const resumeUrl = await uploadFile(resumeFile, userId, 'resume');
-        handleInputChange("resumeLink", resumeUrl);
-        
-        // Save form with the uploaded resume URL
-        await saveForm();
-      } else {
-        // Save form with Google Drive link or no resume
-        await saveForm();
-      }
-
+      await saveForm();
       router.push("/application/general-questions");
     } catch (err) {
       setError("Failed to upload resume. Please try again.");
