@@ -1,13 +1,31 @@
 // hooks/useSignUpForm.js
-import { useState } from 'react';
-import { getAuth } from 'firebase/auth';
-import { saveUserProfile } from '@/services/userService';
+import { useState, useEffect } from 'react';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { saveUserProfile, fetchUserProfile } from '@/services/userService';
 import { uploadFile } from '@/services/fileUploadService';
 
 export default function useSignupForm(initialFormState) {
   const [form, setForm] = useState(initialFormState);
   const [loading, setLoading] = useState(false);
   const [signUpPage, setSignUpPage] = useState(0);
+
+  // Load user profile when authenticated
+  useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        try {
+          const profile = await fetchUserProfile(user.uid);
+          if (profile) {
+            setForm(prev => ({ ...prev, ...profile }));
+          }
+        } catch (error) {
+          console.error('Error loading user profile:', error);
+        }
+      }
+    });
+    return () => unsubscribe();
+  }, []);
 
   const handleChange = (field, value) => {
     setForm(prev => ({ ...prev, [field]: value }));
