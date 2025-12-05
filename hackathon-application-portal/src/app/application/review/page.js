@@ -69,13 +69,11 @@ export default function ReviewPage() {
 
         freshData.school?.label || freshData.school,
         freshData.levelOfStudy?.label || freshData.levelOfStudy,
-        freshData.year,
 
         freshData.hackathons,
         freshData.dietaryRestrictions,
 
         freshData.resumeLink,
-        freshData.waiverLink,
 
         freshData.question1,
         freshData.question2,
@@ -198,7 +196,7 @@ export default function ReviewPage() {
             </div>
           </div>
 
-          <div className="review-container-row">
+          {/* <div className="review-container-row">
             <div className="review-item">
               <h3>Waiver Link</h3>
               <p>
@@ -212,7 +210,7 @@ export default function ReviewPage() {
               </p>
             </div>
 
-          </div>
+          </div> */}
         </section>
 
         <span className="divider" />
