@@ -13,6 +13,12 @@
     text-align: left;
 }
 
+.mlh-info {
+    margin-top: 3.5rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+
 .container {
     display: flex;
     flex-direction: column;

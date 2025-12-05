@@ -90,14 +90,17 @@ export default function TermsAndConditionsPage() {
           />
           <CheckBox
             label="I agree to have photos taken and posted on our Instagram/website."
-            checked={form.photos}
+            checked={form.photos} 
             onChangeFn={(value) =>
               handleChange("photos")({ target: { value } })
             }
           />
-          We are currently in the process of partnering with MLH. The following
+          <div className="mlh-info">
+            We are currently in the process of partnering with MLH. The following
           3 checkboxes are for this partnership. If we do not end up partnering
           with MLH, your information will not be shared.
+          </div>
+
           <CheckBox
             label={
               <span>
@@ -131,7 +134,7 @@ export default function TermsAndConditionsPage() {
                 >
                   MLH Privacy Policy
                 </a>
-                . I further agree to the terms of both the r"
+                . I further agree to the terms of both the
                 <a
                   href="https://github.com/MLH/mlh-policies/blob/main/contest-terms.md"
                   target="_blank"
