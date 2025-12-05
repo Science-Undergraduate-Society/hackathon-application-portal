@@ -262,9 +262,9 @@ export default function ReviewPage() {
       </div>
 
       <div className="btn-container">
-        <ConfirmBtn onClickFn={handleSubmit} dimension={isMobile ? "sm" : "lg"}>
-          {submitting ? "Submitting..." : "Submit"}
-        </ConfirmBtn>
+        <button className="submit-button" onClickFn={handleSubmit} dimension={isMobile ? "sm" : "lg"}>
+          {submitting ? "Submitting..." : "Submit Application"}
+        </button>
       </div>
     </main>
   );
