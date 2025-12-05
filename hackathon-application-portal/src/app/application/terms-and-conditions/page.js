@@ -84,7 +84,7 @@ export default function TermsAndConditionsPage() {
         form.codeOfConductMLH ? "Yes" : "No",
         form.infoShareMLH ? "Yes" : "No",
         form.emailMLH ? "Yes" : "No",
-        freshData.hearAbout.label
+        freshData.hearAbout?.label
       ];
 
       await appendToSheet(row);

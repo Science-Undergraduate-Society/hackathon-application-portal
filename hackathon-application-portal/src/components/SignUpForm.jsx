@@ -210,7 +210,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
     {/* Age and Pronouns side by side */}
     <div className="field-group">
       <div className="form-field-half">
-        <h3 className="required">Age</h3>
+        <h3 className="required">Age (as of February 2026)</h3>
         <Select
           options={ages}
           styles={customSelectStyles}
@@ -236,7 +236,6 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
 
     <div className="button-group">
       <ForwardBtn onClickFn={handleNextPage} dimension="sm" />
-      <BackwardBtn onClickFn={handlePreviousPage} dimension="sm" />
     </div>
   </div>
 )}
@@ -301,7 +300,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
     </div>
 
     <div className="form-field">
-      <h3 className="required">Do you have any dietary restrictions?</h3>
+      <h3 className="required">Do you have any dietary restrictions? (If none write N/A)</h3>
       <input
         className="input-field"
         value={formData.dietaryRestrictions}
