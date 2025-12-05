@@ -57,16 +57,14 @@ export default function ReviewPage() {
         setData(profile);
 
         // Get consents from profile (saved in TC page)
-        setConsents(
-          profile.consents || {
-            emailUpdate: false,
-            codeOfConductUBC: false,
-            photos: false,
-            codeOfConductMLH: false,
-            infoShareMLH: false,
-            emailMLH: false,
-          },
-        );
+        setConsents({
+          emailUpdate: profile.emailUpdate || false,
+          codeOfConductUBC: profile.codeOfConductUBC || false,
+          photos: profile.photos || false,
+          codeOfConductMLH: profile.codeOfConductMLH || false,
+          infoShareMLH: profile.infoShareMLH || false,
+          emailMLH: profile.emailMLH || false,
+        });
       });
     });
 
@@ -101,29 +99,38 @@ export default function ReviewPage() {
         return;
       }
 
+      // Helper to safely extract string values from objects or primitives
+      const toStr = (val) => {
+        if (!val) return "";
+        if (typeof val === "string" || typeof val === "number") return String(val);
+        if (typeof val === "object" && val.label) return String(val.label);
+        if (typeof val === "object" && val.value) return String(val.value);
+        return String(val);
+      };
+
       const row = [
-        freshData.firstName,
-        freshData.lastName,
-        freshData.email,
-        freshData.phoneNumber,
-        freshData.age?.label || freshData.age,
-        freshData.pronoun?.label || freshData.pronoun,
+        toStr(freshData.firstName),
+        toStr(freshData.lastName),
+        toStr(freshData.email),
+        toStr(freshData.phoneNumber),
+        toStr(freshData.age),
+        toStr(freshData.pronoun),
 
-        freshData.school?.label || freshData.school,
-        freshData.levelOfStudy?.label || freshData.levelOfStudy,
-        freshData.major?.label || freshData.major,
-        freshData.year?.label || freshData.year,
+        toStr(freshData.school),
+        toStr(freshData.levelOfStudy),
+        toStr(freshData.major),
+        toStr(freshData.year),
 
-        freshData.hackathons,
-        freshData.dietaryRestrictions,
+        toStr(freshData.hackathons),
+        toStr(freshData.dietaryRestrictions),
 
-        freshData.resumeLink,
+        toStr(freshData.resumeLink),
 
-        freshData.question1,
-        freshData.question2,
-        freshData.question3,
-        freshData.question4,
-        freshData.question5,
+        toStr(freshData.question1),
+        toStr(freshData.question2),
+        toStr(freshData.question3),
+        toStr(freshData.question4),
+        toStr(freshData.question5),
 
         consents.emailUpdate ? "Yes" : "No",
         consents.codeOfConductUBC ? "Yes" : "No",
@@ -131,7 +138,7 @@ export default function ReviewPage() {
         consents.codeOfConductMLH ? "Yes" : "No",
         consents.infoShareMLH ? "Yes" : "No",
         consents.emailMLH ? "Yes" : "No",
-        freshData.hearAbout?.label || freshData.hearAbout,
+        toStr(freshData.hearAbout),
       ];
 
       await appendToSheet(row);
