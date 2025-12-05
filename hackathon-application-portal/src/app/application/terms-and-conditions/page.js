@@ -5,8 +5,6 @@ import { CheckBox, ConfirmBtn } from "@/components/CommonUI";
 import { TermsCard } from "@/components/TermsCard";
 import useProfileForm from "@/hooks/useProfileForm";
 import { auth } from "@/lib/firebase";
-import { fetchUserProfile } from "@/services/userService";
-import { appendToSheet } from "@/lib/sheets";
 import { useRouter } from "next/navigation";
 import "./terms-and-conditions.css";
 import useAutoClearError from "@/hooks/useAutoClearError";
@@ -30,7 +28,7 @@ export default function TermsAndConditionsPage() {
 
   const { form, handleChange, loading, handleBack } = useProfileForm(
     initialState,
-    "/application/thank-you",
+    "/application/review",
     "/application/hacker-extra",
   );
 
@@ -51,48 +49,10 @@ export default function TermsAndConditionsPage() {
     try {
       const usr = auth.currentUser;
       if (!usr) throw new Error("Not authenticated");
-
-      const freshData = await fetchUserProfile(usr.uid);
-
-      const row = [
-        freshData.firstName,
-        freshData.lastName,
-        freshData.email,
-        freshData.phoneNumber,
-        freshData.age.label,
-        freshData.pronoun.label,
-
-        freshData.school.label,
-        freshData.levelOfStudy.label,
-        freshData.year,
-
-        freshData.hackathons,
-        freshData.dietaryRestrictions,
-
-        freshData.resumeLink,
-        freshData.waiverLink,
-
-        freshData.question1,
-        freshData.question2,
-        freshData.question3,
-        freshData.question4,
-        freshData.question5,
-
-        form.emailUpdate ? "Yes" : "No",
-        form.codeOfConductUBC ? "Yes" : "No",
-        form.photos ? "Yes" : "No",
-        form.codeOfConductMLH ? "Yes" : "No",
-        form.infoShareMLH ? "Yes" : "No",
-        form.emailMLH ? "Yes" : "No",
-        freshData.hearAbout.label
-      ];
-
-      await appendToSheet(row);
-
-      router.push("/application/thank-you");
+      router.push("/application/review");
     } catch (error) {
-      console.error("Error submitting to Google Sheets", error);
-      setError("Failed to submit application. Please try again.");
+      console.error("Error saving consents", error);
+      setError("Failed to save. Please try again.");
     } finally {
       setSubmitting(false);
     }
@@ -138,8 +98,8 @@ export default function TermsAndConditionsPage() {
           with MLH, your information will not be shared.
           <CheckBox
             label={
-              <p>
-                I have read and agree to the {" "}
+              <>
+                I have read and agree to the{" "}
                 <a
                   href="https://github.com/MLH/mlh-policies/blob/main/code-of-conduct.md"
                   target="_blank"
@@ -147,7 +107,7 @@ export default function TermsAndConditionsPage() {
                 >
                   MLH Code of Conduct.
                 </a>
-              </p>
+              </>
             }
             checked={form.codeOfConductMLH}
             onChangeFn={(value) =>
@@ -156,7 +116,7 @@ export default function TermsAndConditionsPage() {
           />
           <CheckBox
             label={
-              <p>
+              <>
                 I authorize you to share my application/registration information
                 with Major League Hacking for event administration, ranking, and
                 MLH administration in-line with the{" "}
@@ -167,7 +127,7 @@ export default function TermsAndConditionsPage() {
                 >
                   MLH Privacy Policy
                 </a>
-                . I further agree to the terms of both the{" "}
+                . I further agree to the terms of both the r"
                 <a
                   href="https://github.com/MLH/mlh-policies/blob/main/contest-terms.md"
                   target="_blank"
@@ -183,7 +143,7 @@ export default function TermsAndConditionsPage() {
                 >
                   MLH Privacy Policy.
                 </a>
-              </p>
+              </>
             }
             checked={form.infoShareMLH}
             onChangeFn={(value) =>
