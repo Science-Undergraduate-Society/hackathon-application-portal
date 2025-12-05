@@ -23,7 +23,7 @@ export default function useProfileForm(initialState, nextRoute, prevRoute = null
       });
     });
     return () => { if (unsubscribe) unsubscribe(); };
-  }, [router, initialState]);
+  }, [router]);
 
   useAutoSave(form, () => {
     const user = auth.currentUser;
