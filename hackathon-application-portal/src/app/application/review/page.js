@@ -101,10 +101,12 @@ export default function ReviewPage() {
         return;
       }
 
+      const email = freshData.email || usr.email;
+
       const row = [
         freshData.firstName,
         freshData.lastName,
-        freshData.email,
+        email,
         freshData.phoneNumber,
         freshData.age?.label || freshData.age,
         freshData.pronoun?.label || freshData.pronoun,
