@@ -32,12 +32,7 @@ export default function TermsAndConditionsPage() {
     "/application/review",
     "/application/general-questions",
   );
-
-  // const placeholderTerms =
-  //   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris consectetur placerat imperdiet. Phasellus imperdiet auctor metus, sit amet sodales libero sodales ultricies. Praesent placerat arcu sit amet nibh laoreet iaculis. Nunc a velit nec purus ullamcorper pharetra. Sed quis nulla eu dolor suscipit eleifend vel eu lacus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aenean id sodales metus. Phasellus maximus hendrerit tristique. Duis scelerisque rhoncus gravida. Morbi rutrum ornare nisl, eu dignissim nunc imperdiet vitae. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin a nisl at libero eleifend dignissim. Sed laoreet risus at risus porttitor, nec ultricies risus pretium. Duis lacinia congue fringilla.";
-
-  // const longTerms = placeholderTerms.repeat(5);
-
+  
   const ubcGuidelines = (
     <>
       <h2>About the Code of Conduct</h2>
@@ -156,8 +151,6 @@ export default function TermsAndConditionsPage() {
           <h1>Terms And Conditions</h1>
         </div>
 
-        {/* <TermsCard label="1. Resume Sharing" terms={placeholderTerms} />
-        <TermsCard label="2. MLH Guidelines" terms={longTerms} /> */}
         <TermsCard label="UBC Code of Conduct" terms={ubcGuidelines} link={ubcGuidelinesLink} />
 
         <div className="checkbox-container">
