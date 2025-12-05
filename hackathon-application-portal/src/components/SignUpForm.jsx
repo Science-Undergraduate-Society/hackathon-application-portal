@@ -16,6 +16,7 @@ import { pronouns } from "@/data/pronouns";
 import { schools } from "@/data/schools";
 import { customSelectStyles } from "@/styles/selectStyles";
 import { howDidYouHear } from "@/data/hearAboutUs";
+import { getFirebaseErrorMessage } from "@/util/firebaseErrorHandler";
 
 const initialFormState = {
   firstName: "",
@@ -68,7 +69,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
       handleInputChange("email", result.user.email);
       setSignUpPage(1); // skip email/password and go to Name/Age/Pronouns
     } catch (err) {
-      setError(err.message || "Google sign-in failed");
+      setError(getFirebaseErrorMessage(err));
     } finally {
       setLoading(false);
     }
@@ -85,7 +86,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
           handleInputChange("email", email);
           setSignUpPage(1);
         } catch (err) {
-          setError(err.message || "Email sign-up failed");
+          setError(getFirebaseErrorMessage(err));
         } finally {
           setLoading(false);
         }
