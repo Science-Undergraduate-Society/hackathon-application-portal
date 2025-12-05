@@ -30,7 +30,7 @@ export default function TermsAndConditionsPage() {
   const { form, handleChange, loading, handleBack } = useProfileForm(
     initialState,
     "/application/review",
-    "/application/hacker-extra",
+    "/application/general-questions",
   );
 
   // const placeholderTerms =
@@ -258,11 +258,14 @@ export default function TermsAndConditionsPage() {
         </div>
 
         <div className="buttons">
-          <ConfirmBtn
-            onClickFn={nextPage}
-            dimension={isMobile ? "sm" : "lg"}
-            disabled={submitting}
-          />
+          <button className="back-button" onClick={handleBack}>
+            <span className="arrow-icon">←</span>
+            <span className="button-text"></span>
+          </button>
+          <button className="next-button" onClick={nextPage} disabled={submitting}>
+            <span className="button-text"></span>
+            <span className="arrow-icon">→</span>
+          </button>
         </div>
       </div>
     </main>

@@ -1,9 +1,10 @@
 'use client';
 
+import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import './thank-you.css';
 
-export default function ThankYouPage() {
+function ThankYouContent() {
   const searchParams = useSearchParams();
   const isDuplicate = searchParams.get('duplicate') === 'true';
 
@@ -28,5 +29,18 @@ export default function ThankYouPage() {
         )}
       </div>
     </main>
+  );
+}
+
+export default function ThankYouPage() {
+  return (
+    <Suspense fallback={
+      <main style={{ textAlign: 'center', padding: '4rem 2rem' }}>
+        <h1>Thank you for applying!</h1>
+        <p>Loading...</p>
+      </main>
+    }>
+      <ThankYouContent />
+    </Suspense>
   );
 }
