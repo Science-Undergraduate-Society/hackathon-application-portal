@@ -159,7 +159,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
         <div className="formfields-container">
           <h2>Create Account</h2>
 
-          <button className="google-btn" onClick={handleGoogleSignup}>
+          <button className="log-buttons" onClick={handleGoogleSignup}>
             <img src="/google.png" alt="Google" />
             Continue with Google
           </button>
