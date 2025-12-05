@@ -40,7 +40,7 @@ export default function TermsAndConditionsPage() {
   if (loading) return <div>Loading...</div>;
 
   const nextPage = async () => {
-    if (!form.emailUpdate || !form.codeOfConductUBC) {
+    if (!form.emailUpdate || !form.codeOfConductUBC || !form.codeOfConductMLH || !form.infoShareMLH) {
       setError("Please check required boxes to proceed.");
       return;
     }
@@ -49,7 +49,45 @@ export default function TermsAndConditionsPage() {
     try {
       const usr = auth.currentUser;
       if (!usr) throw new Error("Not authenticated");
-      router.push("/application/review");
+
+      const freshData = await fetchUserProfile(usr.uid);
+
+      const row = [
+        freshData.firstName,
+        freshData.lastName,
+        freshData.email,
+        freshData.phoneNumber,
+        freshData.age.label,
+        freshData.pronoun.label,
+
+        freshData.school.label,
+        freshData.levelOfStudy.label,
+        freshData.year,
+
+        freshData.hackathons,
+        freshData.dietaryRestrictions,
+
+        freshData.resumeLink,
+        freshData.waiverLink,
+
+        freshData.question1,
+        freshData.question2,
+        freshData.question3,
+        freshData.question4,
+        freshData.question5,
+
+        form.emailUpdate ? "Yes" : "No",
+        form.codeOfConductUBC ? "Yes" : "No",
+        form.photos ? "Yes" : "No",
+        form.codeOfConductMLH ? "Yes" : "No",
+        form.infoShareMLH ? "Yes" : "No",
+        form.emailMLH ? "Yes" : "No",
+        freshData.hearAbout?.label
+      ];
+
+      await appendToSheet(row);
+
+      router.push("/application/thank-you");
     } catch (error) {
       console.error("Error saving consents", error);
       setError("Failed to save. Please try again.");
@@ -73,15 +111,17 @@ export default function TermsAndConditionsPage() {
 
         <div className="checkbox-container">
           <CheckBox
-            label="I agree to receiving email updates from the UBC Science Undergraduate Society.*"
+            label="I agree to receiving email updates from the UBC Science Undergraduate Society."
             checked={form.emailUpdate}
+            required
             onChangeFn={(value) =>
               handleChange("emailUpdate")({ target: { value } })
             }
           />
           <CheckBox
-            label="I agree to UBC code of conduct guidelines.*"
+            label="I agree to UBC code of conduct guidelines."
             checked={form.codeOfConductUBC}
+            required
             onChangeFn={(value) =>
               handleChange("codeOfConductUBC")({ target: { value } })
             }
@@ -98,25 +138,27 @@ export default function TermsAndConditionsPage() {
           with MLH, your information will not be shared.
           <CheckBox
             label={
-              <>
-                I have read and agree to the{" "}
+              <span>
+                I have read and agree to the {" "}
                 <a
                   href="https://github.com/MLH/mlh-policies/blob/main/code-of-conduct.md"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  MLH Code of Conduct.
+                  MLH Code of Conduct
                 </a>
-              </>
+                .
+              </span>
             }
             checked={form.codeOfConductMLH}
+            required
             onChangeFn={(value) =>
               handleChange("codeOfConductMLH")({ target: { value } })
             }
           />
           <CheckBox
             label={
-              <>
+              <span>
                 I authorize you to share my application/registration information
                 with Major League Hacking for event administration, ranking, and
                 MLH administration in-line with the{" "}
@@ -134,18 +176,20 @@ export default function TermsAndConditionsPage() {
                   rel="noopener noreferrer"
                 >
                   MLH Contest Terms and Conditions
-                </a>{" "}
-                and the{" "}
+                </a>
+                {" "}and the{" "}
                 <a
                   href="https://github.com/MLH/mlh-policies/blob/main/privacy-policy.md"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  MLH Privacy Policy.
+                  MLH Privacy Policy
                 </a>
-              </>
+                .
+              </span>
             }
             checked={form.infoShareMLH}
+            required
             onChangeFn={(value) =>
               handleChange("infoShareMLH")({ target: { value } })
             }
