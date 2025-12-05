@@ -49,31 +49,35 @@ export default function ApplicationQuestionsPage() {
       {error && <WarningDialog warningMsg={error} duration={4000} />}
 
       <div>
-        <TextAreaField
-          className="sprite-dolphin"
-          label="What do you hope to learn from attending this hackathon? Why?"
-          value={form.question1}
-          required
-          maxLength={300}
-          onChange={handleChange("question1")}
-        />
+        <div className="sprite-1">
+          <TextAreaField
+            label="What do you hope to learn from attending this hackathon? Why?"
+            value={form.question1}
+            required
+            maxLength={300}
+            onChange={handleChange("question1")}
+          />
+        </div>
 
-        <TextAreaField
-          label="What is a recent challenge you faced, and how did you approach it?"
-          value={form.question2}
-          required
-          maxLength={300}
-          onChange={handleChange("question2")}
-        />
+        <div className="sprite-2">
+          <TextAreaField
+            label="What is a recent challenge you faced, and how did you approach it?"
+            value={form.question2}
+            required
+            maxLength={300}
+            onChange={handleChange("question2")}
+          />
+        </div>
 
-        <TextAreaField
-          className="sprite-otter-turtle"
-          label="Describe the kind of role you play on a team and how it's valuable/beneficial to the team."
-          value={form.question3}
-          required
-          maxLength={300}
-          onChange={handleChange("question3")}
-        />
+        <div className="sprite-3">
+          <TextAreaField
+            label="Describe the kind of role you play on a team and how it's valuable/beneficial to the team."
+            value={form.question3}
+            required
+            maxLength={300}
+            onChange={handleChange("question3")}
+          />
+        </div>
 
         <TextAreaField
           label="What is your favourite body of water? Why? (e.g. pond/ocean/bathtub)"
@@ -83,13 +87,14 @@ export default function ApplicationQuestionsPage() {
           onChange={handleChange("question4")}
         />
 
-        <TextAreaField
-          className="sprite-whale"
-          label="Suggest a song and we'll add it to our hackathon playlist!"
-          value={form.question5}
-          maxLength={150}
-          onChange={handleChange("question5")}
-        />
+        <div className="sprite-4">
+          <TextAreaField
+            label="Suggest a song and we'll add it to our hackathon playlist!"
+            value={form.question5}
+            maxLength={150}
+            onChange={handleChange("question5")}
+          />
+        </div>
 
         <div className="buttons">
           <div></div>
