@@ -51,11 +51,19 @@ export function SignInForm({ onSuccess, onIncompleteProfile }) {
   };
 
   const handleGoogleSignIn = async () => {
-    await googleSignIn();
+    try {
+      await googleSignIn();
+    } catch (err) {
+      getFirebaseErrorMessage(err);
+    }
   };
 
   const submitEmailLogin = async () => {
-    await emailSignIn();
+    try {
+      await emailSignIn();
+    } catch (err) {
+      getFirebaseErrorMessage(err);
+    }
   };
 
   return (
