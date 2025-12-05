@@ -101,39 +101,95 @@ main h1 {
 .btn-container {
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  gap: 1rem;
 }
 
 @media (max-width: 480px) {
   .btn-container {
     justify-content: center;
+    flex-direction: column-reverse;
   }
 }
 
-.submit-button {
-  width: 250px;
-  padding: 20px 24px;
-  background-color: rgb(255, 222, 177);
-  color: #000;
-  font-size: 1rem;
+.back-button {
+  width: clamp(140px, 20vw, 180px);
+  padding: clamp(12px, 2vw, 16px) clamp(16px, 3vw, 20px);
+  background: linear-gradient(145deg, #f0f0f0, #d8d8d8);
+  color: #333;
+  font-size: clamp(0.85rem, 1.5vw, 0.95rem);
   font-weight: 600;
   border: none;
-  border-radius: 15px;
+  border-radius: 12px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1),
+              inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.back-button:hover {
+  background: linear-gradient(145deg, #e8e8e8, #d0d0d0);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15),
+              inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.back-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1),
+              inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.submit-button {
+  width: clamp(160px, 25vw, 220px);
+  padding: clamp(12px, 2vw, 16px) clamp(16px, 3vw, 20px);
+  background: linear-gradient(145deg, rgb(255, 230, 190), rgb(255, 210, 145));
+  color: #2d2d2d;
+  font-size: clamp(0.85rem, 1.5vw, 0.95rem);
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 180, 100, 0.3),
+              inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
 .submit-button:hover {
-  background-color: rgb(255, 211, 149);
+  background: linear-gradient(145deg, rgb(255, 220, 175), rgb(255, 200, 130));
   transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 180, 100, 0.4),
+              inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
 .submit-button:active {
   transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(255, 180, 100, 0.2),
+              inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .submit-button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+  transform: none;
+}
+
+.arrow-icon {
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+}
+
+.button-text {
+  line-height: 1;
 }

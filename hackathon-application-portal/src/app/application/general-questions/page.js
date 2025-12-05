@@ -21,11 +21,11 @@ export default function ApplicationQuestionsPage() {
     question5: "",
   };
 
-  const { form, handleChange, loading, handleNext, handleBack } =
+  const { form, handleChange, loading, handleNext } =
     useProfileForm(
       initialState,
       "/application/terms-and-conditions",
-      "/application/hacker-extra",
+      null,
     );
 
   const handleSubmit = () => {
@@ -92,13 +92,13 @@ export default function ApplicationQuestionsPage() {
         />
 
         <div className="buttons">
-          <ConfirmBtn 
-            onClickFn={handleSubmit} 
-            dimension={isMobile ? "sm" : "lg"} 
-          />
+          <div></div>
+          <button className="next-button" onClick={handleSubmit}>
+            <span className="arrow-icon">→</span>
+          </button>
         </div>
       </div>
-       </div>
+      </div>
     </main>
   );
 }
