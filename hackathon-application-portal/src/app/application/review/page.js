@@ -146,6 +146,9 @@ export default function ReviewPage() {
 
       await appendToSheet(row);
       await saveUserProfile(usr.uid, { ...freshData, hasSubmitted: true });
+      if (freshData.email === "") {
+        await saveUserProfile(usr.uid, { ...freshData, email: toStr(email) });
+      }
 
       router.push("/application/thank-you");
     } catch (error) {
