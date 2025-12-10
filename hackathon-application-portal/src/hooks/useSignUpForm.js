@@ -54,6 +54,7 @@ export default function useSignupForm(initialFormState) {
       pronoun: cleanSelectValue(form.pronoun),
       levelOfStudy: cleanSelectValue(form.levelOfStudy),
       school: cleanSelectValue(form.school),
+      major: cleanSelectValue(form.major),
       hearAbout: cleanSelectValue(form.hearAbout),
       // waiverLink and resumeLink are already strings, no need to process
     };

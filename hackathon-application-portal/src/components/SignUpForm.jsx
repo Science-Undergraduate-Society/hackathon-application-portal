@@ -389,7 +389,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
 
           <div className="form-field">
             <h3 className="required">School</h3>
-            <Select
+            <Creatable
               options={schools}
               styles={customSelectStyles}
               menuPortalTarget={document.body}
@@ -415,7 +415,7 @@ export function SignUpForm({ onSuccess, initialPage = 0 }) {
 
           <div className="form-field">
             <h3 className="required">Major</h3>
-            <Select
+            <Creatable
               options={majors}
               styles={customSelectStyles}
               menuPortalTarget={document.body}
