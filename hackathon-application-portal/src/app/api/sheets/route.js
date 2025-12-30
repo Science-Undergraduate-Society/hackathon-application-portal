@@ -18,7 +18,7 @@ export async function POST(request) {
 
   await sheets.spreadsheets.values.append({
     spreadsheetId,
-    range: 'Sheet1!A1',
+    range: 'Hacker Applications',
     valueInputOption: 'RAW',
     requestBody: { values: [row] }
   });
