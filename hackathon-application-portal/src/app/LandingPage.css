@@ -1,3 +1,7 @@
+.due-date {
+  margin-top: 1rem;
+}
+
 .landing-container {
   display: flex;
   flex-direction: row;
