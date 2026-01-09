@@ -27,7 +27,7 @@ export default function LandingPage() {
             {` Presented by the\nScience Undergraduate Society`}
           </h2>
 
-          <h3>
+          <h3 className="due-date">
             Applications closing January 9, 2026!
           </h3>
         </div>
