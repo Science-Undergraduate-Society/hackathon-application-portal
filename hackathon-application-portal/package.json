@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "firebase": "^10.14.1",
+    "firebase": "^12.6.0",
     "firebaseui": "^6.1.0",
     "googleapis": "^154.1.0",
     "next": "^16.0.8",
