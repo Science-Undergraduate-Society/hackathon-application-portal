@@ -28,7 +28,7 @@ export default function LandingPage() {
           </h2>
 
           <h3 className="due-date">
-            Applications closing January 9, 2026!
+            Applications closing January 11, 2026!
           </h3>
         </div>
       </div>
