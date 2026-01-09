@@ -26,6 +26,10 @@ export default function LandingPage() {
           <h2 className="landing-subtitle">
             {` Presented by the\nScience Undergraduate Society`}
           </h2>
+
+          <h3>
+            Applications closing January 9, 2026!
+          </h3>
         </div>
       </div>
     </>
